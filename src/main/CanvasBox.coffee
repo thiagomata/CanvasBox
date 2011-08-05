@@ -192,7 +192,7 @@ class CanvasBox
 	# @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
 	###
 	clientWidth: ->
-		return CanvasBox.Static.filterResults(
+		return CanvasBox::filterResults(
 			window.innerWidth ?= 0,
 			document.documentElement ?= 0,
 			document.body ?= 0
@@ -282,8 +282,8 @@ class CanvasBox
 		this.defaultHeight = intHeight / this.dblZoom;
 		this.boxWidth = this.defaultWidth / this.dblZoom;
 		this.boxHeight = this.defaultHeight / this.dblZoom;
-		this.id = CanvasBox.Static.arrInstances.length;
-		CanvasBox.Static.arrInstances[ this.id ] = this;
+		this.id = CanvasBox::arrInstances.length;
+		CanvasBox::arrInstances[ this.id ] = this;
 
 		this.objCanvasHtml = document.getElementById( idCanvasHtmlElement );
 		if( this.objCanvasHtml == null )
@@ -292,15 +292,15 @@ class CanvasBox
 		
 		this.objCanvasHtml.setAttribute( "width" ,  this.defaultWidth  + "px" );
 		this.objCanvasHtml.setAttribute( "height" , this.defaultHeight + "px" );
-		this.objCanvasHtml.setAttribute( "onmousemove",	( 'return CanvasBox.Static.getCanvasBoxById(' + this.id + ').onMouseMove( event )' ) );
-		this.objCanvasHtml.setAttribute( "onclick",		( 'return CanvasBox.Static.getCanvasBoxById(' + this.id + ').onClick( event )' ) );
-		this.objCanvasHtml.setAttribute( "ondblclick",	( 'return CanvasBox.Static.getCanvasBoxById(' + this.id + ').onDblClick( event )' ) );
-		this.objCanvasHtml.setAttribute( "onmouseup",	 ( 'return CanvasBox.Static.getCanvasBoxById(' + this.id + ').onMouseUp( event )' ) );
-		this.objCanvasHtml.setAttribute( "onmousedown",	( 'return CanvasBox.Static.getCanvasBoxById(' + this.id + ').onMouseDown( event )' ) );
-		this.objCanvasHtml.setAttribute( "oncontextmenu", ( 'return CanvasBox.Static.getCanvasBoxById(' + this.id + ').onContextMenu( event )' ) );
-		this.objCanvasHtml.setAttribute( "onKeyup",		( 'return CanvasBox.Static.getCanvasBoxById(' + this.id + ').onKeyUp( event )' ) );
-		this.objCanvasHtml.setAttribute( "onMouseOut",		( 'return CanvasBox.Static.getCanvasBoxById(' + this.id + ').onMouseOut( event )' ) );
-		this.objCanvasHtml.setAttribute( "onMouseOver",		( 'return CanvasBox.Static.getCanvasBoxById(' + this.id + ').onMouseOver( event )' ) );
+		this.objCanvasHtml.setAttribute( "onmousemove",	( 'return CanvasBox::getCanvasBoxById(' + this.id + ').onMouseMove( event )' ) );
+		this.objCanvasHtml.setAttribute( "onclick",		( 'return CanvasBox::getCanvasBoxById(' + this.id + ').onClick( event )' ) );
+		this.objCanvasHtml.setAttribute( "ondblclick",	( 'return CanvasBox::getCanvasBoxById(' + this.id + ').onDblClick( event )' ) );
+		this.objCanvasHtml.setAttribute( "onmouseup",	 ( 'return CanvasBox::getCanvasBoxById(' + this.id + ').onMouseUp( event )' ) );
+		this.objCanvasHtml.setAttribute( "onmousedown",	( 'return CanvasBox::getCanvasBoxById(' + this.id + ').onMouseDown( event )' ) );
+		this.objCanvasHtml.setAttribute( "oncontextmenu", ( 'return CanvasBox::getCanvasBoxById(' + this.id + ').onContextMenu( event )' ) );
+		this.objCanvasHtml.setAttribute( "onKeyup",		( 'return CanvasBox::getCanvasBoxById(' + this.id + ').onKeyUp( event )' ) );
+		this.objCanvasHtml.setAttribute( "onMouseOut",		( 'return CanvasBox::getCanvasBoxById(' + this.id + ').onMouseOut( event )' ) );
+		this.objCanvasHtml.setAttribute( "onMouseOver",		( 'return CanvasBox::getCanvasBoxById(' + this.id + ').onMouseOver( event )' ) );
 		this.objCanvasHtml.setAttribute( "contentEditable" , "true");
 		this.objCanvasHtml.contentEditable = true;
 		this.defineMenu();
@@ -423,9 +423,9 @@ class CanvasBox
 		if( this.booActive )
 			return;
 		this.booActive = true;
-		setTimeout( 'CanvasBox.Static.arrInstances[ ' + this.id + '].onTimer()' , this.intIntervalTimer );
-		setTimeout( 'CanvasBox.Static.arrInstances[ ' + this.id + '].onDraw()' , this.intIntervalDraw );
-		setTimeout( 'CanvasBox.Static.arrInstances[ ' + this.id + '].onCountFps()' , 1000 );
+		setTimeout( 'CanvasBox::arrInstances[ ' + this.id + '].onTimer()' , this.intIntervalTimer );
+		setTimeout( 'CanvasBox::arrInstances[ ' + this.id + '].onDraw()' , this.intIntervalDraw );
+		setTimeout( 'CanvasBox::arrInstances[ ' + this.id + '].onCountFps()' , 1000 );
 
 	###
 	# Stop the auto refresh timer
@@ -445,13 +445,13 @@ class CanvasBox
 			return false;
 		if( this.intCounterStandyBy < 10 )
 			setTimeout( 
-                "CanvasBox.Static.arrInstances[ #( this.id ) ].onTimer()" , 
+                "CanvasBox::arrInstances[ #( this.id ) ].onTimer()" , 
                 this.intIntervalTimer 
             );
 		else
 			if( this.booMouseOver )
 				setTimeout( 
-                    "CanvasBox.Static.arrInstances[ #( this.id ) ].onTimer()" , 
+                    "CanvasBox::arrInstances[ #( this.id ) ].onTimer()" , 
                     this.intIntervalTimer * 2 
                 );
 			else
@@ -475,7 +475,7 @@ class CanvasBox
 			return false;
 		document.title = "FPS: " + this.intLastFps;
 		setTimeout( 
-            "CanvasBox.Static.arrInstances[ #( this.id ) ].onCountFps()" , 
+            "CanvasBox::arrInstances[ #( this.id ) ].onCountFps()" , 
             1000 
         );
 		return true;
@@ -490,7 +490,7 @@ class CanvasBox
 		if( this.booActive == false )
 			return false;
 		setTimeout( 
-            "CanvasBox.Static.arrInstances[ #( this.id ) ].onDraw()" , 
+            "CanvasBox::arrInstances[ #( this.id ) ].onDraw()" , 
             this.intIntervalDraw 
         );
 		if( ! this.booOnDraw )
@@ -505,13 +505,13 @@ class CanvasBox
 	###
 	refreshMousePosition:( event )->
 		
-        this.mouseX = 
-            ( event.clientX - this.x + CanvasBox.Static.scrollLeft() ) / 
-            this.dblZoom;
+        this.mouseX = ( 
+            ( event.clientX - this.x + CanvasBox::scrollLeft() ) / this.dblZoom;
+        )
         
-		this.mouseY = 
-            ( event.clientY - this.y + CanvasBox.Static.scrollTop()  ) / 
-            this.dblZoom;
+		this.mouseY = (
+            ( event.clientY - this.y + CanvasBox::scrollTop()  ) / this.dblZoom;
+        )
 
 	###
 	# On Move Move over the Canvas Box
@@ -958,7 +958,7 @@ CanvasBox::arrInstance = Array()
 # Get instance of canvas box by its id
 ###
 CanvasBox::getCanvasBoxById (id ) ->
-	CanvasBox.Static.arrInstances[ id ]
+	CanvasBox::arrInstances[ id ]
 
 
 ###
@@ -967,7 +967,7 @@ CanvasBox::getCanvasBoxById (id ) ->
 # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
 ###
 CanvasBox::clientHeight ->
-	return CanvasBox.Static.filterResults(
+	return CanvasBox::filterResults(
 		window.innerHeight ?= 0,
 		document.documentElement ?= 0,
 		document.body ?= 0
@@ -979,7 +979,7 @@ CanvasBox::clientHeight ->
 # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
 ###
 CanvasBox::scrollLeft ->
-	return CanvasBox.Static.filterResults(
+	return CanvasBox::filterResults(
 		window.pageXOffset ?= 0,
 		document.documentElement ?= 0,
 		document.body ?= 0
@@ -992,7 +992,7 @@ CanvasBox::scrollLeft ->
 # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
 ###
 CanvasBox::scrollTop ->
-	return CanvasBox.Static.filterResults(
+	return CanvasBox::filterResults(
 		window.pageYOffset ?= 0,
 		document.documentElement ?= 0,
 		document.body ?= 0
