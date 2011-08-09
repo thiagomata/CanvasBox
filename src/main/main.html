@@ -1,29 +1,10 @@
     <html>
         <head>
-            <script type="text/javascript" src="./../coffee/coffee-script.js"></script>
-            <script type="text/javascript">
-            function cfRequire( fileName )
-            {
-                fileName += ".coffee";
-                jQuery.get( 
-                    fileName , 
-                    function coffeLoad( dataFile , txtMessage )
-                    {
-                        return eval( CoffeeScript.compile( dataFile ) );
-                    }
-                );
-            }
-            function jsRequire( fileName )
-            {
-                fileName += ".js";
-                jQuery.get( 
-                    fileName , 
-                    function jsLoad( dataFile , txtMessage )
-                    {
-                        return eval( dataFile );
-                    }
-                );
-            }
+            <script src="./../coffee/jquery-1.4.2.js"></script> 
+            <script src="./../coffee/coffee-script.js"></script> 
+            <script src="./../coffee/php.js"></script> 
+            <script src="Browser.js"></script> 
+            <script type="text/javascript" language="javascript">
             function keyEvent( objTextarea , objEvent )
             {
                 if( objEvent.keyCode == 13 )
@@ -40,10 +21,12 @@
                 divErrors.innerHTML = "";
                 try
                 {
+                    divOutput.innerHTML += objTextarea.value;
+                    divOutput.innerHTML += "<br/>\n";
                     var strCode = CoffeeScript.compile( objTextarea.value );
                     divOutput.innerHTML += strCode;
                     divOutput.innerHTML += "<br/>\n";
-                    objReturn = eval( strCode );
+                    objReturn = window.eval.call( window , strCode );
                     if( objReturn !== undefined )
                     {
                         divOutput.innerHTML += objReturn;
@@ -79,12 +62,10 @@
         </head>
         <body>
             Main Project
-            <div id="output">
-            </div>
+            <pre id="output">
+            </pre>
             <textarea id="console" onkeydown="javascript:keyEvent(this,event)" ></textarea>
             <div id="errors">
             </div>
-            <script src="./../coffee/jquery-1.4.2.js"></script> 
-            <script src="./../coffee/coffee-script.js"></script> 
         </body>
     </html>
