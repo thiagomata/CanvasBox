@@ -32,3 +32,4 @@ php.array_rand = function ( input, num_req ) {
 
     return ( ( ticks == 1 ) ? indexes.join( ) : indexes );
 };
+

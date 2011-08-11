@@ -103,3 +103,4 @@ php.array_splice = function (arr, offst, lgth, replacement) {
     }
     return arr.splice(offst, lgth);
 };
+

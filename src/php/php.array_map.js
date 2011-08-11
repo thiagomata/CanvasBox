@@ -36,3 +36,4 @@ php.array_map = function (callback) {
 
     return tmp_ar;
 };
+

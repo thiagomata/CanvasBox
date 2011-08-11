@@ -67,3 +67,4 @@ php.aggregate_properties = function (obj, class_name) {
         this.php_js.aggregateClasses[0].push(getFuncName(class_name));
     }
 };
+

@@ -25,3 +25,4 @@ php.array_walk = function (array, funcname, userdata) {
     
     return true;
 };
+

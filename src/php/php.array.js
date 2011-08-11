@@ -8,3 +8,4 @@ php.array = function () {
     // *     returns 1: ['Kevin', 'van', 'Zonneveld']
     return Array.prototype.slice.call(arguments);
 };
+

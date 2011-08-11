@@ -132,3 +132,4 @@ php.addcslashes = function (str, charlist) {
     }
     return target;
 };
+

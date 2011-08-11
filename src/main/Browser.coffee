@@ -1,3 +1,8 @@
+CoffeeScript.loadFile = (file)
+    alert(file);
+    code = php.file_get_contents( file );
+    eval CoffeeScript.compile code
+
 CoffeeScript.eval = (code, options) ->
   eval CoffeeScript.compile code, options
 

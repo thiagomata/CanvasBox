@@ -18,3 +18,4 @@ php.array_product = function ( input ) {
 
     return product;
 };
+

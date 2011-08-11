@@ -25,3 +25,4 @@ php.array_sum = function (array) {
 
     return sum;
 };
+

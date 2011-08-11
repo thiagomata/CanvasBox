@@ -96,3 +96,4 @@ php.aggregate_properties_by_list = function (obj, class_name, properties_list, e
         this.php_js.aggregateClasses[0].push(getFuncName(class_name));
     }
 };
+

@@ -96,3 +96,4 @@ php.aggregate_methods_by_list = function (obj, class_name, properties_list, excl
         this.php_js.aggregateClasses[0].push(getFuncName(class_name));
     }
 };
+

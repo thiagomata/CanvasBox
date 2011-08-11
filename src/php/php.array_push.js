@@ -36,3 +36,4 @@ php.array_push = function ( inputArr ) {
     }
     return len + i - 1;
 };
+

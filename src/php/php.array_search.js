@@ -20,3 +20,4 @@ php.array_search = function (needle, haystack, argStrict) {
 
     return false;
 };
+

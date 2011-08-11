@@ -37,3 +37,4 @@ php.array_change_key_case = function (array) {
 
     return false;
 };
+

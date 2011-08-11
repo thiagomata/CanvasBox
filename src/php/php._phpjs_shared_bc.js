@@ -1252,3 +1252,4 @@ php._phpjs_shared_bc = function () {
     };
     return libbcmath;
 };
+

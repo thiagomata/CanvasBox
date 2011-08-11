@@ -17,3 +17,4 @@ php.abs = function (mixed_number)  {
     // *     returns 4: 0
     return Math.abs(mixed_number) || 0;
 };
+

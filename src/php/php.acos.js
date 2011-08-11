@@ -8,3 +8,4 @@ php.acos = function (arg) {
     // *     returns 1: 1.2661036727794992
     return Math.acos(arg);
 };
+

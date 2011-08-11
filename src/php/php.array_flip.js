@@ -14,3 +14,4 @@ php.array_flip = function (trans) {
 
     return tmp_ar;
 };
+

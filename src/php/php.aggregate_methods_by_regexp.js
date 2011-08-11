@@ -80,3 +80,4 @@ php.aggregate_methods_by_regexp = function (obj, class_name, regexp, exclude) {
         this.php_js.aggregateClasses[0].push(getFuncName(class_name));
     }
 };
+

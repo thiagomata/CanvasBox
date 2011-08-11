@@ -26,3 +26,4 @@ php.array_reduce = function (a_input, callback) {
     
     return res;
 };
+
