@@ -1,4 +1,4 @@
-CoffeeScript.loadFile = (file)
+CoffeeScript.loadFile = (file) ->
     alert(file);
     code = php.file_get_contents( file );
     eval CoffeeScript.compile code

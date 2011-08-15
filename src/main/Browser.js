@@ -1,5 +1,11 @@
 (function() {
   var runScripts;
+  CoffeeScript.loadFile = function(file) {
+    var code;
+    alert(file);
+    code = php.file_get_contents(file);
+    return eval(CoffeeScript.compile(code));
+  };
   CoffeeScript.eval = function(code, options) {
     return eval(CoffeeScript.compile(code, options));
   };

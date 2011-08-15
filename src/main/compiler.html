@@ -5,6 +5,7 @@
             <script src="./../php/php.basic.js"></script> 
             <script src="./../php/php.caller.js"></script> 
             <script src="Browser.js"></script> 
+            <script src="New.js"></script> 
            <style>
                 #error
                 {
@@ -19,7 +20,7 @@
                     width: 40%;
                     height: 100%;
                     overflow: auto;
-                    margin-left: 4%;
+                    margin-left: 2%;
                 }
                 #coffee
                 {
@@ -52,6 +53,7 @@
                     {
                         document.getElementById( "error" ).innerHTML =
                             objError.message;
+                        throw objError;
                     }
                         
                     
@@ -67,6 +69,7 @@
                     {
                         document.getElementById( "error" ).innerHTML =
                             objError.message;
+                        throw objError;
                     }                    
                 }
             </script>
