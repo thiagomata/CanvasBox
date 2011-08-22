@@ -1,2 +1,0 @@
-hi mommy
-console.log("dad");

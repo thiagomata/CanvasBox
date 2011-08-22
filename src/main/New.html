@@ -1,0 +1,21 @@
+<html>
+    <head>
+            <script src="./../coffee/jquery-1.4.2.js"></script> 
+            <script src="./../coffee/coffee-script.js"></script> 
+            <script src="./../php/php.basic.js"></script> 
+            <script src="./../php/php.caller.js"></script> 
+            <script src="Browser.js"></script> 
+            <script src="New.js"></script> 
+            <script>
+                function runCode()
+                {
+                    var objPeople = New.People( "jonh" );
+                    objPeople.speak();
+                }
+            </script>
+    </head>
+    <body>
+            Take a look in the firebug, after the button click.
+            <input type="button" value="Run!" onclick="javascript:runCode()" name="run"/>
+    </body>
+</html>

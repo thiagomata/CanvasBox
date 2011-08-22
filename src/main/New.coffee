@@ -16,12 +16,13 @@ New::arrClasses = Array();
 
 New::loadClass = ( strClass )->
     if( php.in_array( strClass, New::arrClasses ) )
-        alert("#{strCLass} ja carregada");
+        console.log("#{strClass} already load");
         return false;
-    if( !New::arrMap[ strClass ]? )
-        alert( "#{strClass} {nao existe");
+    if( ! New::arrMap[ strClass ]? )
+        alert( "#{strClass} does not exists");
         throw new CanvasBoxException( "Unabled to map the class #{strClass}" );
     strContent = php.file_get_contents( New::arrMap[ strClass] );
+    New::arrClasses.push( strClass );
     CoffeeScript.run( strContent );
     return true;
 
