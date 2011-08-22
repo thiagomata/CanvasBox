@@ -22,14 +22,15 @@ New.prototype.arrClasses = Array();
 New.prototype.loadClass = function(strClass) {
   var strContent;
   if (php.in_array(strClass, New.prototype.arrClasses)) {
-    alert("" + strCLass + " ja carregada");
+    console.log("" + strClass + " already load");
     return false;
   }
   if (!(New.prototype.arrMap[strClass] != null)) {
-    alert("" + strClass + " {nao existe");
+    alert("" + strClass + " does not exists");
     throw new CanvasBoxException("Unabled to map the class " + strClass);
   }
   strContent = php.file_get_contents(New.prototype.arrMap[strClass]);
+  New.prototype.arrClasses.push(strClass);
   CoffeeScript.run(strContent);
   return true;
 };
