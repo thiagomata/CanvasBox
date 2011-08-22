@@ -1,15 +1,16 @@
 /*
 # Canvas Box Button
 # 
-# Interactive Elements to make possible to create new interactions without 
-# the use of the menu
+# Interactive Elements to make possible to create new interactions without the use of the menu
 # 
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 */var CanvasBoxButton;
 CanvasBoxButton = (function() {
+  function CanvasBoxButton() {}
   /*
       # Title of the Button
-      */  CanvasBoxButton.prototype.strTitle = "Default Button";
+      */
+  CanvasBoxButton.prototype.strTitle = "Default Button";
   /*
       # Padding Top of The Button
       */
@@ -84,13 +85,9 @@ CanvasBoxButton = (function() {
       # @param objElement CanvasBoxElement
       # @return void
       */
-  function CanvasBoxButton(objElement) {
-    this.objElement = objElement;
-  }
-  /*
-      # Refresh the button position
-      # @return CanvasBoxButton me
-      */
+  CanvasBoxButton.prototype.initialize = function(objElement) {
+    return this.objElement = objElement;
+  };
   CanvasBoxButton.prototype.refresh = function() {
     if (this.objPreviousButton === null) {
       switch (this.strPositionHorizontal) {
@@ -104,7 +101,7 @@ CanvasBoxButton = (function() {
           this.intRelativeX = this.objElement.width + this.borderWidth;
           break;
         default:
-          throw new CanvasBoxException("invalid horizontal position " + this.strPositionHorizontal);
+          throw Error("invalid horizontal position " + this.strPositionHorizontal);
       }
       switch (this.strPositionVertical) {
         case "top":
@@ -117,7 +114,7 @@ CanvasBoxButton = (function() {
           this.intRelativeY = this.objElement.height + this.borderHeight;
           break;
         default:
-          throw new CanvasBoxException("invalid vertical position " + this.strPositionVertical);
+          throw Error("invalid vertical position " + this.strPositionVertical);
       }
     } else {
       switch (this.strPositionHorizontal) {
@@ -139,7 +136,7 @@ CanvasBoxButton = (function() {
           }
           break;
         default:
-          throw new CanvasBoxException("invalid horizontal position " + this.strPositionHorizontal);
+          throw Error("invalid horizontal position " + this.strPositionHorizontal);
       }
       switch (this.strPositionVertical) {
         case "top":
@@ -160,12 +157,11 @@ CanvasBoxButton = (function() {
           }
           break;
         default:
-          throw new CanvasBoxException("invalid vertical position " + this.strPositionVertical);
+          throw Error("invalid vertical position " + this.strPositionVertical);
       }
     }
     this.x = this.objElement.x - this.objElement.width / 2 + this.intRelativeX + this.intPaddingLeft;
-    this.y = this.objElement.y - this.objElement.height / 2 + this.intRelativeY + this.intPaddingTop;
-    return this;
+    return this.y = this.objElement.y - this.objElement.height / 2 + this.intRelativeY + this.intPaddingTop;
   };
   CanvasBoxButton.prototype.drawOut = function() {
     this.objElement.objBox.setFillStyle("rgb( 250 , 250 , 250 )");
@@ -186,7 +182,7 @@ CanvasBoxButton = (function() {
     this.objElement.objBox.beginPath();
     this.objElement.objBox.saveContext();
     this.objElement.objBox.setStrokeStyle("rgb( 20, 20, 20)");
-    this.objElement.objBox.setFillStyle((_ref = this.booMouseOver) != null ? _ref : {
+    this.objElement.objBox.setFfillStyle((_ref = this.booMouseOver) != null ? _ref : {
       "rgb( 250, 250, 250)": "rgb( 220, 220, 220)"
     });
     this.objElement.objBox.moveTo(this.x, this.y + this.height);
@@ -233,15 +229,14 @@ CanvasBoxButton = (function() {
       }
     }
   };
-  CanvasBoxButton.prototype.onClick = function(event) {
-    throw new CanvasBoxException("Click Event of the Canvas Box Button was not defined");
+  CanvasBoxButton.prototype.onClick = function() {
+    return CanvasBoxClass.Static.createRelation(this.objElement, true, "CanvasBoxAggregation");
   };
-  CanvasBoxButton.prototype.onDrag = function(event) {
+  CanvasBoxButton.prototype.onDrag = function() {
     var objElement;
     objElement = this.onClick(event);
-    if ((objElement != null)) {
-      objElement.select();
-    }
+    objElement.intMass = 0;
+    objElement.select();
     return objElement;
   };
   CanvasBoxButton.prototype.isInside = function(mouseX, mouseY) {

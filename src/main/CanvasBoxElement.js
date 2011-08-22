@@ -1,11 +1,9 @@
 var CanvasBoxElement;
 CanvasBoxElement = (function() {
-  function CanvasBoxElement() {}
   /*
       # Canvas Box owner of this object
       # @type CanvasBox
-      */
-  CanvasBoxElement.prototype.objBox = null;
+      */  CanvasBoxElement.prototype.objBox = null;
   /*
       # Position X of the Element inside the Canvas Box
       # @type integer
@@ -87,7 +85,7 @@ CanvasBoxElement = (function() {
       # Visual Buttons to interact with the element without
       # the menu use.
       */
-  CanvasBoxElement.prototype.arrButtons = null;
+  CanvasBoxElement.prototype.arrButtons = Array();
   CanvasBoxElement.prototype.intMass = 1;
   /*
       # Create a serializable version of this object
@@ -108,16 +106,16 @@ CanvasBoxElement = (function() {
       # Apply the default objects and values
       */
   CanvasBoxElement.prototype.init = function() {
-    return this.objBehavior = New.CanvasBoxDefaultBehavior(this);
+    return this.objBehavior = New.CanvasBoxBehavior(this);
   };
   /*
       # Initialize the Canvas Box Element
       #
       # For default, just call the init
       */
-  CanvasBoxElement.prototype.construct = function() {
-    return this.init();
-  };
+  function CanvasBoxElement() {
+    this.init();
+  }
   /*
       # Refresh the Canvas Box Element, changing it's position attributes if necessary
       # @return CanvasBoxElement me

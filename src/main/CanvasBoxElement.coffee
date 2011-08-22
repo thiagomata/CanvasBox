@@ -40,7 +40,7 @@ class CanvasBoxElement
     # 
     # @type CanvasBoxDefaultElementBehavior
     ###
-    objBehavior: null
+    objBehavior: null;
 
     ###
     # Canvas 2D Context from the Canvas Box Container
@@ -101,7 +101,7 @@ class CanvasBoxElement
     # Visual Buttons to interact with the element without
     # the menu use.
     ###
-    arrButtons: null,
+    arrButtons: Array(),
 
     ##
     # Element Mass can be used by some canvas box behaviors
@@ -127,14 +127,14 @@ class CanvasBoxElement
     # Apply the default objects and values
     ###
     init:->
-        @objBehavior = New.CanvasBoxDefaultBehavior( this );
+        @objBehavior = New.CanvasBoxBehavior( this );
     
     ###
     # Initialize the Canvas Box Element
     #
     # For default, just call the init
     ###
-    construct:->
+    constructor:->
         @init();
 
     ###

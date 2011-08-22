@@ -10,6 +10,7 @@ New::arrMap =
  CanvasBoxElement:      "#{window.MAIN_PATH}CanvasBoxElement.coffee"
  CanvasBoxConnector:    "#{window.MAIN_PATH}CanvasBoxConnector.coffee"
  CanvasBoxMenu:         "#{window.MAIN_PATH}CanvasBoxMenu.coffee" 
+ CanvasBoxBehavior:     "#{window.MAIN_PATH}CanvasBoxBehavior.coffee" 
  People:                "#{window.MAIN_PATH}People.coffee" 
     
 New::arrClasses = Array();

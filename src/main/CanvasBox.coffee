@@ -308,9 +308,9 @@ class CanvasBox
         @objCanvasHtml.onclick = (event) =>    
             @onClick( event );
         @objCanvasHtml.ondblclick = (event) =>    
-            @onClick( event );
+            @onDblClick( event );
         @objCanvasHtml.onmouseup = (event) =>    
-            @onClick( event );
+            @onMouseUp( event );
         @objCanvasHtml.onmousedown = (event) =>    
             @onMouseDown( event );
         @objCanvasHtml.oncontextmenu = (event) =>
@@ -381,33 +381,31 @@ class CanvasBox
 
         @clear();
 
-        arrZIndexElements = Array();
-        arrZIndex = Array();
+        arrLayers = Array();
 
         ###
         # Create one array to each layer into the z dimension
         ###
         for objElement in @arrElements
-            if( not arrZIndexElements[ objElement.z ]? )
-                arrZIndexElements[ objElement.z ] = Array();
-                arrZIndex.push( objElement.z );
-            arrZIndexElements[ objElement.z ].push( objElement );
+            if( not arrLayers[ objElement.z ]? )
+                arrLayers[ objElement.z ] = Array();
+            arrLayers[ objElement.z ].push( objElement );
 
         ###
         # Order layers by the z dimension
         ###
-        arrZIndex = php.sort( arrZIndex );
+        arrLayers = php.sort( arrLayers );
 
+        window.lixo = arrLayers;
         ###
         # Draw Elements each z dimension layer of time
         ###
-        for arrLayer in arrZIndex
-            for objElement in arrLayer
-                if( is_object( objElement ) )
+        for arrLayerElements in arrLayers
+            for objElement in arrLayerElements
+                if( objElement? )
                     objElement.draw();
 
         objElement = null;
-        arrZIndexElements = null;
 
         if( @booShowMenu )
             @objMenuSelected.mouseX = @mouseX;
@@ -567,6 +565,7 @@ class CanvasBox
     # @param Event event
     ###
     onMouseUp:( event )->
+        console.log( "canvas box mouse up" );
         @booMouseOver = true;
         
         if( @objElementSelected != null )
