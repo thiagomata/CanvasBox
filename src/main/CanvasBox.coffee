@@ -200,15 +200,15 @@ class CanvasBox
 
     toSerialize: ->
         objResult = new Object();
-        objResult.x = this.x;
-        objResult.y = this.y;
-        objResult.boxWidth = this.boxWidth;
-        objResult.height = this.boxHeight;
-        objResult.objCanvasHtml = this.objCanvasHtml;
-        objResult.intIntervalDraw = this.intIntervalDraw;
-        objResult.booActive = this.booActive;
-        objResult.booOnDraw = this.booOnDraw;
-        objResult.arrElements = this.arrElements;
+        objResult.x = @x;
+        objResult.y = @y;
+        objResult.boxWidth = @boxWidth;
+        objResult.height = @boxHeight;
+        objResult.objCanvasHtml = @objCanvasHtml;
+        objResult.intIntervalDraw = @intIntervalDraw;
+        objResult.booActive = @booActive;
+        objResult.booOnDraw = @booOnDraw;
+        objResult.arrElements = @arrElements;
         return objResult;
 
     ###
@@ -220,28 +220,28 @@ class CanvasBox
     # @return CanvasBox
     ###
     defineMenu: ->
-        this.objMenu = new autoload.newCanvasBoxMenu();
-        this.objMenu.objParent = this;
-        this.objMenu.objBox = this;
-        this.objMenu.arrMenuItens =
+        @objMenu = New.CanvasBoxMenu();
+        @objMenu.objParent = this;
+        @objMenu.objBox = this;
+        @objMenu.arrMenuItens =
             0:
                 name: "create class",
                 event: ( objParent )->
-                    objClass = new autoload.newCanvasBoxClass();
-                    objClass.objBehavior = new autoload.newCanvasBoxMagneticBehavior( objClass );
+                    objClass = New.CanvasBoxClass();
+                    objClass.objBehavior = New.CanvasBoxMagneticBehavior( objClass );
                     objClass.x = objParent.mouseX;
                     objClass.y = objParent.mouseY;
                     objParent.addElement( objClass );
             1:
                 name: "create square",
                 event:( objParent )->
-                    objSquare = new autoload.newCanvasBoxSquare();
-                    objSquare.objBehavior = new autoload.newCanvasBoxMagneticBehavior( objSquare );
+                    objSquare = New.CanvasBoxSquare();
+                    objSquare.objBehavior = New.CanvasBoxMagneticBehavior( objSquare );
                     objSquare.x = objParent.mouseX;
                     objSquare.y = objParent.mouseY;
                     objParent.addElement( objSquare );
                     
-        this.objMenuSelected = null;
+        @objMenuSelected = null;
         return this;
 
     ###
@@ -251,9 +251,9 @@ class CanvasBox
     # @return CanvasBox
     ###
     getPosition: ->
-        x = this.objCanvasHtml.offsetLeft;
-        y = this.objCanvasHtml.offsetTop;
-        objElement = this.objCanvasHtml;
+        x = @objCanvasHtml.offsetLeft;
+        y = @objCanvasHtml.offsetTop;
+        objElement = @objCanvasHtml;
 
         while( objElement.offsetParent )
             if( objElement == document.getElementsByTagName( 'body' )[0] )
@@ -262,8 +262,8 @@ class CanvasBox
                 x =  x + objElement.offsetParent.offsetLeft;
                 y =  y + objElement.offsetParent.offsetTop;
                 objElement = objElement.offsetParent;
-        this.x = x;
-        this.y = y;
+        @x = x;
+        @y = y;
         return this;
 
     ###
@@ -277,52 +277,64 @@ class CanvasBox
     # 
     # @return CanvasBox
     ###
-    initialize: ( idCanvasHtmlElement , intWidth, intHeight )->
-        this.defaultWidth = intWidth / this.dblZoom;
-        this.defaultHeight = intHeight / this.dblZoom;
-        this.boxWidth = this.defaultWidth / this.dblZoom;
-        this.boxHeight = this.defaultHeight / this.dblZoom;
-        this.id = CanvasBox::arrInstances.length;
-        CanvasBox::arrInstances[ this.id ] = this;
+    initialize: ( idCanvasHtmlElement , intWidth = 400 , intHeight = 400)->
+        @defaultWidth = intWidth;
+        @defaultHeight = intHeight;
+        @boxWidth = @defaultWidth / @dblZoom;
+        @boxHeight = @defaultHeight / @dblZoom;
+        @id = CanvasBox::arrInstances.length;
+        CanvasBox::arrInstances[ @id ] = this;
 
-        this.objCanvasHtml = document.getElementById( idCanvasHtmlElement );
-        if( this.objCanvasHtml == null )
-            throw new autoload.newCanvasBoxException( "Invalid canvas html element id [" + idCanvasHtmlElement + "]" );
-        this.getPosition();
-        this.objCanvasHtml.setAttribute( "width" ,  this.defaultWidth  + "px" );
-        this.objCanvasHtml.setAttribute( "height" , this.defaultHeight + "px" );
-        this.objCanvasHtml.setAttribute( "contentEditable" , "true");
-        this.objCanvasHtml.contentEditable = true;
-        this.objCanvasHtml.bind 'onmousemove', (event) => 
-            this.onMouseMove( event );
-        this.objCanvasHtml.bind 'onclick', (event) =>    
-            this.onClick( event );
-        this.objCanvasHtml.bind 'ondblclick', (event) =>    
-            this.onClick( event );
-        this.objCanvasHtml.bind 'onmouseup', (event) =>    
-            this.onClick( event );
-        this.objCanvasHtml.bind 'onmousedown', (event) =>    
-            this.onMouseDown( event );
-        this.objCanvasHtml.bind 'oncontextmenu', (event) =>
-            this.onConContextMenu( event );
-        this.objCanvasHtml.bind 'onKeyup', (event) =>    
-            this.onKeyup( event );
-        this.objCanvasHtml.bind 'onMouseOut', (event) =>    
-            this.onMouseOut( event );
-        this.objCanvasHtml.bind 'onMouseOver', (event) =>    
-            this.onMouseOver( event );
-        this.defineMenu();
-        this.play();
+        @objCanvasHtml = document.getElementById( idCanvasHtmlElement );
+        if( @objCanvasHtml == null )
+            throw New.CanvasBoxException( "Invalid canvas html element id [" + idCanvasHtmlElement + "]" );
+        @getPosition();
 
-        this.objBox = this;
-        objButton = new autoload.newCanvasBoxZoomInButton( this );
-        this.addButton( objButton );
-        objButton = new autoload.newCanvasBoxZoomOutButton( this );
-        this.addButton( objButton );
-        objButton = new autoload.newCanvasBoxExportButton( this );
-        this.addButton( objButton );
-        objButton = new autoload.newCanvasBoxSaveButton( this );
-        this.addButton( objButton );        
+        strWidth = "#{@defaultWidth}px";
+        @objCanvasHtml.setAttribute( "width" ,  strWidth );
+        @objCanvasHtml.style.width = strWidth;
+
+        strHeight = "#{@defaultHeight}px";
+        @objCanvasHtml.setAttribute( "height" , strHeight );
+        @objCanvasHtml.style.height = strHeight;
+
+        @objCanvasHtml.setAttribute( "contentEditable" , "true");
+        @objCanvasHtml.contentEditable = true;
+
+        @objCanvasHtml.style.backgroundColor = @backgroundColor;
+
+        @objCanvasHtml.onmousemove = (event) => 
+            @onMouseMove( event );
+        @objCanvasHtml.onclick = (event) =>    
+            @onClick( event );
+        @objCanvasHtml.ondblclick = (event) =>    
+            @onClick( event );
+        @objCanvasHtml.onmouseup = (event) =>    
+            @onClick( event );
+        @objCanvasHtml.onmousedown = (event) =>    
+            @onMouseDown( event );
+        @objCanvasHtml.oncontextmenu = (event) =>
+            @onConContextMenu( event );
+        @objCanvasHtml.onKeyup = (event) =>    
+            @onKeyup( event );
+        @objCanvasHtml.onMouseOut = (event) =>    
+            @onMouseOut( event );
+        @objCanvasHtml.onMouseOver = (event) =>    
+            @onMouseOver( event );
+        @defineMenu();
+        @play();
+
+        ###
+        @objBox = this;
+        objButton = New.CanvasBoxZoomInButton( this );
+        @addButton( objButton );
+        objButton = New.CanvasBoxZoomOutButton( this );
+        @addButton( objButton );
+        objButton = New.CanvasBoxExportButton( this );
+        @addButton( objButton );
+        objButton = New.CanvasBoxSaveButton( this );
+        @addButton( objButton );        
+        ###
         return this;
 
     ###
@@ -331,9 +343,9 @@ class CanvasBox
     # @param objElement CanvasBoxElement
     ###
     addElement: ( objElement )->
-        this.arrElements.push( objElement );
+        @arrElements.push( objElement );
         objElement.objBox = this;
-        objElement.objContext = this.getContext();
+        objElement.objContext = @getContext();
         objElement.load();
         
     ###
@@ -341,33 +353,33 @@ class CanvasBox
     # @return CanvasRenderingContext2D
     ###
     getContext: ->
-        objContext = this.objCanvasHtml.getContext( '2d' );
+        objContext = @objCanvasHtml.getContext( '2d' );
         return objContext;
         
     ###
     # Clear the image into the Canvas Html Element Context
     ###
     clear: ->
-        objContext = this.getContext();
+        objContext = @getContext();
         objContext.clearRect( 
             0,
             0,
-            Math.max( this.boxWidth , this.defaultWidth ),
-            Math.max( this.boxHeight , this.defaultHeight )
+            Math.max( @boxWidth , @defaultWidth ),
+            Math.max( @boxHeight , @defaultHeight )
         );
 
     ###
     # Draw all the elements into the CanvasBox
     ###
     draw: ->
-        if( not this.booChanged )
-            this.intCounterStandyBy++;
+        if( not @booChanged )
+            @intCounterStandyBy++;
             return;
-        this.intCounterStandyBy = 0;
+        @intCounterStandyBy = 0;
 
-        this.booOnDraw = true;
+        @booOnDraw = true;
 
-        this.clear();
+        @clear();
 
         arrZIndexElements = Array();
         arrZIndex = Array();
@@ -375,7 +387,7 @@ class CanvasBox
         ###
         # Create one array to each layer into the z dimension
         ###
-        for objElement in this.arrElements
+        for objElement in @arrElements
             if( not arrZIndexElements[ objElement.z ]? )
                 arrZIndexElements[ objElement.z ] = Array();
                 arrZIndex.push( objElement.z );
@@ -384,7 +396,7 @@ class CanvasBox
         ###
         # Order layers by the z dimension
         ###
-        arrZIndex = sort( arrZIndex );
+        arrZIndex = php.sort( arrZIndex );
 
         ###
         # Draw Elements each z dimension layer of time
@@ -397,48 +409,47 @@ class CanvasBox
         objElement = null;
         arrZIndexElements = null;
 
-        if( this.booShowMenu )
-            this.objMenuSelected.mouseX = this.mouseX;
-            this.objMenuSelected.mouseY = this.mouseY;
-            this.objMenuSelected.draw();
+        if( @booShowMenu )
+            @objMenuSelected.mouseX = @mouseX;
+            @objMenuSelected.mouseY = @mouseY;
+            @objMenuSelected.draw();
 
-        if( this.booDrawBoxMenu )
-            for i in [0..this.arrButtons.length]
-                objButton = this.arrButtons[i];
+        if( @booDrawBoxMenu )
+            for objButton in @arrButtons
                 objButton.refresh();
                 objButton.draw();
         
-        this.booOnDraw = false;
-        this.booChanged = false;
+        @booOnDraw = false;
+        @booChanged = false;
 
     ###
     # Draw all the elements into the CanvasBox
     ###
     onTimerElements: ->
-        this.booOnTimer = true;
+        @booOnTimer = true;
 
-        for objElement in this.arrElements
+        for objElement in @arrElements
             objElement.onTimer();
 
-        this.booOnTimer = false;
+        @booOnTimer = false;
 
     ###
     # Active the auto refresh timer
     ###
     play: ->
-        this.intCounterStandyBy = 0;
-        if( this.booActive )
+        @intCounterStandyBy = 0;
+        if( @booActive )
             return;
-        this.booActive = true;
-        setTimeout( 'CanvasBox::arrInstances[ ' + this.id + '].onTimer()' , this.intIntervalTimer );
-        setTimeout( 'CanvasBox::arrInstances[ ' + this.id + '].onDraw()' , this.intIntervalDraw );
-        setTimeout( 'CanvasBox::arrInstances[ ' + this.id + '].onCountFps()' , 1000 );
+        @booActive = true;
+        setTimeout( this.onTimer.bind( this ) , @intIntervalTimer );
+        setTimeout( this.onDraw.bind( this ) , @intIntervalDraw );
+        setTimeout( this.onCountFps.bind( this ) , 1000 );
 
     ###
     # Stop the auto refresh timer
     ###
     stop:->
-        this.booActive = false;
+        @booActive = false;
 
     ###
     # Refresh the Canvas Box
@@ -448,41 +459,41 @@ class CanvasBox
     # @return boolean
     ###
     onTimer:->
-        if( this.booActive == false )
+        if( @booActive == false )
             return false;
-        if( this.intCounterStandyBy < 10 )
+        if( @intCounterStandyBy < 10 )
             setTimeout( 
-                "CanvasBox::arrInstances[ #( this.id ) ].onTimer()" , 
-                this.intIntervalTimer 
+                this.onTimer.bind(this) , 
+                @intIntervalTimer 
             );
         else
-            if( this.booMouseOver )
+            if( @booMouseOver )
                 setTimeout( 
-                    "CanvasBox::arrInstances[ #( this.id ) ].onTimer()" , 
-                    this.intIntervalTimer * 2 
+                    this.onTimer.bind( this ) , 
+                    @intIntervalTimer * 2 
                 );
             else
-                this.intCounterStandyBy = 0;
-                this.stop();
+                @intCounterStandyBy = 0;
+                @stop();
                 
-        if( this.intCounterStandyBy > 10 )
-            this.intCounterStandyBy = 10;
+        if( @intCounterStandyBy > 10 )
+            @intCounterStandyBy = 10;
         
-        if( !this.booOnTimer )
-            this.onTimerElements();
+        if( !@booOnTimer )
+            @onTimerElements();
         return true;
 
     ###
     # On show counter FPS
     ###
     onCountFps:->
-        this.intLastFps = this.intFps;
-        this.intFps = 0;
-        if( ! this.booCountFps )
+        @intLastFps = @intFps;
+        @intFps = 0;
+        if( ! @booCountFps )
             return false;
-        document.title = "FPS: " + this.intLastFps;
+        document.title = "FPS: " + @intLastFps;
         setTimeout( 
-            "CanvasBox::arrInstances[ #( this.id ) ].onCountFps()" , 
+            this.onCountFps.bind(this) , 
             1000 
         );
         return true;
@@ -494,15 +505,15 @@ class CanvasBox
     # - Call the next timer if should
     ###
     onDraw:->
-        if( this.booActive == false )
+        if( @booActive == false )
             return false;
         setTimeout( 
-            "CanvasBox::arrInstances[ #( this.id ) ].onDraw()" , 
-            this.intIntervalDraw 
+            this.onDraw.bind(this) , 
+            @intIntervalDraw 
         );
-        if( ! this.booOnDraw )
-            this.draw();
-            this.intFps++;
+        if( ! @booOnDraw )
+            @draw();
+            @intFps++;
         return true;
 
     ###
@@ -511,8 +522,8 @@ class CanvasBox
     # @param event Event
     ###
     refreshMousePosition:( event )->    
-        this.mouseX = ( event.clientX - this.x + CanvasBox::scrollLeft() ) / this.dblZoom;
-        this.mouseY = ( event.clientY - this.y + CanvasBox::scrollTop()  ) / this.dblZoom;
+        @mouseX = ( event.clientX - @x + CanvasBox::scrollLeft() ) / @dblZoom;
+        @mouseY = ( event.clientY - @y + CanvasBox::scrollTop()  ) / @dblZoom;
 
     ###
     # On Move Move over the Canvas Box
@@ -522,31 +533,31 @@ class CanvasBox
     # 
     onMouseMove:( event )->
         objElementOver = null;
-        this.refreshMousePosition( event );
-        for objElement in this.arrElements
-            if( objElement.isInside( this.mouseX , this.mouseY ) )
-                this.change()
+        @refreshMousePosition( event );
+        for objElement in @arrElements
+            if( objElement.isInside( @mouseX , @mouseY ) )
+                @change()
                 objElementOver = objElement;
                 break;
                 
-        if( this.objElementOver != objElementOver )
-            this.change()
-            if( this.objElementOver != null )
-                this.objElementOver.onMouseOut( event );
+        if( @objElementOver != objElementOver )
+            @change()
+            if( @objElementOver != null )
+                @objElementOver.onMouseOut( event );
             if( objElementOver != null )
-                this.objCanvasHtml.style.cursor = "pointer";
+                @objCanvasHtml.style.cursor = "pointer";
                 objElementOver.onMouseOver( event );
             else
-                this.objCanvasHtml.style.cursor = "default";
-            this.objElementOver = objElementOver;
-        if( this.objElementSelected != null )
-            this.change()
-            this.objElementSelected.onDrag( event );
+                @objCanvasHtml.style.cursor = "default";
+            @objElementOver = objElementOver;
+        if( @objElementSelected? )
+            @change()
+            @objElementSelected.onDrag( event );
 
-        for objButton in this.arrButtons
+        for objButton in @arrButtons
             objButton.refresh();
-            if( objButton.booMouseOver != objButton.isInside( this.mouseX * this.dblZoom , this.mouseY *  this.dblZoom ) )
-                this.change();
+            if( objButton.booMouseOver != objButton.isInside( @mouseX * @dblZoom , @mouseY *  @dblZoom ) )
+                @change();
 
     ###
     # On Mouse Up Canvas Box Event
@@ -556,12 +567,12 @@ class CanvasBox
     # @param Event event
     ###
     onMouseUp:( event )->
-        this.booMouseOver = true;
+        @booMouseOver = true;
         
-        if( this.objElementSelected != null )
-            this.change()
-            this.objElementSelected.onDrop( event);
-        this.objElementSelected = null;
+        if( @objElementSelected != null )
+            @change()
+            @objElementSelected.onDrop( event);
+        @objElementSelected = null;
 
     ###
     # On Mouse Down Canvas Box Event
@@ -569,9 +580,9 @@ class CanvasBox
     # @param Event event
     ###
     onMouseDown:( event )->
-        this.booMouseOver = true;
-        this.change()
-        this.objElementSelected = this.objElementOver;
+        @booMouseOver = true;
+        @change()
+        @objElementSelected = @objElementOver;
         return false;
 
     ###
@@ -580,25 +591,25 @@ class CanvasBox
     # @param Event event
     ###
     onClick:( event )->
-        this.booMouseOver = true;
-        this.change()
-        if( this.booShowMenu )
-            this.booShowMenu = this.objMenuSelected.onClick( event );
+        @booMouseOver = true;
+        @change()
+        if( @booShowMenu )
+            @booShowMenu = @objMenuSelected.onClick( event );
             return false;
 
-        if( this.objElementOver != null )
-            this.objElementClicked = this.objElementOver;
-            this.objElementOver.onClick( event );
+        if( @objElementOver != null )
+            @objElementClicked = @objElementOver;
+            @objElementOver.onClick( event );
         else
-            this.objElementClicked = null;
-            this.onBoxClick( event );
+            @objElementClicked = null;
+            @onBoxClick( event );
 
-        for objButton in this.arrButtons
+        for objButton in @arrButtons
             objButton.refresh();
             if( objButton.booMouseOver )
                 objButton.onClick();
                 
-        this.objCanvasHtml.focus();
+        @objCanvasHtml.focus();
         return false;
 
     ###
@@ -607,12 +618,12 @@ class CanvasBox
     # @param Event event
     ###
     onDblClick:( event )->
-        this.booMouseOver = true;
-        this.change()
-        if( this.objElementOver != null )
-            this.objElementOver.onDblClick( event );
+        @booMouseOver = true;
+        @change()
+        if( @objElementOver != null )
+            @objElementOver.onDblClick( event );
         else
-            this.onBoxDblClick( event );
+            @onBoxDblClick( event );
 
     ###
     # On Right Click Canvas Box Event
@@ -620,8 +631,8 @@ class CanvasBox
     # @param Event event
     ###
     onBoxRightClick:( event )->
-        this.booMouseOver = true;
-        this.change()
+        @booMouseOver = true;
+        @change()
         return false;
 
     ###
@@ -630,12 +641,12 @@ class CanvasBox
     # @param Event event
     ###
     onContextMenu:( event )->
-        this.booMouseOver = true;
-        this.change()
-        if( this.objElementOver != null )
-            this.objElementOver.onContextMenu( event );
+        @booMouseOver = true;
+        @change()
+        if( @objElementOver != null )
+            @objElementOver.onContextMenu( event );
         else
-            this.onBoxContextMenu( event );
+            @onBoxContextMenu( event );
         return false;
 
     ###
@@ -643,16 +654,16 @@ class CanvasBox
     # @param Event event
     ###
     onBoxContextMenu:( event )->
-        this.booMouseOver = true;
-        this.change()
+        @booMouseOver = true;
+        @change()
 
-        this.booShowMenu = !this.booShowMenu;
-        if( this.booShowMenu )
-            this.objMenu.objBox = this;
-            this.objMenuSelected = this.objMenu;
-            this.objMenuSelected.intMenuX = this.mouseX;
-            this.objMenuSelected.intMenuY = this.mouseY;
-            this.objMenuSelected.strActualMenuItem = null;
+        @booShowMenu = !@booShowMenu;
+        if( @booShowMenu )
+            @objMenu.objBox = this;
+            @objMenuSelected = @objMenu;
+            @objMenuSelected.intMenuX = @mouseX;
+            @objMenuSelected.intMenuY = @mouseY;
+            @objMenuSelected.strActualMenuItem = null;
 
     ###
     #  On Click into a empty space of the Canvas Box
@@ -660,10 +671,10 @@ class CanvasBox
     # @param Event event
     ###
     onBoxClick:( event )->
-        this.booMouseOver = true;
-        this.change()
-        if( this.booShowMenu )
-            this.booShowMenu = this.objMenuSelected.onClick( event );
+        @booMouseOver = true;
+        @change()
+        if( @booShowMenu )
+            @booShowMenu = @objMenuSelected.onClick( event );
 
     ###
     # On Double click into a empty space of the Canvas Box
@@ -671,8 +682,8 @@ class CanvasBox
     # @param Event event
     ###
     onBoxDblClick:( event )->
-        this.booMouseOver = true;
-        this.change()
+        @booMouseOver = true;
+        @change()
 
     ###
     # On Key Up into the Canvas Box Element
@@ -680,42 +691,42 @@ class CanvasBox
     # @param Event event
     ###
     onKeyUp:( event )->
-        this.change()
+        @change()
         
         switch event.keyCode
             
             when 46 then ( # delete
-                if( this.objElementClicked != null )
-                    this.deleteElement( this.objElementClicked )
+                if( @objElementClicked != null )
+                    @deleteElement( @objElementClicked )
                 )
             when 38 then ( # up
-                if( this.objElementClicked != null )
-                    this.objElementClicked.goUp();
+                if( @objElementClicked != null )
+                    @objElementClicked.goUp();
                 )
             when 40 then ( # down
-                if( this.objElementClicked != null )
-                    this.objElementClicked.goDown();
+                if( @objElementClicked != null )
+                    @objElementClicked.goDown();
                 )
             when 39 then ( # =>
-                if( this.objElementClicked != null )
-                    this.objElementClicked.goRight();
+                if( @objElementClicked != null )
+                    @objElementClicked.goRight();
                 )
             when 37 then ( # <=
-                if( this.objElementClicked != null )
-                    this.objElementClicked.goLeft();
+                if( @objElementClicked != null )
+                    @objElementClicked.goLeft();
                 )
             when 32 then ( # SPACE
-                if( this.objElementClicked != null )
-                    this.objElementClicked.fixed = not this.objElementClicked.fixed;
-                    this.objElementClicked.drawFixed( this.objElementClicked.fixed );
+                if( @objElementClicked != null )
+                    @objElementClicked.fixed = not @objElementClicked.fixed;
+                    @objElementClicked.drawFixed( @objElementClicked.fixed );
                 )
             when 113 then ( # F2
-                if( this.objElementClicked != null )
-                    this.objElementClicked.rename();
+                if( @objElementClicked != null )
+                    @objElementClicked.rename();
                 )
             when 45 then ( # INSERT
-                if( this.objElementClicked != null )
-                    this.objElementClicked.copy();
+                if( @objElementClicked != null )
+                    @objElementClicked.copy();
                 )
         return false;
 
@@ -726,123 +737,123 @@ class CanvasBox
     # @param boolean booCallOnDelete
     ###
     deleteElement:( objElement , booCallOnDelete )->
-        this.change()
+        @change()
         if( Object.isUndefined( booCallOnDelete ) )
             booCallOnDelete = true;
 
         if( booCallOnDelete )
             objElement.onDelete();
 
-        intId = this.arrElements.indexOf( objElement );
+        intId = @arrElements.indexOf( objElement );
         if( intId != -1 )
-            this.arrElements.splice( intId  , 1 );
-        if ( this.arrElements.length > 0 )
-            this.objElementClicked = this.arrElements[ 0 ];
+            @arrElements.splice( intId  , 1 );
+        if ( @arrElements.length > 0 )
+            @objElementClicked = @arrElements[ 0 ];
         else
-            this.objElementClicked = null;
+            @objElementClicked = null;
     
     onMouseOver:( event )->
-        this.booMouseOver = true;
-        this.play();
+        @booMouseOver = true;
+        @play();
     
     onMouseOut:( event )->
-        this.booMouseOver = false;
+        @booMouseOver = false;
     
     change:->
-        this.play();
-        this.intCounterStandyBy = 0;
-        this.booChanged = true;
+        @play();
+        @intCounterStandyBy = 0;
+        @booChanged = true;
 
     moveTo:( intX , intY )->
-        this.getContext().moveTo( 
-            Math.round( intX * this.dblZoom ),
-            Math.round( intY * this.dblZoom )
+        @getContext().moveTo( 
+            Math.round( intX * @dblZoom ),
+            Math.round( intY * @dblZoom )
         );
 
     lineTo:( intX , intY )->
-        this.getContext().lineTo(
-            Math.round( intX * this.dblZoom ),
-            Math.round( intY * this.dblZoom )
+        @getContext().lineTo(
+            Math.round( intX * @dblZoom ),
+            Math.round( intY * @dblZoom )
         );
 
     arc:( intX , intY, dblRadius , dblStartAngle , dblEndAngle, booClockwise)->
-        this.getContext().arc(
-            Math.round( intX * this.dblZoom  ),
-            Math.round( intY * this.dblZoom  ),
-            Math.abs( Math.round( dblRadius * this.dblZoom  ) ),
+        @getContext().arc(
+            Math.round( intX * @dblZoom  ),
+            Math.round( intY * @dblZoom  ),
+            Math.abs( Math.round( dblRadius * @dblZoom  ) ),
             dblStartAngle ,
             dblEndAngle ,
             booClockwise
         );
 
     saveContext:->
-        this.getContext().save();
+        @getContext().save();
 
     restoreContext:->
-        this.getContext().restore();
+        @getContext().restore();
 
     beginPath:->
-        this.getContext().beginPath();
+        @getContext().beginPath();
 
     closePath:->
-        this.getContext().closePath();
+        @getContext().closePath();
 
     setFillStyle:( strFillStyle )->
-        this.getContext().fillStyle = strFillStyle;
+        @getContext().fillStyle = strFillStyle;
 
     setStrokeStyle:( intStrokeStyle )->
-        this.getContext().strokeStyle = ( intStrokeStyle * this.dblZoom );
+        @getContext().strokeStyle = ( intStrokeStyle * @dblZoom );
 
     setLineWidth:( dblLineWidth )->
-        this.getContext().lineWidth = ( dblLineWidth * this.dblZoom );
+        @getContext().lineWidth = ( dblLineWidth * @dblZoom );
 
     fill:->
-        this.getContext().fill();
+        @getContext().fill();
 
     stroke:->
-        this.getContext().stroke();
+        @getContext().stroke();
 
     strokeText:( strText , intPosX , intPosY )->
-        this.getContext().strokeText(
+        @getContext().strokeText(
             strText ,
-            Math.round( intPosX * this.dblZoom ),
-            Math.round( intPosY * this.dblZoom )
+            Math.round( intPosX * @dblZoom ),
+            Math.round( intPosY * @dblZoom )
         );
 
     fillText:( strText , intPosX , intPosY )->
-        this.getContext().fillText(
+        @getContext().fillText(
             strText ,
-            Math.round( intPosX * this.dblZoom ),
-            Math.round( intPosY * this.dblZoom )
+            Math.round( intPosX * @dblZoom ),
+            Math.round( intPosY * @dblZoom )
         );
 
     strokeRect:( intX, intY, intWidth, intHeight )->
-        this.getContext().strokeRect(
-            Math.round( intX        * this.dblZoom ),
-            Math.round( intY        * this.dblZoom ),
-            Math.round( intWidth    * this.dblZoom ),
-            Math.round( intHeight  * this.dblZoom )
+        @getContext().strokeRect(
+            Math.round( intX        * @dblZoom ),
+            Math.round( intY        * @dblZoom ),
+            Math.round( intWidth    * @dblZoom ),
+            Math.round( intHeight  * @dblZoom )
         );
 
     fillRect:( intX, intY, intWidth, intHeight )->
-        this.getContext().fillRect(
-            Math.round( intX        * this.dblZoom ),
-            Math.round( intY        * this.dblZoom ),
-            Math.round( intWidth    * this.dblZoom ),
-            Math.round( intHeight  * this.dblZoom )
+        @getContext().fillRect(
+            Math.round( intX        * @dblZoom ),
+            Math.round( intY        * @dblZoom ),
+            Math.round( intWidth    * @dblZoom ),
+            Math.round( intHeight  * @dblZoom )
         );
 
     setShadowOffsetX:( intX )->
-        this.getContext().shadowOffsetX = Math.round( intX * this.dblZoom );
+        @getContext().shadowOffsetX = Math.round( intX * @dblZoom );
 
     setShadowOffsetY:( intY )->
-        this.getContext().shadowOffsetY = Math.round( intY * this.dblZoom );
+        @getContext().shadowOffsetY = Math.round( intY * @dblZoom );
 
     setShadowBlur:( intBlur )->
-        this.getContext().shadowBlur = intBlur;
+        @getContext().shadowBlur = intBlur;
 
     setShadowColor:( strColor )->
-        this.getContext().shadowColor = strColor;
+        @getContext().shadowColor = strColor;
 
     setFont:( strFontDescription )->
         arrFontData = explode( " " , strFontDescription );
@@ -850,66 +861,66 @@ class CanvasBox
         strSizeNumber = strSize.substr( 0 , strSize.length - 2 );
         strSizeType = strSize.substr( strSize.length - 2 );
         dblSizeNumber = 1 * strSizeNumber;
-        dblSizeNumber = dblSizeNumber * this.dblZoom;
+        dblSizeNumber = dblSizeNumber * @dblZoom;
         strNewSizeNumber = dblSizeNumber + strSizeType;
         arrFontData[0] = strNewSizeNumber;
         strFontDescription = implode( " " , arrFontData );
-        this.getContext().font = strFontDescription;
+        @getContext().font = strFontDescription;
 
     translate:( dblDegree , intDistance )->
-        this.getContext().translate(
-            Math.round( dblDegree    * this.dblZoom ),
-            Math.round( intDistance * this.dblZoom )
+        @getContext().translate(
+            Math.round( dblDegree    * @dblZoom ),
+            Math.round( intDistance * @dblZoom )
         );
 
     drawLine:( intXfrom , intYfrom , intXto , intYto )->
-        this.getContext().drawLine(
-            Math.round( intXfrom    * this.dblZoom ),
-            Math.round( intYfrom    * this.dblZoom ),
-            Math.round( intXto      * this.dblZoom ),
-            Math.round( intYto      * this.dblZoom )
+        @getContext().drawLine(
+            Math.round( intXfrom    * @dblZoom ),
+            Math.round( intYfrom    * @dblZoom ),
+            Math.round( intXto      * @dblZoom ),
+            Math.round( intYto      * @dblZoom )
         )
 
     rotate:( dblDegree )->
-        this.getContext().rotate( dblDegree );
+        @getContext().rotate( dblDegree );
 
     setTextAlign:( strTextAling )->
-        this.getContext().textAlign = strTextAling;
+        @getContext().textAlign = strTextAling;
     
     addButton:( objButton )->
         objButton.intPaddingLeft = 0;
         objButton.intPaddingTop = 0;
-        if( this.arrButtons.length > 0 )
+        if( @arrButtons.length > 0 )
             objButton.strPositionHorizontal = "right";
             objButton.strPositionVertical = "middle";
-            objButton.objPreviousButton = this.arrButtons[ this.arrButtons.length - 1 ];
+            objButton.objPreviousButton = @arrButtons[ @arrButtons.length - 1 ];
         else
             objButton.strPositionHorizontal = "left";
             objButton.strPositionVertical = "top";
-        this.arrButtons.push( objButton );
+        @arrButtons.push( objButton );
 
     saveFile:()->
-        dblProportion = this.defaultHeight / this.defaultWidth;
+        dblProportion = @defaultHeight / @defaultWidth;
         intWidth = 1000;
         intHeight = Math.round( intWidth / dblProportion );
-        dblOldZoom = this.dblZoom;
-        dblNewZoom = intWidth / this.defaultWidth;
-        this.objCanvasHtml.setAttribute( "width" ,  ( intWidth )  + "px" );
-        this.objCanvasHtml.setAttribute( "height" , ( intHeight ) + "px" );
+        dblOldZoom = @dblZoom;
+        dblNewZoom = intWidth / @defaultWidth;
+        @objCanvasHtml.setAttribute( "width" ,  ( intWidth )  + "px" );
+        @objCanvasHtml.setAttribute( "height" , ( intHeight ) + "px" );
 
-        this.dblZoom = dblNewZoom;
+        @dblZoom = dblNewZoom;
         
         objNewForm = document.createElement( "form" );
         objNewTextArea = document.createElement( "textarea" );
         objInputName = document.createElement( "input" );
         objInputImageType = document.createElement( "input" );
 
-        this.onMouseOut( null );
-        this.booDrawBoxMenu = false;
-        this.stop();
-        this.draw();
+        @onMouseOut( null );
+        @booDrawBoxMenu = false;
+        @stop();
+        @draw();
 
-        strDataURI = this.objCanvasHtml.toDataURL( "image/png" );
+        strDataURI = @objCanvasHtml.toDataURL( "image/png" );
         strDefaultFolder = window.autoload.getPathOfDefault();
         objNewForm.setAttribute( "action" , strDefaultFolder + "/download.php" );
         objNewForm.setAttribute( "method" , "post" );
@@ -933,16 +944,16 @@ class CanvasBox
         document.body.appendChild( objNewForm );
 
         objNewForm.submit();
-        this.play();
-        this.booDrawBoxMenu = true;
+        @play();
+        @booDrawBoxMenu = true;
         window.setTimeout(
             () -> window.open( '../default/close.html' , 'saveWindow') ,
             30000
         )
         document.body.removeChild( objNewForm );
-        this.dblZoom = dblOldZoom;
-        this.objCanvasHtml.setAttribute( "width" ,  ( this.defaultWidth )  + "px" );
-        this.objCanvasHtml.setAttribute( "height" , ( this.defaultHeight ) + "px" );
+        @dblZoom = dblOldZoom;
+        @objCanvasHtml.setAttribute( "width" ,  ( @defaultWidth )  + "px" );
+        @objCanvasHtml.setAttribute( "height" , ( @defaultHeight ) + "px" );
 
     saveAsXml:->
         alert( "Feature in development. Try it tomorrow!");
@@ -953,7 +964,7 @@ class CanvasBox
 # It elements can be selected and clicked and interact each other.
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 ###
-CanvasBox::arrInstance = Array()
+CanvasBox::arrInstances = Array()
 
 ###
 # Get instance of canvas box by its id

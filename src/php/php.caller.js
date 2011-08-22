@@ -1,4 +1,8 @@
-php.path = "./../php/";
+if (!(window.MAIN_PATH != null)) {
+  window.MAIN_PATH = "";
+}
+
+php.path = window.MAIN_PATH + "./../php/";
 
 php._phpjs_shared_bc = function (arg) { 
     php.require_once( php.path + 'php._phpjs_shared_bc.js' ); 

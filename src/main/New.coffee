@@ -1,10 +1,16 @@
+if not window.MAIN_PATH?
+    window.MAIN_PATH = "";
+
+class Load
 class New
 
 New::arrMap =
- CanvasBox: './CanvasBox.coffee',
- CanvasBoxButton:  './CanvasBoxButton.coffee',
- CanvasBoxConnector: './CanvasBoxConnector.coffee' 
- People: './People.coffee' 
+ CanvasBox:             "#{window.MAIN_PATH}CanvasBox.coffee"
+ CanvasBoxButton:       "#{window.MAIN_PATH}CanvasBoxButton.coffee"
+ CanvasBoxElement:      "#{window.MAIN_PATH}CanvasBoxElement.coffee"
+ CanvasBoxConnector:    "#{window.MAIN_PATH}CanvasBoxConnector.coffee"
+ CanvasBoxMenu:         "#{window.MAIN_PATH}CanvasBoxMenu.coffee" 
+ People:                "#{window.MAIN_PATH}People.coffee" 
     
 New::arrClasses = Array();
 
@@ -25,13 +31,22 @@ New::construct=(klass,args)->
   ObjectPointer.prototype = klass.prototype; 
   return new ObjectPointer(args);
 
+New::addMap = ( strClass , link = null )->
+    New::arrMap[ strClass ] = link if link?;
+    New[strClass] = new Function ( "return New.prototype.Instance({ name: '#{strClass}', data: arguments });" )
+    Load[strClass] = new Function ( "return Load.prototype.Instance({ name: '#{strClass}', data: arguments });" )
 
 New::start=->
     for element , path of New::arrMap
-        New[element] = new Function ( "return New.prototype.Instance({ name: '#{element}', data: arguments });" )
+        New::addMap(element)
 
 New::Instance= ( arrDataLoad ) ->
     New::loadClass( arrDataLoad.name );
     return New::construct( window[ arrDataLoad.name ] , arrDataLoad.data );
+
+Load::Instance= ( arrDataLoad ) ->
+    New::loadClass( arrDataLoad.name );
+    Load[arrDataLoad.name] = window[arrDataLoad.name];
+    return window[arrDataLoad.name];
 
 New::start();

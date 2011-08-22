@@ -1,13 +1,22 @@
-var New;
+var Load, New;
+if (!(window.MAIN_PATH != null)) {
+  window.MAIN_PATH = "";
+}
+Load = (function() {
+  function Load() {}
+  return Load;
+})();
 New = (function() {
   function New() {}
   return New;
 })();
 New.prototype.arrMap = {
-  CanvasBox: './CanvasBox.coffee',
-  CanvasBoxButton: './CanvasBoxButton.coffee',
-  CanvasBoxConnector: './CanvasBoxConnector.coffee',
-  People: './People.coffee'
+  CanvasBox: "" + window.MAIN_PATH + "CanvasBox.coffee",
+  CanvasBoxButton: "" + window.MAIN_PATH + "CanvasBoxButton.coffee",
+  CanvasBoxElement: "" + window.MAIN_PATH + "CanvasBoxElement.coffee",
+  CanvasBoxConnector: "" + window.MAIN_PATH + "CanvasBoxConnector.coffee",
+  CanvasBoxMenu: "" + window.MAIN_PATH + "CanvasBoxMenu.coffee",
+  People: "" + window.MAIN_PATH + "People.coffee"
 };
 New.prototype.arrClasses = Array();
 New.prototype.loadClass = function(strClass) {
@@ -32,18 +41,33 @@ New.prototype.construct = function(klass, args) {
   ObjectPointer.prototype = klass.prototype;
   return new ObjectPointer(args);
 };
+New.prototype.addMap = function(strClass, link) {
+  if (link == null) {
+    link = null;
+  }
+  if (link != null) {
+    New.prototype.arrMap[strClass] = link;
+  }
+  New[strClass] = new Function("return New.prototype.Instance({ name: '" + strClass + "', data: arguments });");
+  return Load[strClass] = new Function("return Load.prototype.Instance({ name: '" + strClass + "', data: arguments });");
+};
 New.prototype.start = function() {
   var element, path, _ref, _results;
   _ref = New.prototype.arrMap;
   _results = [];
   for (element in _ref) {
     path = _ref[element];
-    _results.push(New[element] = new Function("return New.prototype.Instance({ name: '" + element + "', data: arguments });"));
+    _results.push(New.prototype.addMap(element));
   }
   return _results;
 };
 New.prototype.Instance = function(arrDataLoad) {
   New.prototype.loadClass(arrDataLoad.name);
   return New.prototype.construct(window[arrDataLoad.name], arrDataLoad.data);
+};
+Load.prototype.Instance = function(arrDataLoad) {
+  New.prototype.loadClass(arrDataLoad.name);
+  Load[arrDataLoad.name] = window[arrDataLoad.name];
+  return window[arrDataLoad.name];
 };
 New.prototype.start();
