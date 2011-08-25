@@ -115,6 +115,14 @@ class Square extends CanvasBoxElement
         @color = @colorRegular;
         return super( event );
 
+    onClick:( event )->
+        @side += 5 if @side < 200
+        return super( event );
+
+    onDblClick:(event)->
+        @side = 100
+        return super( event );
+
     ##
     # Returns if the Mouse is Over the Element
     #
