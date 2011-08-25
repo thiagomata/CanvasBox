@@ -5,6 +5,9 @@ A simple example of canvas box with a square
     <head>
         <title>A simple example of canvas box with a square</title>
         <script>
+            /* 
+             * show how to go from here to the main folder
+             */
             window.MAIN_PATH = "../../main/";
         </script>
         <script src="../../coffee/jquery-1.4.2.js"></script> 
@@ -26,14 +29,33 @@ A simple example of canvas box with a square
             <p>
                 <canvas id="myCanvas"></canvas>
                 <script>
+                    /* 
+                     * add the square in the load map 
+                     */
                     New.prototype.addMap( "Square", "Square.coffee" );
+                    
+                    /*
+                     * create the canvas box 
+                     */
                     var objBox = New.CanvasBox();
                     objBox.backgroundColor = "blue";
-                    var objSquare = New.Square();
                     objBox.initialize( "myCanvas" );
+                    
+                    /* 
+                     * create the square element
+                     */
+                    var objSquare = New.Square();
                     objSquare.x = objBox.width / 2;
                     objSquare.y = objBox.height / 2;
+                    
+                    /* 
+                     * add the square into the box
+                     */
                     objBox.addElement( objSquare );
+                    
+                    /* 
+                     * play the box
+                     */
                     objBox.play();
                 </script>
             </p>
