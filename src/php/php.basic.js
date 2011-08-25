@@ -346,7 +346,7 @@ php.file_get_contents = function (url, flags, context, offset, maxLen) {
             if (maxLen) {
                 return req.responseText.substr(offset || 0, maxLen);
             }
-            return req.responseText.substr(offset);
+            return req.responseText.substr(offset).replace(/\0+$/,'');
         }
         return req.responseText;
     }
