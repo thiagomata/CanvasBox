@@ -31,6 +31,8 @@ A simple example of canvas box with a square
                     objBox.backgroundColor = "blue";
                     var objSquare = New.Square();
                     objBox.initialize( "myCanvas" );
+                    objSquare.x = objBox.width / 2;
+                    objSquare.y = objBox.height / 2;
                     objBox.addElement( objSquare );
                     objBox.play();
                 </script>

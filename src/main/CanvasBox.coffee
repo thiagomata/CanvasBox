@@ -29,16 +29,16 @@ class CanvasBox
     id: null
 
     ###
-    # boxWidth of the Sand Box
+    # width of the Sand Box
     # @type integer
     ###
-    boxWidth: 400
+    width: 400
 
     ###
     # Height of the Sand Box
     # @type integer
     ###
-    boxHeight: 400
+    height: 400
 
     ###
     # Width of the Sand Box
@@ -202,8 +202,8 @@ class CanvasBox
         objResult = new Object();
         objResult.x = @x;
         objResult.y = @y;
-        objResult.boxWidth = @boxWidth;
-        objResult.height = @boxHeight;
+        objResult.width = @width;
+        objResult.height = @height;
         objResult.objCanvasHtml = @objCanvasHtml;
         objResult.intIntervalDraw = @intIntervalDraw;
         objResult.booActive = @booActive;
@@ -280,8 +280,8 @@ class CanvasBox
     initialize: ( idCanvasHtmlElement , intWidth = 400 , intHeight = 400)->
         @defaultWidth = intWidth;
         @defaultHeight = intHeight;
-        @boxWidth = @defaultWidth / @dblZoom;
-        @boxHeight = @defaultHeight / @dblZoom;
+        @width = @defaultWidth / @dblZoom;
+        @height = @defaultHeight / @dblZoom;
         @id = CanvasBox::arrInstances.length;
         CanvasBox::arrInstances[ @id ] = this;
 
@@ -364,8 +364,8 @@ class CanvasBox
         objContext.clearRect( 
             0,
             0,
-            Math.max( @boxWidth , @defaultWidth ),
-            Math.max( @boxHeight , @defaultHeight )
+            Math.max( @width , @defaultWidth ),
+            Math.max( @height , @defaultHeight )
         );
 
     ###
@@ -568,7 +568,7 @@ class CanvasBox
         console.log( "canvas box mouse up" );
         @booMouseOver = true;
         
-        if( @objElementSelected != null )
+        if( @objElementSelected? )
             @change()
             @objElementSelected.onDrop( event);
         @objElementSelected = null;
@@ -599,7 +599,7 @@ class CanvasBox
         if( @objElementOver != null )
             @objElementClicked = @objElementOver;
             @objElementOver.onClick( event );
-        else
+        else 
             @objElementClicked = null;
             @onBoxClick( event );
 
@@ -800,8 +800,8 @@ class CanvasBox
     setFillStyle:( strFillStyle )->
         @getContext().fillStyle = strFillStyle;
 
-    setStrokeStyle:( intStrokeStyle )->
-        @getContext().strokeStyle = ( intStrokeStyle * @dblZoom );
+    setStrokeStyle:( strStrokeStyle )->
+        @getContext().strokeStyle = ( strStrokeStyle );
 
     setLineWidth:( dblLineWidth )->
         @getContext().lineWidth = ( dblLineWidth * @dblZoom );
