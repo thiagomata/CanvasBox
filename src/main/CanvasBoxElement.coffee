@@ -100,13 +100,21 @@ class CanvasBoxElement
     ###
     # Visual Buttons to interact with the element without
     # the menu use.
+    # @type CanvasBoxButton[]
     ###
     arrButtons: Array(),
 
     ##
     # Element Mass can be used by some canvas box behaviors
+    # @type integer
     ##
     intMass: 1
+
+    ##
+    # Rotate the element
+    # @type double
+    ##
+    dblRotate: 0
 
     ###
     # Create a serializable version of this object
@@ -146,6 +154,33 @@ class CanvasBoxElement
         return this;
 
     ###
+    # On Draw event 
+    # @return CanvasBoxElement me
+    ###
+    onDraw:->
+        @draw();
+        return this;
+
+    ##
+    # Change the context of the pencil of canvas to the element
+    #
+    # Pretty cool to make simple to draw rotated elements
+    ##
+    changeContext:->
+        @objBox.moveTo( this.x , this.y );
+        @objBox.saveContext();
+        @objBox.translate( this.x , this.y );
+        @objBox.rotate( @dblRotate ) if ( @dblRotate % ( 2 * Math.PI ) != 0 );
+        return this;
+        
+    ##
+    # Restore the context of the parent box
+    ##
+    restoreContext:->
+        @objBox.restoreContext();
+        return this;
+
+    ###
     # Draw the Canvas Box Element
     # @return CanvasBoxElement me
     ###
@@ -182,6 +217,16 @@ class CanvasBoxElement
     ###
     onMouseDown:( event )->
         return @objBehavior.onMouseDown( event );
+
+    ###
+    # On Element Mouse Over Event
+    # 
+    # @param Event event
+    # @return boolean
+    ###
+    onMouseOver:( event )->
+        console.log("element over"); 
+        return @objBehavior.onMouseOver( event );
 
     ##
     # Return if the element is active

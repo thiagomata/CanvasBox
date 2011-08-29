@@ -51,6 +51,13 @@ class Square extends CanvasBoxElement
     ##
     strClassName: "Square"
 
+    ##
+    #   Rotate the element 45⁰
+    ##
+    dblRotate: 45
+
+    dblRotateSpeed: 0.001
+
     constructor:->
         @color = @colorRegular
         @borderColor = @borderColorRegular
@@ -72,25 +79,29 @@ class Square extends CanvasBoxElement
     ###
     draw:->
         @refresh();
+        @changeContext();
         @objBox.setFillStyle( @color );
         @objBox.fillRect( 
-            Math.round( this.x - ( this.side / 2 ) ) , 
-            Math.round( this.y - ( this.side / 2 ) ),
+            Math.round( - ( this.side / 2 ) ) , 
+            Math.round( - ( this.side / 2 ) ),
             Math.round( this.side ) , 
             Math.round( this.side ) );
         @objBox.setStrokeStyle( @borderColor );
         @objBox.lineWidth = "#{@borderWidth}px";
         @objBox.strokeRect( 
-            Math.round( this.x - ( this.side / 2 ) ) , 
-            Math.round( this.y - ( this.side / 2 ) ),
+            Math.round( - ( this.side / 2 ) ) , 
+            Math.round( - ( this.side / 2 ) ),
             Math.round( this.side ) , 
             Math.round( this.side ) );
+        @restoreContext();
+        
         return this;    
 
     ##
     # Mouse over event
     ##
     onMouseOver:( event )->
+        console.log( "square over" );
         @borderColor = @borderColorOver;
         return super( event );
 
@@ -116,6 +127,7 @@ class Square extends CanvasBoxElement
         return super( event );
 
     onClick:( event )->
+        @dblRotateSpeed *= -1;
         @side += 5 if @side < 200
         return super( event );
 
@@ -131,7 +143,42 @@ class Square extends CanvasBoxElement
     # @return boolean
     ## 
     isInsideElement:( mouseX , mouseY )->
-        return  ( mouseX >= ( this.x - @side / 2 ) ) &&
-                ( mouseX <= ( this.x + @side / 2 ) ) &&
-                ( mouseY >= ( this.y - @side / 2 ) ) &&
-                ( mouseY <= ( this.y + @side / 2 ) );
+        objPointA = @rotatePosition( ( - @side / 2 ), 
+                                     ( - @side / 2 ) );
+        objPointB = @rotatePosition( ( + @side / 2 ), 
+                                     ( + @side / 2 ) );
+        objPointC = @rotatePosition( ( + @side / 2 ), 
+                                     ( - @side / 2 ) );
+        objPointD = @rotatePosition( ( - @side / 2 ), 
+                                     ( + @side / 2 ) );
+
+        objPointA.x += @x;
+        objPointA.y += @y;
+        objPointB.x += @x;
+        objPointB.y += @y;
+        objPointC.x += @x;
+        objPointC.y += @y;
+        objPointD.x += @x;
+        objPointD.y += @y;
+
+        intMinX = Math.min( objPointA.x , objPointB.x , objPointC.x , objPointD.x );
+        intMinY = Math.min( objPointA.y , objPointB.y , objPointC.y , objPointD.y );
+        intMaxX = Math.max( objPointA.x , objPointB.x , objPointC.x , objPointD.x );
+        intMaxY = Math.max( objPointA.y , objPointB.y , objPointC.y , objPointD.y );
+
+        booInside = ( mouseX >= intMinX ) &&
+                    ( mouseX <= intMaxX ) &&
+                    ( mouseY >= intMinY ) &&
+                    ( mouseY <= intMaxY );
+        return booInside;
+
+    rotatePosition:( intPositionX , intPositionY )->
+        intNewPositionX = Math.round( Math.cos( @dblRotate ) * intPositionX - Math.sin( @dblRotate ) * intPositionY );
+        intNewPositionY = Math.round( Math.sin( @dblRotate ) * intPositionX - Math.cos( @dblRotate ) * intPositionY );
+        return { x: intNewPositionX , y: intNewPositionY }
+
+    onTimer:->
+        @dblRotate += @dblRotateSpeed;
+        @dblRotate %= 2 * Math.PI;
+        @objBox.change();
+        return super( event );

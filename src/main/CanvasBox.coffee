@@ -396,26 +396,25 @@ class CanvasBox
         ###
         arrLayers = php.sort( arrLayers );
 
-        window.lixo = arrLayers;
         ###
         # Draw Elements each z dimension layer of time
         ###
         for arrLayerElements in arrLayers
             for objElement in arrLayerElements
                 if( objElement? )
-                    objElement.draw();
+                    objElement.onDraw();
 
         objElement = null;
 
         if( @booShowMenu )
             @objMenuSelected.mouseX = @mouseX;
             @objMenuSelected.mouseY = @mouseY;
-            @objMenuSelected.draw();
+            @objMenuSelected.onDraw();
 
         if( @booDrawBoxMenu )
             for objButton in @arrButtons
                 objButton.refresh();
-                objButton.draw();
+                objButton.onDraw();
         
         @booOnDraw = false;
         @booChanged = false;
