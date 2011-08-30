@@ -225,7 +225,6 @@ class CanvasBoxElement
     # @return boolean
     ###
     onMouseOver:( event )->
-        console.log("element over"); 
         return @objBehavior.onMouseOver( event );
 
     ##

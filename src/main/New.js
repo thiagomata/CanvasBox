@@ -17,17 +17,16 @@ New.prototype.arrMap = {
   CanvasBoxConnector: "" + window.MAIN_PATH + "CanvasBoxConnector.coffee",
   CanvasBoxMenu: "" + window.MAIN_PATH + "CanvasBoxMenu.coffee",
   CanvasBoxBehavior: "" + window.MAIN_PATH + "CanvasBoxBehavior.coffee",
-  People: "" + window.MAIN_PATH + "People.coffee"
+  People: "" + window.MAIN_PATH + "People.coffee",
+  Polygon: "" + window.MAIN_PATH + "Polygon.coffee"
 };
 New.prototype.arrClasses = Array();
 New.prototype.loadClass = function(strClass) {
   var strContent;
   if (php.in_array(strClass, New.prototype.arrClasses)) {
-    console.log("" + strClass + " already load");
     return false;
   }
   if (!(New.prototype.arrMap[strClass] != null)) {
-    alert("" + strClass + " does not exists");
     throw new CanvasBoxException("Unabled to map the class " + strClass);
   }
   strContent = php.file_get_contents(New.prototype.arrMap[strClass]);

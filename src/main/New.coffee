@@ -12,15 +12,16 @@ New::arrMap =
  CanvasBoxMenu:         "#{window.MAIN_PATH}CanvasBoxMenu.coffee" 
  CanvasBoxBehavior:     "#{window.MAIN_PATH}CanvasBoxBehavior.coffee" 
  People:                "#{window.MAIN_PATH}People.coffee" 
+ Polygon:               "#{window.MAIN_PATH}Polygon.coffee" 
     
 New::arrClasses = Array();
 
 New::loadClass = ( strClass )->
     if( php.in_array( strClass, New::arrClasses ) )
-        console.log("#{strClass} already load");
+#        console.log("#{strClass} already load");
         return false;
     if( ! New::arrMap[ strClass ]? )
-        alert( "#{strClass} does not exists");
+#        alert( "#{strClass} does not exists");
         throw new CanvasBoxException( "Unabled to map the class #{strClass}" );
     strContent = php.file_get_contents( New::arrMap[ strClass] );
     New::arrClasses.push( strClass );

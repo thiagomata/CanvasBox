@@ -314,7 +314,7 @@ class CanvasBox
         @objCanvasHtml.onmousedown = (event) =>    
             @onMouseDown( event );
         @objCanvasHtml.oncontextmenu = (event) =>
-            @onConContextMenu( event );
+            @onContextMenu( event );
         @objCanvasHtml.onKeyup = (event) =>    
             @onKeyup( event );
         @objCanvasHtml.onMouseOut = (event) =>    
@@ -518,9 +518,10 @@ class CanvasBox
     #
     # @param event Event
     ###
-    refreshMousePosition:( event )->    
-        @mouseX = ( event.clientX - @x + CanvasBox::scrollLeft() ) / @dblZoom;
-        @mouseY = ( event.clientY - @y + CanvasBox::scrollTop()  ) / @dblZoom;
+    refreshMousePosition:( event = null )->    
+        if( event? )
+            @mouseX = ( event.clientX - @x + CanvasBox::scrollLeft() ) / @dblZoom;
+            @mouseY = ( event.clientY - @y + CanvasBox::scrollTop()  ) / @dblZoom;
 
     ###
     # On Move Move over the Canvas Box
@@ -528,7 +529,7 @@ class CanvasBox
     # @param event event
     ###
     # 
-    onMouseMove:( event )->
+    onMouseMove:( event = null )->
         objElementOver = null;
         @refreshMousePosition( event );
         for objElement in @arrElements
