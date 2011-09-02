@@ -582,6 +582,8 @@ class CanvasBox
         @booMouseOver = true;
         @change()
         @objElementSelected = @objElementOver;
+        if( @objElementSelected? )
+            @objElementSelected.onMouseDown( event );
         return false;
 
     ###

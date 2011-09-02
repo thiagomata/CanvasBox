@@ -3,12 +3,33 @@
 #
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 ##
-Load.Polygon();
-class Square extends Polygon
+Load.CanvasBoxPolygon();
+class UglyArrow extends CanvasBoxPolygon
+
+    ##
+    # X position
+    ##
+    x: 0
+
+    ##
+    # Y position
+    ##
+    y: 0
+
+    ##
+    # Relative Distance Between X position of cursor
+    ##
+    relativeMousey: 0
+
+    ##
+    # Debug mode
+    ##
+    debug: true;
+
     ##
     # Size of each side of square
     ##
-    side: 100
+    side: 200
     
     ##
     # Regular Square Color
@@ -19,6 +40,11 @@ class Square extends Polygon
     # Square Color on Drag Drop
     ##
     colorDrag: "rgb(100,100,250)"
+
+    ##
+    # Square Color on Drag Drop
+    ##
+    colorOver: "rgb(50,200,50)"
 
     ##
     # Current Color
@@ -53,9 +79,9 @@ class Square extends Polygon
     ##
     #   Rotate the element 45⁰
     ##
-    dblRotate: 45
+    dblRotate: 0
 
-    dblRotateSpeed: 0.01
+    dblRotateSpeed: 0.001
 
     init:->
         super();
@@ -65,13 +91,14 @@ class Square extends Polygon
 
     createPolygon:->
         @arrPoints = new Array();
-        @addPoint({x: -(@side / 2) , y: +(@side / 2) } )
-        @addPoint({x: -(@side / 3) , y: +(@side / 2) } )
-        @addPoint({x: -(@side / 10) , y: 0 } )
-        @addPoint({x: +(@side / 10) , y: 0 } )
-        @addPoint({x: (@side / 3) , y: +(@side / 2) } )
-        @addPoint({x: (@side / 2) , y: +(@side / 2) } )
-        @addPoint({x: 0 , y: -(@side / 2) } )
+
+        @addPoint( New.CanvasBoxPointer( {x: -(@side / 2) , y: +(@side / 2) } ) )
+        @addPoint( New.CanvasBoxPointer( {x: -(@side / 3) , y: +(@side / 2) } ) )
+        @addPoint( New.CanvasBoxPointer( {x: -(@side / 10) , y: 0 } ) )
+        @addPoint( New.CanvasBoxPointer( {x: +(@side / 10) , y: 0 } ) )
+        @addPoint( New.CanvasBoxPointer( {x: (@side / 3) , y: +(@side / 2) } ) )
+        @addPoint( New.CanvasBoxPointer( {x: (@side / 2) , y: +(@side / 2) } ) )
+        @addPoint( New.CanvasBoxPointer( {x: 0 , y: -(@side / 2) } ) )
 
     ##
     # Serialize the important data of this element
@@ -82,12 +109,13 @@ class Square extends Polygon
         objResult.borderColor = @borderColor;
         objResult.side = @side;        
         return objResult;
-        
+
     ##
     # Mouse over event
     ##
     onMouseOver:( event )->
         @borderColor = @borderColorOver;
+        @color = @colorOver;
         return super( event );
 
     ##
@@ -99,6 +127,8 @@ class Square extends Polygon
 
     ##
     # On drag event
+    # @param event
+    # return boolean
     ##
     onDrag:( event )->
         @color = @colorDrag
@@ -106,25 +136,40 @@ class Square extends Polygon
 
     ##
     # On drop event
+    # @param event
+    # return boolean
     ##
     onDrop:( event )->
         @color = @colorRegular;
         return super( event );
 
+    ##
+    # On click event
+    # @param event
+    # return boolean
+    ##
     onClick:( event )->
         @dblRotateSpeed *= -1;
-        @side += 10 if @side < 200
-        @createPolygon();
+        @smooth();
+        @onMouseOver( event );
         return super( event );
 
+    ##
+    # On Double click event
+    # @param event
+    # return boolean
+    ##
     onDblClick:(event)->
-        @side = 100
         @createPolygon();
         return super( event );
 
+    ##
+    # On Timer Event
+    ##
     onTimer:->
         @dblRotate += @dblRotateSpeed;
         @dblRotate %= ( 2 * Math.PI );
         @objBox.change();
         @objBox.onMouseMove();
         return super( event );
+

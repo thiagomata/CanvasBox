@@ -20,6 +20,8 @@ CanvasBoxBehavior = (function() {
     return false;
   };
   CanvasBoxBehavior.prototype.onMouseDown = function(event) {
+    this.objBoxElement.relativeMousex = this.objBoxElement.x - this.objBoxElement.objBox.mouseX;
+    this.objBoxElement.relativeMousey = this.objBoxElement.y - this.objBoxElement.objBox.mouseY;
     return false;
   };
   CanvasBoxBehavior.prototype.onClick = function(event) {
@@ -30,8 +32,8 @@ CanvasBoxBehavior = (function() {
     return this.objBoxElement.draw();
   };
   CanvasBoxBehavior.prototype.onDrag = function(event) {
-    this.objBoxElement.x = this.objBoxElement.objBox.mouseX;
-    this.objBoxElement.y = this.objBoxElement.objBox.mouseY;
+    this.objBoxElement.x = this.objBoxElement.objBox.mouseX + this.objBoxElement.relativeMousex;
+    this.objBoxElement.y = this.objBoxElement.objBox.mouseY + this.objBoxElement.relativeMousey;
     return false;
   };
   CanvasBoxBehavior.prototype.onDrop = function(event) {
@@ -46,11 +48,7 @@ CanvasBoxBehavior = (function() {
     return objVector;
   };
   CanvasBoxBehavior.prototype.move = function() {
-    if (!this.objBoxElement.fixed) {
-      return document.title = ":)";
-    } else {
-      return document.title = ":(";
-    }
+    return true;
   };
   return CanvasBoxBehavior;
 })();

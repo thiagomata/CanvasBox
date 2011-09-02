@@ -15,9 +15,6 @@ CoffeeScript.run = function(code, options) {
   options.bare = true;
   return window.eval.call(window, CoffeeScript.compile(code, options));
 };
-if (typeof window === "undefined" || window === null) {
-  return;
-}
 CoffeeScript.load = function(url, callback) {
   var xhr;
   xhr = new (window.ActiveXObject || XMLHttpRequest)('Microsoft.XMLHTTP');

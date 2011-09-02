@@ -10,7 +10,6 @@ CoffeeScript.run = (code, options = {}) ->
   options.bare = on
   # Function(CoffeeScript.compile code, options)()
   window.eval.call( window , (CoffeeScript.compile code, options) );
-return unless window?
 
 CoffeeScript.load = (url, callback) ->
   xhr = new (window.ActiveXObject or XMLHttpRequest)('Microsoft.XMLHTTP')

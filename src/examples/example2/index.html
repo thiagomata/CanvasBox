@@ -21,10 +21,15 @@ A simple example of canvas box with a square
         <div>
             <h1> This is a simple demo of how to use canvas box </h1>
             <p>
-                  Into this demo we will extends the canvas box element creating
-                  the square element. This element should draw a square what change
-                  border and colors with some classic events, like mouseover, onclick,
+                  Into this demo we will extends the canvas box polygon element creating
+                  this ugly arrow element. This element changes colors, border 
+                  with some classic events, like mouseover, onclick,
                   drag and drop, etc.
+            </p>
+            <p>
+                  You may note also some cool polygon features as rotate polygon,
+                  mouse over polygon, smooth polygon ( you can this last one. clicking on it ).
+                  Just double click the element to restore it.
             </p>
             <p>
                 <canvas id="myCanvas"></canvas>
@@ -32,7 +37,7 @@ A simple example of canvas box with a square
                     /* 
                      * add the square in the load map 
                      */
-                    New.prototype.addMap( "Square", "Square.coffee" );
+                    New.prototype.addMap( "UglyArrow", "UglyArrow.coffee" );
                     
                     /*
                      * create the canvas box 
@@ -44,14 +49,14 @@ A simple example of canvas box with a square
                     /* 
                      * create the square element
                      */
-                    var objSquare = New.Square();
-                    objSquare.x = objBox.width / 2;
-                    objSquare.y = objBox.height / 2;
+                    var objUglyArrow = New.UglyArrow();
+                    objUglyArrow.x = objBox.width / 2;
+                    objUglyArrow.y = objBox.height / 2;
                     
                     /* 
                      * add the square into the box
                      */
-                    objBox.addElement( objSquare );
+                    objBox.addElement( objUglyArrow );
                     
                     /* 
                      * play the box
@@ -60,5 +65,6 @@ A simple example of canvas box with a square
                 </script>
             </p>
         </div>
+        <div id="log"></div>
     </body>
 </html>

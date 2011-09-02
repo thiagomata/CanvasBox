@@ -11,11 +11,21 @@ class CanvasBoxElement
     ###
     x: 0
 
+    ##
+    # Relative Distance Between X position of cursor
+    ##
+    relativeMousex: 0
+
     ###
     # Position Y of the Element inside the Canvas Box
     # @type integer
     ###
     y: 0
+
+    ##
+    # Relative Distance Between X position of cursor
+    ##
+    relativeMousey: 0
 
     ###
     # Position Z of the Element inside the Canvas Box
@@ -30,7 +40,7 @@ class CanvasBoxElement
     dx: 0
 
     ###
-    # Veolocity into the Y position
+    # Velocity into the Y position
     # @type integer
     ###
     dy: 0
@@ -185,7 +195,7 @@ class CanvasBoxElement
     # @return CanvasBoxElement me
     ###
     draw:->
-        throw new CanvasBoxException( "Draw Method was not properly defined in the {@strClassName}" );
+        throw New.CanvasBoxException( "Draw Method was not properly defined in the {@strClassName}" );
         # to be overhide #
         return this;
 

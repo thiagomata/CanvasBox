@@ -17,8 +17,9 @@ New.prototype.arrMap = {
   CanvasBoxConnector: "" + window.MAIN_PATH + "CanvasBoxConnector.coffee",
   CanvasBoxMenu: "" + window.MAIN_PATH + "CanvasBoxMenu.coffee",
   CanvasBoxBehavior: "" + window.MAIN_PATH + "CanvasBoxBehavior.coffee",
-  People: "" + window.MAIN_PATH + "People.coffee",
-  Polygon: "" + window.MAIN_PATH + "Polygon.coffee"
+  CanvasBoxPolygon: "" + window.MAIN_PATH + "CanvasBoxPolygon.coffee",
+  CanvasBoxPointer: "" + window.MAIN_PATH + "CanvasBoxPointer.coffee",
+  CanvasBoxException: "" + window.MAIN_PATH + "CanvasBoxException.coffee"
 };
 New.prototype.arrClasses = Array();
 New.prototype.loadClass = function(strClass) {

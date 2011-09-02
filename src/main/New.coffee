@@ -1,7 +1,18 @@
 if not window.MAIN_PATH?
     window.MAIN_PATH = "";
 
+##
+# Allow to load some necessary class without instance it
+#
+# @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
+##
 class Load
+
+##
+# Allow to load some necessary class and instance it
+#
+# @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
+##
 class New
 
 New::arrMap =
@@ -11,8 +22,9 @@ New::arrMap =
  CanvasBoxConnector:    "#{window.MAIN_PATH}CanvasBoxConnector.coffee"
  CanvasBoxMenu:         "#{window.MAIN_PATH}CanvasBoxMenu.coffee" 
  CanvasBoxBehavior:     "#{window.MAIN_PATH}CanvasBoxBehavior.coffee" 
- People:                "#{window.MAIN_PATH}People.coffee" 
- Polygon:               "#{window.MAIN_PATH}Polygon.coffee" 
+ CanvasBoxPolygon:      "#{window.MAIN_PATH}CanvasBoxPolygon.coffee" 
+ CanvasBoxPointer:      "#{window.MAIN_PATH}CanvasBoxPointer.coffee" 
+ CanvasBoxException:    "#{window.MAIN_PATH}CanvasBoxException.coffee" 
     
 New::arrClasses = Array();
 

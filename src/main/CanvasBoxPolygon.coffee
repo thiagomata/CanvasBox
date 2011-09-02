@@ -4,7 +4,12 @@
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 ##
 Load.CanvasBoxElement();
-class Polygon extends CanvasBoxElement
+class CanvasBoxPolygon extends CanvasBoxElement
+
+    ##
+    # Draw some elements to help debug  
+    ##
+    debug: false
 
     ##
     # Current Color
@@ -63,7 +68,7 @@ class Polygon extends CanvasBoxElement
     serializePoints:->
         arrSerializedPoints = new Array();
         for objPoint in @arrPoints
-            if objPoint instanceof Point
+            if objPoint instanceof CanvasBoxPointer
                 objSerialPoint = objPoint.toSerialize();
             else
                 objSerialPoint = objPoint;
@@ -108,19 +113,40 @@ class Polygon extends CanvasBoxElement
         @objBox.lineWidth = "#{@borderWidth}px";
 
         arrPoints = @getRotatedPoints();
-        
-        objFirstPoint = php.array_shift( arrPoints );
-        @objBox.moveTo( objFirstPoint.x , objFirstPoint.y );
+        objFirstPoint = arrPoints[0];
 
         @objBox.beginPath();
 
-        for objPoint in arrPoints
-            @objBox.lineTo( objPoint.x , objPoint.y );
+        for objPoint , intKey in @arrPoints
+            objNextPoint = @arrPoints[ ( intKey + 1 ) % @arrPoints.length ]
+            objPrevious = @arrPoints[ ( intKey - 1 + @arrPoints.length ) % @arrPoints.length ]
 
-        @objBox.lineTo( objFirstPoint.x , objFirstPoint.y );
+            if( intKey == 0 )
+                @objBox.moveTo(
+                    (  objPoint.x ) , 
+                    (  objPoint.y ) );
+
+            if objPoint instanceof CanvasBoxPointer
+                @objBox.setStrokeStyle( objPoint.strokeStyle ) if objPoint.strokeStyle?;
+                @objBox.setLineWidth( objPoint.lineWidth ) if objPoint.lineWidth?;
+    
+            @objBox.lineTo(  objPoint.x ,  objPoint.y );
+
 
         @objBox.fill();
         @objBox.stroke();
+
+        if( @debug )
+            for objPoint , intKey in @arrPoints
+                objPrevious = @arrPoints[ ( intKey - 1 + @arrPoints.length ) % @arrPoints.length ]
+                if objPoint instanceof CanvasBoxPointer
+                    @objBox.setStrokeStyle( objPoint.strokeStyle ) if objPoint.strokeStyle?;
+                    @objBox.setLineWidth( objPoint.lineWidth ) if objPoint.lineWidth?;
+
+                    objBefore = @middle( objPrevious , objPoint );
+                    objAfter = @middle( objPoint , objNextPoint );
+                    @objBox.setStrokeStyle( "black" );
+                    @objBox.strokeText( intKey , objPoint.x , objPoint.y );
 
         @restoreContext();
         return this;
@@ -133,7 +159,7 @@ class Polygon extends CanvasBoxElement
     # @return boolean
     ## 
     isInsideElement:( mouseX , mouseY )->
-        objPoint = {x: mouseX , y: mouseY };
+        objPoint = New.CanvasBoxPointer({x: mouseX , y: mouseY });
         return @isInsidePolygon( objPoint );
 
     ##
@@ -145,8 +171,8 @@ class Polygon extends CanvasBoxElement
     # @return boolean
     ##
     isInsidePolygon:( objPoint )->
-        objPoint.x -= this.x;
-        objPoint.y -= this.y;
+        objPoint.x = this.x - objPoint.x;
+        objPoint.y = this.y - objPoint.y;
         arrRotatedPoints = @getRotatedPoints();
         intQtdPoints = arrRotatedPoints.length;
 
@@ -156,8 +182,8 @@ class Polygon extends CanvasBoxElement
         booInside = false;
 
         objLastPoint = arrRotatedPoints[ intQtdPoints - 1];
-        for objCurrentPoint in arrRotatedPoints
-            
+        for objCurrentPoint , intKey in arrRotatedPoints
+
             if( objCurrentPoint.x > objLastPoint.x )
                 objAPoint = objLastPoint; 
                 objBPoint = objCurrentPoint;
@@ -167,25 +193,42 @@ class Polygon extends CanvasBoxElement
             
             intCurrentDiffX = ( objCurrentPoint.x < objPoint.x );
             intLastDiffX    = ( objPoint.x <= objLastPoint.x );
-            intDiffCABAY = ( objPoint.y  - objAPoint.y ) * ( objBPoint.x - objAPoint.x ); 
-            intDiffBACAY = ( objBPoint.y - objAPoint.y ) * ( objPoint.x  - objAPoint.x ); 
+            intDiffCABAY = Math.round( ( objPoint.y  - objAPoint.y ) * ( objBPoint.x - objAPoint.x ) ); 
+            intDiffBACAY = Math.round( ( objBPoint.y - objAPoint.y ) * ( objPoint.x  - objAPoint.x ) ); 
 
             if (  ( intCurrentDiffX == intLastDiffX ) &&
                   ( intDiffCABAY ) < ( intDiffBACAY ) )
                 booInside = !booInside;
+
             objLastPoint = objCurrentPoint;
         return booInside;
 
 
-    ##
-    # Rotate some point relative to the polygon position
-    #
-    # @param Point Point
-    # @return Point
-    ##
     rotatePoint:( objPoint )->
-        intNewPositionX =  ( Math.cos( @dblRotate ) * objPoint.x - Math.sin( -@dblRotate ) * objPoint.y );
-        intNewPositionY = -( Math.cos( @dblRotate ) * objPoint.y - Math.sin(  @dblRotate ) * objPoint.x );
-        return { x: intNewPositionX , y: intNewPositionY }
+        intNewPositionX =  Math.round( Math.cos( @dblRotate ) * objPoint.x - Math.sin( -@dblRotate ) * objPoint.y );
+        intNewPositionY = -Math.round( Math.cos( @dblRotate ) * objPoint.y - Math.sin(  @dblRotate ) * objPoint.x );
+        return New.CanvasBoxPointer({ x: intNewPositionX , y: intNewPositionY });
 
-    
+
+    ##
+    # smooth the polygon creating new middle elements
+    ##
+    smooth:->
+        arrNewPoints = new Array();
+        for objPoint , intKey in @arrPoints
+            objNextPoint = @arrPoints[ ( intKey + 1 ) % @arrPoints.length ];  
+            objBeforePoint = @arrPoints[ ( intKey - 1 + @arrPoints.length  ) % @arrPoints.length ];  
+            objMiddlePointAB = @middle( objBeforePoint , objPoint );
+            objMiddlePointBC = @middle( objPoint , objNextPoint );
+            objShadowB = @middle( objMiddlePointAB , objMiddlePointBC );
+            objNewB = @middle( objShadowB , objPoint );
+            arrNewPoints.push( objNewB );
+            arrNewPoints.push( objMiddlePointBC );
+        @arrPoints = arrNewPoints;
+
+    middle:(objPoint1,objPoint2)->
+        objPointResult = New.CanvasBoxPointer({
+                x: (objPoint1.x + objPoint2.x )/2
+                y: (objPoint1.y + objPoint2.y )/2
+            });
+        return objPointResult

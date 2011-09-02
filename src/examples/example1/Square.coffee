@@ -17,6 +17,11 @@ class Square extends CanvasBoxElement
     colorRegular: "rgb(150,150,250)"
 
     ##
+    # Mouse Over Square Color
+    ##
+    colorOver: "yellow"
+
+    ##
     # Square Color on Drag Drop
     ##
     colorDrag: "rgb(100,100,250)"
@@ -85,6 +90,8 @@ class Square extends CanvasBoxElement
             Math.round( this.y - ( this.side / 2 ) ),
             Math.round( this.side ) , 
             Math.round( this.side ) );
+        @objBox.setStrokeStyle( "black" ); 
+        @objBox.strokeText( "Drag and Drop",@x - 30,@y);
         return this;    
 
     ##
@@ -93,6 +100,7 @@ class Square extends CanvasBoxElement
     onMouseOver:( event )->
         console.log( "square over" );
         @borderColor = @borderColorOver;
+        @color = @colorOver;
         return super( event );
 
     ##
@@ -100,6 +108,7 @@ class Square extends CanvasBoxElement
     ##
     onMouseOut:( event )->
         @borderColor = @borderColorRegular;
+        @color = @colorRegular;
         return super( event );
 
     ##
@@ -118,6 +127,7 @@ class Square extends CanvasBoxElement
 
     onClick:( event )->
         @side += 5 if @side < 200
+        @onMouseOver( event );
         return super( event );
 
     onDblClick:(event)->

@@ -24,6 +24,8 @@ class CanvasBoxBehavior
         return false;
 
     onMouseDown:( event )->
+        this.objBoxElement.relativeMousex = this.objBoxElement.x - this.objBoxElement.objBox.mouseX;
+        this.objBoxElement.relativeMousey = this.objBoxElement.y - this.objBoxElement.objBox.mouseY;
         return false;
 
     onClick:( event )->
@@ -34,8 +36,8 @@ class CanvasBoxBehavior
         this.objBoxElement.draw();
 
     onDrag:( event )->
-        this.objBoxElement.x = this.objBoxElement.objBox.mouseX;
-        this.objBoxElement.y = this.objBoxElement.objBox.mouseY;
+        this.objBoxElement.x = this.objBoxElement.objBox.mouseX + this.objBoxElement.relativeMousex;
+        this.objBoxElement.y = this.objBoxElement.objBox.mouseY + this.objBoxElement.relativeMousey;
         return false;
 
     onDrop:( event )->
