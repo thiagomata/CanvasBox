@@ -22,7 +22,7 @@ A simple example of canvas box with a square
             <h1> This is a simple demo of how to use canvas box </h1>
             <p>
                   Into this demo we will extends the canvas box polygon element creating
-                  this ugly arrow element. This element changes colors, border 
+                  this arrow element. This element changes colors, border 
                   with some classic events, like mouseover, onclick,
                   drag and drop, etc.
             </p>
@@ -37,26 +37,26 @@ A simple example of canvas box with a square
                     /* 
                      * add the square in the load map 
                      */
-                    New.prototype.addMap( "UglyArrow", "UglyArrow.coffee" );
+                    New.prototype.addMap( "Arrow", "Arrow.coffee" );
                     
                     /*
                      * create the canvas box 
                      */
                     var objBox = New.CanvasBox();
-                    objBox.backgroundColor = "blue";
+                    objBox.backgroundColor = "#EEEEFF";
                     objBox.initialize( "myCanvas" );
                     
                     /* 
                      * create the square element
                      */
-                    var objUglyArrow = New.UglyArrow();
-                    objUglyArrow.x = objBox.width / 2;
-                    objUglyArrow.y = objBox.height / 2;
+                    var objArrow = New.Arrow();
+                    objArrow.x = objBox.width / 2;
+                    objArrow.y = objBox.height / 2;
                     
                     /* 
                      * add the square into the box
                      */
-                    objBox.addElement( objUglyArrow );
+                    objBox.addElement( objArrow );
                     
                     /* 
                      * play the box

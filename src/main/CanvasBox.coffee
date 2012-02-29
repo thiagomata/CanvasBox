@@ -1,3 +1,4 @@
+Load.CanvasBoxException();
 class CanvasBox
 
     ###
@@ -315,7 +316,7 @@ class CanvasBox
             @onMouseDown( event );
         @objCanvasHtml.oncontextmenu = (event) =>
             @onContextMenu( event );
-        @objCanvasHtml.onKeyup = (event) =>    
+        @objCanvasHtml.onKeyUp = (event) =>    
             @onKeyup( event );
         @objCanvasHtml.onMouseOut = (event) =>    
             @onMouseOut( event );
@@ -426,8 +427,8 @@ class CanvasBox
         @booOnTimer = true;
 
         for objElement in @arrElements
-            objElement.onTimer();
-
+            if( php.is_object( objElement ) )
+                objElement.onTimer();
         @booOnTimer = false;
 
     ###
@@ -533,7 +534,7 @@ class CanvasBox
         objElementOver = null;
         @refreshMousePosition( event );
         for objElement in @arrElements
-            if( objElement.isInside( @mouseX , @mouseY ) )
+            if( php.is_object( objElement ) && objElement.isInside( @mouseX , @mouseY ) )
                 @change()
                 objElementOver = objElement;
                 break;
@@ -693,7 +694,7 @@ class CanvasBox
     ###
     onKeyUp:( event )->
         @change()
-        
+        console.log( ":D" );
         switch event.keyCode
             
             when 46 then ( # delete
@@ -737,10 +738,8 @@ class CanvasBox
     # @param CanvasBoxElement objElement
     # @param boolean booCallOnDelete
     ###
-    deleteElement:( objElement , booCallOnDelete )->
+    deleteElement:( objElement , booCallOnDelete = true )->
         @change()
-        if( Object.isUndefined( booCallOnDelete ) )
-            booCallOnDelete = true;
 
         if( booCallOnDelete )
             objElement.onDelete();

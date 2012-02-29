@@ -691,6 +691,7 @@ CanvasBox = (function() {
       # @param Event event
       */
   CanvasBox.prototype.onKeyUp = function(event) {
+    console.log( event.keyCode );
     this.change();
     switch (event.keyCode) {
       case 46:

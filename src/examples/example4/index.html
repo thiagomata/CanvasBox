@@ -54,6 +54,18 @@ A simple example of canvas box with a square
                     objBox.addElement( objSquare );
                     
                     /* 
+                     * create the square element
+                     */
+                    var objSquare = New.Square();
+                    objSquare.x = objBox.width - objSquare.side;
+                    objSquare.y = objBox.height - objSquare.side;
+                    
+                    /* 
+                     * add the square into the box
+                     */
+                    objBox.addElement( objSquare );
+                    
+                    /* 
                      * play the box
                      */
                     objBox.play();

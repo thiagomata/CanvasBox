@@ -4,7 +4,7 @@
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 ##
 Load.CanvasBoxPolygon();
-class UglyArrow extends CanvasBoxPolygon
+class Arrow extends CanvasBoxPolygon
 
     ##
     # X position
@@ -150,7 +150,10 @@ class UglyArrow extends CanvasBoxPolygon
     ##
     onClick:( event )->
         @dblRotateSpeed *= -1;
-        @smooth();
+        if( @arrPoints.length < 100 )
+            @smooth();
+        else
+            @createPolygon();
         @onMouseOver( event );
         return super( event );
 

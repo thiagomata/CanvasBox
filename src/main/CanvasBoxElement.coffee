@@ -342,8 +342,9 @@ class CanvasBoxElement
     # @return CanvasBoxConnector[]
     ##
     getConnectors:->
+        arrConnection = [];
         for objElement in @objBox.arrElements
-            if      is_object( objElement ) and
+            if      php.is_object( objElement ) and
                     (   objElement.objElementFrom == this or 
                         objElement.objElementTo == this )
                 arrConnection.push( objElement );
@@ -489,3 +490,7 @@ class CanvasBoxElement
             objButton.objPreviousButton = objLast;
         @arrButtons.push( objButton );
         return this;
+        
+    killMe:()->
+        console.log("kill me");
+        @objBox.deleteElement( this );

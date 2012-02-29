@@ -215,6 +215,10 @@ class CanvasBoxMenu
         
         return booReturn;
 
+    onDraw:( event = null )->
+        @draw();
+        return true;
+	
     createChildMenu:( objMenuItem , arrMenuItens )->
         objChildMenu = new autoload.newCanvasBoxMenu();
         objChildMenu.objBox = @objBox;
