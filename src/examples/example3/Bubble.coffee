@@ -57,6 +57,11 @@ class Bubble extends CanvasBoxElement
     ##
     strClassName: "Bubble"
 
+    ##
+    # Object Collision
+    ##
+    objCollision: null
+    
     init:->
         super();
         @color = @colorRegular
@@ -120,7 +125,9 @@ class Bubble extends CanvasBoxElement
     # On Timer Event
     ##
     onTimer:(event)->
-        @y-= 2;
+        if( @borderColor == @borderColorOver )
+            return false 
+        @y-=2;
         @side++;
         @objBox.change();
         if( @x < ( -1 * @side ) )
@@ -129,7 +136,44 @@ class Bubble extends CanvasBoxElement
         if( @y < ( -1 * @side ) )
             @killMe();
             return false;
+        if( @inCollision() )
+            if( @y >= @objCollision.y )
+                @side--;
+                @y+=2;
+            else
+                @side--;
+            return false;
         return super( event );
 
     isInsideElement:( mouseX , mouseY )->
        return false;
+       
+    ##
+    # Returns if the Mouse is Over the Element
+    #
+    # @param mouseX integer horizontal position of cursor pointer
+    # @param mouseY integer vertical position of the cursor pointer
+    # @return boolean
+    ## 
+    isInsideElement:( mouseX , mouseY )->
+        return  ( mouseX >= ( this.x - @side / 2 ) ) &&
+                ( mouseX <= ( this.x + @side / 2 ) ) &&
+                ( mouseY >= ( this.y - @side / 2 ) ) &&
+                ( mouseY <= ( this.y + @side / 2 ) );
+
+    inCollision:()->
+        for objElement in @objBox.arrElements
+            if( objElement.getId() != this.getId() )
+                dblDiffX = ( objElement.x - this.x );
+                dblDiffY = ( objElement.y - this.y );
+                dblSumSide = objElement.side + this.side;
+                dblSquaredX = dblDiffX * dblDiffX;  
+                dblSquaredY = dblDiffY * dblDiffY;  
+                dblDistance = Math.sqrt( dblSquaredX + dblSquaredY );
+                if( 
+                    dblDistance <= dblSumSide
+                  )
+                      @objCollision = objElement;
+                      return true;
+        return false;
+       
