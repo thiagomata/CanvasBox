@@ -17,6 +17,19 @@
         $('#main_content').headsmart()
       })
     </script>
+    <script>
+        /* 
+            * show how to go from here to the main folder
+            */
+        window.MAIN_PATH = "./src/main/";
+    </script>
+    <script src="./src/coffee/coffee-script.js"></script> 
+    <script src="./src/php/php.basic.js"></script> 
+    <script src="./src/php/php.caller.js"></script> 
+    <script src="./src/main/Browser.js"></script> 
+    <script src="./src/main/New.js"></script> 
+    
+    
     <title>Canvasbox by thiagomata</title>
   </head>
 
@@ -67,6 +80,43 @@ But, as this javascript project grow up, we decided to make this javascript libr
 
 <p>There is not a lot documentation yet, but we are working on it.
 For now, Take a look in the code and into the examples and you will see how this project it is very easy to understand and very cool to use it.</p>
+
+<h2>Examples</h2>
+
+            <p>
+                <canvas id="myCanvas"></canvas>
+                <script>
+                $(document).ready( function(){
+                    /* 
+                     * add the square in the load map 
+                     */
+                    New.prototype.addMap( "Bubble", "./src/examples/example3/Bubble.coffee" );
+                    
+                    /*
+                     * create the canvas box 
+                     */
+                    var objBox = New.CanvasBox();
+                    objBox.backgroundColor = "#DDDDFF";
+                    objBox.initialize( "myCanvas" , 510 );
+                    
+                    objBox.getPosition();
+                    objBox.onClick = function onClick( event )
+                    {
+                        console.log( this.y + " " + this.mouseY );
+                    	var objBubble = New.Bubble();
+                    	objBubble.x = this.mouseX;
+                    	objBubble.y = this.mouseY;
+                    	this.addElement( objBubble );                    	
+                    	return CanvasBox.prototype.onClick.bind( this )( event );
+                    };
+                    
+                    /* 
+                     * play the box
+                     */
+                    objBox.play();
+                })                    
+                </script>                
+            </p>
 
 <h2>Authors and Contributors</h2>
 
