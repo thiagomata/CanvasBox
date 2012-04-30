@@ -1,0 +1,62 @@
+<html>
+<!--
+A simple example of canvas box with a square
+-->
+    <head>
+        <title>A simple example of canvas box with a square</title>
+        <script>
+            /* 
+             * show how to go from here to the main folder
+             */
+            window.MAIN_PATH = "../../main/";
+        </script>
+        <script src="../../coffee/jquery-1.4.2.js"></script> 
+        <script src="../../coffee/coffee-script.js"></script> 
+        <script src="../../php/php.basic.js"></script> 
+        <script src="../../php/php.caller.js"></script> 
+        <script src="../../main/Browser.js"></script> 
+        <script src="../../main/New.js"></script> 
+    </head>
+    <body>
+        <div>
+            <h1> This is a simple demo of how to use canvas box </h1>
+            <p>
+                  This example focus into how to create, change and destroy many
+                  objects without big coding work. It shows too, how to manipulate
+                  the canvas box to override native events. 
+            </p>
+            <p>
+                <canvas id="myCanvas"></canvas>
+                <script>
+                    /* 
+                     * add the square in the load map 
+                     */
+                    New.prototype.addMap( "Bubble", "Bubble.coffee" );
+                    
+                    /*
+                     * create the canvas box 
+                     */
+                    var objBox = New.CanvasBox();
+                    objBox.backgroundColor = "#222288";
+                    objBox.initialize( "myCanvas" );
+                    
+                    
+                    objBox.onClick = function onClick( event )
+                    {
+                    	var objBubble = New.Bubble();
+                    	objBubble.x = this.mouseX;
+                    	objBubble.y = this.mouseY;
+                    	this.addElement( objBubble );                    	
+                    	return CanvasBox.prototype.onClick.bind( this )( event );
+                    };
+                    
+                    /* 
+                     * play the box
+                     */
+                    objBox.play();
+                </script>
+            </p>
+        </div>
+        <div id="log"></div>
+    </body>
+</html>
