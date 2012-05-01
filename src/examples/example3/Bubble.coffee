@@ -19,7 +19,7 @@ class Bubble extends CanvasBoxElement
     ##
     # Size of each side of square
     ##
-    side: 20
+    side: 1
     
     ##
     # Regular Square Color

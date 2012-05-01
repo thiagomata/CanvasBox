@@ -69,7 +69,7 @@
 
 <h3>CoffeeScript</h3>
 
-<p>After many nights trying to lose object orientation in JavaScript to function properly, we decided to use CoffeeScript and focus our efforts on the development of our solution.</p>
+<p>After many nights losed trying make object orientation in JavaScript to work properly, we decided to use CoffeeScript and focus our efforts on the development of our solution.</p>
 
 <h2>History</h2>
 
@@ -102,7 +102,6 @@ For now, Take a look in the code and into the examples and you will see how this
                     objBox.getPosition();
                     objBox.onClick = function onClick( event )
                     {
-                        console.log( this.y + " " + this.mouseY );
                     	var objBubble = New.Bubble();
                     	objBubble.x = this.mouseX;
                     	objBubble.y = this.mouseY;
@@ -110,10 +109,23 @@ For now, Take a look in the code and into the examples and you will see how this
                     	return CanvasBox.prototype.onClick.bind( this )( event );
                     };
                     
+                    window.loopTimer = function loopTimer()
+                    {
+                        if (Math.floor( Math.random() * 10 ) == 1 )
+                        {
+                            var objBubble = New.Bubble();
+                            objBubble.x = Math.floor( Math.random() * objBox.width );
+                            objBubble.y = objBox.height - Math.floor( Math.random() * objBox.height / 8 );
+                            objBox.addElement( objBubble );                    	
+                        }
+                    }
+                    
                     /* 
                      * play the box
                      */
                     objBox.play();
+                    
+                    setInterval( 'window.loopTimer()' , 100 );
                 })                    
                 </script>                
             </p>
