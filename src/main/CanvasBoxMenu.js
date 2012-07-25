@@ -1,27 +1,51 @@
 var CanvasBoxMenu;
+
 CanvasBoxMenu = (function() {
+
   function CanvasBoxMenu() {}
+
   CanvasBoxMenu.prototype.strClassName = "CanvasBoxMenu";
+
   CanvasBoxMenu.prototype.menuBorderColor = "rgb( 100 , 100 , 200 )";
+
   CanvasBoxMenu.prototype.menuBorderWidth = 1;
+
   CanvasBoxMenu.prototype.menuFillColor = "rgba( 230, 230, 240 , 0.7 )";
+
   CanvasBoxMenu.prototype.menuItemBorderColor = "rgb( 100 , 100 , 200 )";
+
   CanvasBoxMenu.prototype.menuItemBorderWidth = 1;
+
   CanvasBoxMenu.prototype.menuItemFillColor = "rgba( 230, 230, 240 , 0.7 )";
+
   CanvasBoxMenu.prototype.menuItemTextColor = "blue";
+
   CanvasBoxMenu.prototype.menuSelectedItemFillColor = "rgba( 230, 230, 140 , 0.7 )";
+
   CanvasBoxMenu.prototype.intMenuX = 0;
+
   CanvasBoxMenu.prototype.intMenuY = 0;
+
   CanvasBoxMenu.prototype.intMenuItemXBorder = 3;
+
   CanvasBoxMenu.prototype.intMenuItemHeight = 20;
+
   CanvasBoxMenu.prototype.intMenuWidth = 110;
+
   CanvasBoxMenu.prototype.arrMenuItens = Array();
+
   CanvasBoxMenu.prototype.strCurrentMenuItem = null;
+
   CanvasBoxMenu.prototype.mouseX = 0;
+
   CanvasBoxMenu.prototype.mouseY = 0;
+
   CanvasBoxMenu.prototype.objBox = null;
+
   CanvasBoxMenu.prototype.objParent = null;
+
   CanvasBoxMenu.prototype.objOpenChildMenu = null;
+
   CanvasBoxMenu.prototype.draw = function() {
     var arrMenuKeys, i, intMenuItemX, intMenuItemY, strMenuKey, _len, _ref;
     this.strCurrentMenuItem = null;
@@ -58,6 +82,7 @@ CanvasBoxMenu = (function() {
       return this.objOpenChildMenu.draw();
     }
   };
+
   CanvasBoxMenu.prototype.onClick = function(event) {
     var booReturn, funcEvent;
     booReturn = false;
@@ -79,6 +104,13 @@ CanvasBoxMenu = (function() {
     }
     return booReturn;
   };
+
+  CanvasBoxMenu.prototype.onDraw = function(event) {
+    if (event == null) event = null;
+    this.draw();
+    return true;
+  };
+
   CanvasBoxMenu.prototype.createChildMenu = function(objMenuItem, arrMenuItens) {
     var objChildMenu;
     objChildMenu = new autoload.newCanvasBoxMenu();
@@ -93,5 +125,7 @@ CanvasBoxMenu = (function() {
     this.objOpenChildMenu = objChildMenu;
     return true;
   };
+
   return CanvasBoxMenu;
+
 })();

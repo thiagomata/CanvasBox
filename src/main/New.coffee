@@ -1,6 +1,3 @@
-if not window.MAIN_PATH?
-    window.MAIN_PATH = "";
-
 ##
 # Allow to load some necessary class without instance it
 #
@@ -15,17 +12,30 @@ class Load
 ##
 class New
 
+arrScripts = document.head.getElementsByTagName( "script" );
+
+for key , objScript of arrScripts
+  if( objScript.src.indexOf( "New.js" ) > 0 )
+      window.MAIN_PATH = objScript.src.replace( "New.js" , "" );
+      break;
+
 New::arrMap =
- CanvasBox:             "#{window.MAIN_PATH}CanvasBox.coffee"
- CanvasBoxButton:       "#{window.MAIN_PATH}CanvasBoxButton.coffee"
- CanvasBoxElement:      "#{window.MAIN_PATH}CanvasBoxElement.coffee"
- CanvasBoxConnector:    "#{window.MAIN_PATH}CanvasBoxConnector.coffee"
- CanvasBoxMenu:         "#{window.MAIN_PATH}CanvasBoxMenu.coffee" 
- CanvasBoxBehavior:     "#{window.MAIN_PATH}CanvasBoxBehavior.coffee" 
- CanvasBoxPolygon:      "#{window.MAIN_PATH}CanvasBoxPolygon.coffee" 
- CanvasBoxPointer:      "#{window.MAIN_PATH}CanvasBoxPointer.coffee" 
- CanvasBoxException:    "#{window.MAIN_PATH}CanvasBoxException.coffee" 
-    
+ CanvasBox:              "#{window.MAIN_PATH}CanvasBox.coffee"
+ CanvasBoxBehavior:      "#{window.MAIN_PATH}CanvasBoxBehavior.coffee" 
+ CanvasBoxButton:        "#{window.MAIN_PATH}CanvasBoxButton.coffee"
+ CanvasBoxConnector:     "#{window.MAIN_PATH}CanvasBoxConnector.coffee"
+ CanvasBoxElement:       "#{window.MAIN_PATH}CanvasBoxElement.coffee"
+ CanvasBoxException:     "#{window.MAIN_PATH}CanvasBoxException.coffee" 
+ CanvasBoxLine:          "#{window.MAIN_PATH}CanvasBoxLine.coffee" 
+ CanvasBoxMenu:          "#{window.MAIN_PATH}CanvasBoxMenu.coffee" 
+ CanvasBoxPointer:       "#{window.MAIN_PATH}CanvasBoxPointer.coffee" 
+ CanvasBoxPolygon:       "#{window.MAIN_PATH}CanvasBoxPolygon.coffee" 
+ CanvasBoxExportButton:  "#{window.MAIN_PATH}button\CanvasBoxExportButton.coffee" 
+ CanvasBoxFixedButton:   "#{window.MAIN_PATH}button\CanvasBoxFixedButton.coffee" 
+ CanvasBoxSaveButton:    "#{window.MAIN_PATH}button\CanvasBoxSaveButton.coffee" 
+ CanvasBoxZoomInButton:  "#{window.MAIN_PATH}button\CanvasBoxZoomIntButton.coffee" 
+ CanvasBoxZoomOutButton: "#{window.MAIN_PATH}button\CanvasBoxZoomOutButton.coffee" 
+
 New::arrClasses = Array();
 
 New::loadClass = ( strClass )->
@@ -51,7 +61,7 @@ New::addMap = ( strClass , link = null )->
     New[strClass] = new Function ( "return New.prototype.Instance({ name: '#{strClass}', data: arguments });" )
     Load[strClass] = new Function ( "return Load.prototype.Instance({ name: '#{strClass}', data: arguments });" )
 
-New::start=->
+New::start=->         
     for element , path of New::arrMap
         New::addMap(element)
 

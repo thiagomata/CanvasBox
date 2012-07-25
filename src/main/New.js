@@ -1,27 +1,51 @@
-var Load, New;
-if (!(window.MAIN_PATH != null)) {
-  window.MAIN_PATH = "";
-}
+var Load, New, arrScripts, key, objScript;
+
 Load = (function() {
+
   function Load() {}
+
   return Load;
+
 })();
+
 New = (function() {
+
   function New() {}
+
   return New;
+
 })();
+
+arrScripts = document.head.getElementsByTagName("script");
+
+for (key in arrScripts) {
+  objScript = arrScripts[key];
+  if (objScript.src.indexOf("New.js") > 0) {
+    window.MAIN_PATH = objScript.src.replace("New.js", "");
+    break;
+  }
+}
+
 New.prototype.arrMap = {
   CanvasBox: "" + window.MAIN_PATH + "CanvasBox.coffee",
-  CanvasBoxButton: "" + window.MAIN_PATH + "CanvasBoxButton.coffee",
-  CanvasBoxElement: "" + window.MAIN_PATH + "CanvasBoxElement.coffee",
-  CanvasBoxConnector: "" + window.MAIN_PATH + "CanvasBoxConnector.coffee",
-  CanvasBoxMenu: "" + window.MAIN_PATH + "CanvasBoxMenu.coffee",
   CanvasBoxBehavior: "" + window.MAIN_PATH + "CanvasBoxBehavior.coffee",
-  CanvasBoxPolygon: "" + window.MAIN_PATH + "CanvasBoxPolygon.coffee",
+  CanvasBoxButton: "" + window.MAIN_PATH + "CanvasBoxButton.coffee",
+  CanvasBoxConnector: "" + window.MAIN_PATH + "CanvasBoxConnector.coffee",
+  CanvasBoxElement: "" + window.MAIN_PATH + "CanvasBoxElement.coffee",
+  CanvasBoxException: "" + window.MAIN_PATH + "CanvasBoxException.coffee",
+  CanvasBoxLine: "" + window.MAIN_PATH + "CanvasBoxLine.coffee",
+  CanvasBoxMenu: "" + window.MAIN_PATH + "CanvasBoxMenu.coffee",
   CanvasBoxPointer: "" + window.MAIN_PATH + "CanvasBoxPointer.coffee",
-  CanvasBoxException: "" + window.MAIN_PATH + "CanvasBoxException.coffee"
+  CanvasBoxPolygon: "" + window.MAIN_PATH + "CanvasBoxPolygon.coffee",
+  CanvasBoxExportButton: "" + window.MAIN_PATH + "button\CanvasBoxExportButton.coffee",
+  CanvasBoxFixedButton: "" + window.MAIN_PATH + "button\CanvasBoxFixedButton.coffee",
+  CanvasBoxSaveButton: "" + window.MAIN_PATH + "button\CanvasBoxSaveButton.coffee",
+  CanvasBoxZoomInButton: "" + window.MAIN_PATH + "button\CanvasBoxZoomIntButton.coffee",
+  CanvasBoxZoomOutButton: "" + window.MAIN_PATH + "button\CanvasBoxZoomOutButton.coffee"
 };
+
 New.prototype.arrClasses = Array();
+
 New.prototype.loadClass = function(strClass) {
   var strContent;
   if (php.in_array(strClass, New.prototype.arrClasses)) {
@@ -35,6 +59,7 @@ New.prototype.loadClass = function(strClass) {
   CoffeeScript.run(strContent);
   return true;
 };
+
 New.prototype.construct = function(klass, args) {
   var ObjectPointer;
   ObjectPointer = function() {
@@ -43,6 +68,7 @@ New.prototype.construct = function(klass, args) {
   ObjectPointer.prototype = klass.prototype;
   return new ObjectPointer(args);
 };
+
 New.prototype.addMap = function(strClass, link) {
   if (link == null) {
     link = null;
@@ -53,6 +79,7 @@ New.prototype.addMap = function(strClass, link) {
   New[strClass] = new Function("return New.prototype.Instance({ name: '" + strClass + "', data: arguments });");
   return Load[strClass] = new Function("return Load.prototype.Instance({ name: '" + strClass + "', data: arguments });");
 };
+
 New.prototype.start = function() {
   var element, path, _ref, _results;
   _ref = New.prototype.arrMap;
@@ -63,13 +90,16 @@ New.prototype.start = function() {
   }
   return _results;
 };
+
 New.prototype.Instance = function(arrDataLoad) {
   New.prototype.loadClass(arrDataLoad.name);
   return New.prototype.construct(window[arrDataLoad.name], arrDataLoad.data);
 };
+
 Load.prototype.Instance = function(arrDataLoad) {
   New.prototype.loadClass(arrDataLoad.name);
   Load[arrDataLoad.name] = window[arrDataLoad.name];
   return window[arrDataLoad.name];
 };
+
 New.prototype.start();

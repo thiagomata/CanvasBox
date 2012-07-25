@@ -6,7 +6,8 @@
 # 
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 ###
-class CanvasBoxConnector.prototype
+class CanvasBoxConnector
+
     ###
     # Canvas Box owner of this object
     # @type CanvasBox
@@ -74,11 +75,11 @@ class CanvasBoxConnector.prototype
     ###
     strClassName: "CanvasBoxConnector",
     
-        ###
-        # Flag that make easy diff the connectors from the regular elements
-        # without type cast ( slow in javascript )
-        # @type boolean
-        ###
+    ###
+    # Flag that make easy diff the connectors from the regular elements
+    # without type cast ( slow in javascript )
+    # @type boolean
+    ###
     isConnector: true,
 
     ###
@@ -109,12 +110,11 @@ class CanvasBoxConnector.prototype
     # @return Object
     ###
     toSerialize:->
-    {
-        objResult = 
-            x: = @x;
-            y: = @y;
-            dx: = @dx;
-            dy: = @dy;
+        objResult =
+            x: @x
+            y: @y
+            dx: @dx
+            dy: @dy
         objResult.objElementFrom = this.objBox.arrElements.indexOf( this.objElementFrom );
         objResult.objElementTo = this.objBox.arrElements.indexOf( this.objElementTo );
         objResult.strClassName = this.strClassName;
@@ -184,9 +184,7 @@ class CanvasBoxConnector.prototype
     # @return boolean
     ###
     onMouseOut:( event )->
-    {
         return this.objBehavior.onMouseOut( event );
-    },
 
     ###
     # On Connector Mouse Down Event
@@ -195,9 +193,7 @@ class CanvasBoxConnector.prototype
     # @return boolean
     ###
     onMouseDown:( event )->
-    {
         return this.objBehavior.onMouseDown( event );
-    },
 
     ###
     # On Connector Mouse Click Event
@@ -291,10 +287,10 @@ class CanvasBoxConnector.prototype
         objConnector.objBehavior = New[ this.objBehavior.strClassName ]( objConnector );
         objConnector.x =  this.x;
         objConnector.y =  this.y;
-        objConnector.side = this.defaultSide ? this.defaultSide : this.side;
-        objConnector.color = this.defaultColor ? this.defaultColor : this.color;
-        objConnector.borderColor = this.defaultBorderColor ? this.defaultBorderColor : this.borderColor;
-        objConnector.borderWidth = this.defaultBorderWidth ? this.defaultBorderWidth : this.borderWidth;
+        objConnector.side = if this.defaultSide then this.defaultSide else this.side;
+        objConnector.color = if this.defaultColor then this.defaultColor else this.color;
+        objConnector.borderColor = if this.defaultBorderColor then this.defaultBorderColor else this.borderColor;
+        objConnector.borderWidth = if this.defaultBorderWidth then this.defaultBorderWidth else this.borderWidth;
         this.objBox.addElement( objConnector );
         if( not booReverse )
             objConnector.objElementFrom = this;

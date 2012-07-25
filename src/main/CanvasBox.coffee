@@ -521,6 +521,8 @@ class CanvasBox
     ###
     refreshMousePosition:( event = null )->    
         if( event? )
+            # @mouseX = ( event.clientX - @x + CanvasBox::scrollLeft() ) / @dblZoom;
+            # @mouseY = ( event.clientY - @y + CanvasBox::scrollTop()  ) / @dblZoom;
             @mouseX = ( event.clientX - @x + CanvasBox::scrollLeft() ) / @dblZoom;
             @mouseY = ( event.clientY - @y + CanvasBox::scrollTop()  ) / @dblZoom;
 
@@ -993,8 +995,8 @@ CanvasBox::clientHeight = ->
 CanvasBox::scrollLeft = ->
     return CanvasBox::filterResults(
         window.pageXOffset ?= 0,
-        document.documentElement ?= 0,
-        document.body ?= 0
+        document.documentElement.scrollWidth ?= 0,
+        document.body.scrollWidth ?= 0
     );
 
 
@@ -1006,8 +1008,8 @@ CanvasBox::scrollLeft = ->
 CanvasBox::scrollTop = ->
     return CanvasBox::filterResults(
         window.pageYOffset ?= 0,
-        document.documentElement ?= 0,
-        document.body ?= 0
+        document.documentElement.scrollHeight ?= 0,
+        document.body.scrollHeight ?= 0
     );
 
 ###
@@ -1015,6 +1017,8 @@ CanvasBox::scrollTop = ->
 # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
 ###
 CanvasBox::filterResults = (intWin, intDocel, intBody) ->
+    # the workaround stop to work.. around :P
+    return intWin;
     intresult = intWin ?= 0;
     if (intDocel && (!intresult || (intresult > intDocel))) 
         intresult = intDocel;
