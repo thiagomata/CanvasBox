@@ -7,6 +7,16 @@ class CanvasBoxLine extends CanvasBoxConnector
   side: 3
 
   ##
+  # The X Position of the Draggable Element
+  ##
+  x: 0
+
+  ##
+  # The Y Position of the Draggable Element
+  ##
+  y: 0
+
+  ##
   # The X Position of the Dot in the Start
   ##
   x0: 0
@@ -119,7 +129,7 @@ class CanvasBoxLine extends CanvasBoxConnector
   # Create the Connector in the From side of the line
   ##
   createConnectorFrom:()->
-    objVector = getVectorFromElement( @objElementFrom );
+    objVector = @getVectorFromElement( @objElementFrom );
     @drawConnectorFrom( objVector.pointer , @side );
     @objBox.restoreContext();
         
@@ -127,7 +137,7 @@ class CanvasBoxLine extends CanvasBoxConnector
   # Create the Connector in the To side of the line
   ##
   createConnectorTo:()->
-    objVector = getVectorFromElement( @objElementTo );
+    objVector = @getVectorFromElement( @objElementTo );
     @drawConnectorTo( objVector.pointer , @side );
     @objBox.restoreContext();
 
@@ -172,7 +182,13 @@ class CanvasBoxLine extends CanvasBoxConnector
     @objBox.moveTo( intXfrom , intYfrom );
     @objBox.lineTo( intXto , intYto );
     
-  draw:()->
+  draw:()->    
+    if( @objElementFrom == null )
+      throw new CanvasBoxException( "Canvas Box Line has no Element From" );
+      
+    if( @objElementTo == null )
+      throw new CanvasBoxException( "Canvas Box Line has no Element To" );
+      
     @refresh();
     @objBox.saveContext();
 
@@ -255,3 +271,6 @@ class CanvasBoxLine extends CanvasBoxConnector
 
   drawMouseOut:( event )->
     @side = @defaultSide
+    
+  onDraw:()->
+    @draw();

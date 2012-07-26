@@ -4,12 +4,6 @@ A simple example of canvas box with a square
 -->
     <head>
         <title>A simple example of canvas box with a square</title>
-        <script>
-            /* 
-             * show how to go from here to the main folder
-             */
-            window.MAIN_PATH = "../../main/";
-        </script>
         <script src="../../coffee/jquery-1.4.2.js"></script> 
         <script src="../../coffee/coffee-script.js"></script> 
         <script src="../../php/php.basic.js"></script> 
@@ -26,23 +20,58 @@ A simple example of canvas box with a square
                   the canvas box to override native events. 
             </p>
             <p>
+                <br/> Testing if the scroll will not be a problem...
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/> Scroll down.. Scroll down...
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/> Keep Walking...
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 <canvas id="myCanvas"></canvas>
                 <script>
                     /* 
                      * add the square in the load map 
                      */
-                    New.prototype.addMap( "Bubble", "Bubble.coffee" );
+                    New.prototype.addMap( "Bubble", "Bubble" );
                     
                     /*
                      * create the canvas box 
                      */
-                    var objBox = New.CanvasBox();
+                    var objBox = New.CanvasBoxStateDiagram( "myCanvas" );
                     objBox.backgroundColor = "#222288";
-                    objBox.initialize( "myCanvas" );
                     
-                    
+                    objBox.getPosition();
                     objBox.onClick = function onClick( event )
                     {
+                        console.log( this.y + " " + this.mouseY );
                     	var objBubble = New.Bubble();
                     	objBubble.x = this.mouseX;
                     	objBubble.y = this.mouseY;

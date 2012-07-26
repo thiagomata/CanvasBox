@@ -278,7 +278,7 @@ class CanvasBox
     # 
     # @return CanvasBox
     ###
-    initialize: ( idCanvasHtmlElement , intWidth = 400 , intHeight = 400)->
+    constructor: ( idCanvasHtmlElement , intWidth = 400 , intHeight = 400)->
         @defaultWidth = intWidth;
         @defaultHeight = intHeight;
         @width = @defaultWidth / @dblZoom;
@@ -858,7 +858,7 @@ class CanvasBox
         @getContext().shadowColor = strColor;
 
     setFont:( strFontDescription )->
-        arrFontData = explode( " " , strFontDescription );
+        arrFontData = php.explode( " " , strFontDescription );
         strSize = arrFontData[0];
         strSizeNumber = strSize.substr( 0 , strSize.length - 2 );
         strSizeType = strSize.substr( strSize.length - 2 );
@@ -866,7 +866,7 @@ class CanvasBox
         dblSizeNumber = dblSizeNumber * @dblZoom;
         strNewSizeNumber = dblSizeNumber + strSizeType;
         arrFontData[0] = strNewSizeNumber;
-        strFontDescription = implode( " " , arrFontData );
+        strFontDescription = php.implode( " " , arrFontData );
         @getContext().font = strFontDescription;
 
     translate:( dblDegree , intDistance )->
@@ -923,7 +923,7 @@ class CanvasBox
         @draw();
 
         strDataURI = @objCanvasHtml.toDataURL( "image/png" );
-        strDefaultFolder = window.autoload.getPathOfDefault();
+        strDefaultFolder = window.MAIN_PATH;
         objNewForm.setAttribute( "action" , strDefaultFolder + "/download.php" );
         objNewForm.setAttribute( "method" , "post" );
         objNewForm.setAttribute( "target" , "saveWindow" );

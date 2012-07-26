@@ -27,37 +27,53 @@ for (key in arrScripts) {
 }
 
 New.prototype.arrMap = {
-  CanvasBox: "" + window.MAIN_PATH + "CanvasBox.coffee",
-  CanvasBoxBehavior: "" + window.MAIN_PATH + "CanvasBoxBehavior.coffee",
-  CanvasBoxButton: "" + window.MAIN_PATH + "CanvasBoxButton.coffee",
-  CanvasBoxConnector: "" + window.MAIN_PATH + "CanvasBoxConnector.coffee",
-  CanvasBoxElement: "" + window.MAIN_PATH + "CanvasBoxElement.coffee",
-  CanvasBoxException: "" + window.MAIN_PATH + "CanvasBoxException.coffee",
-  CanvasBoxLine: "" + window.MAIN_PATH + "CanvasBoxLine.coffee",
-  CanvasBoxMenu: "" + window.MAIN_PATH + "CanvasBoxMenu.coffee",
-  CanvasBoxPointer: "" + window.MAIN_PATH + "CanvasBoxPointer.coffee",
-  CanvasBoxPolygon: "" + window.MAIN_PATH + "CanvasBoxPolygon.coffee",
-  CanvasBoxExportButton: "" + window.MAIN_PATH + "button\CanvasBoxExportButton.coffee",
-  CanvasBoxFixedButton: "" + window.MAIN_PATH + "button\CanvasBoxFixedButton.coffee",
-  CanvasBoxSaveButton: "" + window.MAIN_PATH + "button\CanvasBoxSaveButton.coffee",
-  CanvasBoxZoomInButton: "" + window.MAIN_PATH + "button\CanvasBoxZoomIntButton.coffee",
-  CanvasBoxZoomOutButton: "" + window.MAIN_PATH + "button\CanvasBoxZoomOutButton.coffee"
+  CanvasBox: "" + window.MAIN_PATH + "CanvasBox",
+  CanvasBoxBehavior: "" + window.MAIN_PATH + "CanvasBoxBehavior",
+  CanvasBoxButton: "" + window.MAIN_PATH + "CanvasBoxButton",
+  CanvasBoxConnector: "" + window.MAIN_PATH + "CanvasBoxConnector",
+  CanvasBoxElement: "" + window.MAIN_PATH + "CanvasBoxElement",
+  CanvasBoxException: "" + window.MAIN_PATH + "CanvasBoxException",
+  CanvasBoxLine: "" + window.MAIN_PATH + "CanvasBoxLine",
+  CanvasBoxMenu: "" + window.MAIN_PATH + "CanvasBoxMenu",
+  CanvasBoxPointer: "" + window.MAIN_PATH + "CanvasBoxPointer",
+  CanvasBoxPolygon: "" + window.MAIN_PATH + "CanvasBoxPolygon",
+  CanvasBoxConnectorBehavior: "" + window.MAIN_PATH + "CanvasBoxConnectorBehavior",
+  CanvasBoxExportButton: "" + window.MAIN_PATH + "button/CanvasBoxExportButton",
+  CanvasBoxFixedButton: "" + window.MAIN_PATH + "button/CanvasBoxFixedButton",
+  CanvasBoxSaveButton: "" + window.MAIN_PATH + "button/CanvasBoxSaveButton",
+  CanvasBoxZoomInButton: "" + window.MAIN_PATH + "button/CanvasBoxZoomIntButton",
+  CanvasBoxZoomOutButton: "" + window.MAIN_PATH + "button/CanvasBoxZoomOutButton",
+  CanvasBoxState: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxState",
+  CanvasBoxStateDiagram: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateDiagram",
+  CanvasBoxStateLink: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateLink"
 };
 
 New.prototype.arrClasses = Array();
 
 New.prototype.loadClass = function(strClass) {
   var strContent;
-  if (php.in_array(strClass, New.prototype.arrClasses)) {
-    return false;
+  try {
+    if (php.in_array(strClass, New.prototype.arrClasses)) {
+      return false;
+    }
+    if (!(New.prototype.arrMap[strClass] != null)) {
+      throw new CanvasBoxException("Unabled to map the class " + strClass);
+    }
+    console.log("loading... " + strClass);
+    if (php.file_exists(New.prototype.arrMap[strClass] + ".js")) {
+      console.log(New.prototype.arrMap[strClass] + ".js");
+      php.require_once(New.prototype.arrMap[strClass] + ".js");
+    } else {
+      strContent = php.file_get_contents(New.prototype.arrMap[strClass] + ".coffee");
+      CoffeeScript.run(strContent);
+    }
+    New.prototype.arrClasses.push(strClass);
+    return true;
+  } catch (objError) {
+    console.log("Error on load " + strClass);
+    console.log(objError);
+    throw objError;
   }
-  if (!(New.prototype.arrMap[strClass] != null)) {
-    throw new CanvasBoxException("Unabled to map the class " + strClass);
-  }
-  strContent = php.file_get_contents(New.prototype.arrMap[strClass]);
-  New.prototype.arrClasses.push(strClass);
-  CoffeeScript.run(strContent);
-  return true;
 };
 
 New.prototype.construct = function(klass, args) {

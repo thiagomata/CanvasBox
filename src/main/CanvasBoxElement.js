@@ -5,12 +5,14 @@ CanvasBoxElement = (function() {
       # Canvas Box owner of this object
       # @type CanvasBox
   */
+
   CanvasBoxElement.prototype.objBox = null;
 
   /*
       # Position X of the Element inside the Canvas Box
       # @type integer
   */
+
 
   CanvasBoxElement.prototype.x = 0;
 
@@ -21,6 +23,7 @@ CanvasBoxElement = (function() {
       # @type integer
   */
 
+
   CanvasBoxElement.prototype.y = 0;
 
   CanvasBoxElement.prototype.relativeMousey = 0;
@@ -30,6 +33,7 @@ CanvasBoxElement = (function() {
       # @type integer
   */
 
+
   CanvasBoxElement.prototype.z = 1;
 
   /*
@@ -37,12 +41,14 @@ CanvasBoxElement = (function() {
       # @type integer
   */
 
+
   CanvasBoxElement.prototype.dx = 0;
 
   /*
       # Velocity into the Y position
       # @type integer
   */
+
 
   CanvasBoxElement.prototype.dy = 0;
 
@@ -52,6 +58,7 @@ CanvasBoxElement = (function() {
       # @type CanvasBoxDefaultElementBehavior
   */
 
+
   CanvasBoxElement.prototype.objBehavior = null;
 
   /*
@@ -59,12 +66,14 @@ CanvasBoxElement = (function() {
       # @type CanvasRenderingContext2D
   */
 
+
   CanvasBoxElement.prototype.objContext = null;
 
   /*
       # Class name of the Canvas Box Element
       # @type string
   */
+
 
   CanvasBoxElement.prototype.strClassName = "CanvasBoxElement";
 
@@ -74,12 +83,14 @@ CanvasBoxElement = (function() {
       #  @type boolean
   */
 
+
   CanvasBoxElement.prototype.isConnector = false;
 
   /*
       # Flag that controls if the relative menu is showing up
       # @type boolean
   */
+
 
   CanvasBoxElement.prototype.booShowMenu = false;
 
@@ -88,12 +99,14 @@ CanvasBoxElement = (function() {
       # @type CanvasBoxMenu
   */
 
+
   CanvasBoxElement.prototype.objMenu = null;
 
   /*
       # Flag of control if the Element is Fixed ( not moving )
       # @type boolean
   */
+
 
   CanvasBoxElement.prototype.fixed = false;
 
@@ -102,12 +115,14 @@ CanvasBoxElement = (function() {
       # @type boolean
   */
 
+
   CanvasBoxElement.prototype.booDrag = false;
 
   /*
       # Context Element Menu
       # @type CanvasBoxMenu
   */
+
 
   CanvasBoxElement.prototype.objMenu = null;
 
@@ -116,6 +131,7 @@ CanvasBoxElement = (function() {
       # @type boolean
   */
 
+
   CanvasBoxElement.prototype.booMouseOver = false;
 
   /*
@@ -123,6 +139,7 @@ CanvasBoxElement = (function() {
       # the menu use.
       # @type CanvasBoxButton[]
   */
+
 
   CanvasBoxElement.prototype.arrButtons = Array();
 
@@ -134,6 +151,7 @@ CanvasBoxElement = (function() {
       # Create a serializable version of this object
       # @return Object
   */
+
 
   CanvasBoxElement.prototype.toSerialize = function() {
     objResult({
@@ -151,6 +169,7 @@ CanvasBoxElement = (function() {
       # Apply the default objects and values
   */
 
+
   CanvasBoxElement.prototype.init = function() {
     return this.objBehavior = New.CanvasBoxBehavior(this);
   };
@@ -161,6 +180,7 @@ CanvasBoxElement = (function() {
       # For default, just call the init
   */
 
+
   function CanvasBoxElement() {
     this.init();
   }
@@ -169,6 +189,7 @@ CanvasBoxElement = (function() {
       # Refresh the Canvas Box Element, changing it's position attributes if necessary
       # @return CanvasBoxElement me
   */
+
 
   CanvasBoxElement.prototype.refresh = function() {
     return this;
@@ -179,6 +200,7 @@ CanvasBoxElement = (function() {
       # @return CanvasBoxElement me
   */
 
+
   CanvasBoxElement.prototype.onDraw = function() {
     this.draw();
     return this;
@@ -188,7 +210,9 @@ CanvasBoxElement = (function() {
     this.objBox.moveTo(this.x, this.y);
     this.objBox.saveContext();
     this.objBox.translate(this.x, this.y);
-    if (this.dblRotate % (2 * Math.PI) !== 0) this.objBox.rotate(this.dblRotate);
+    if (this.dblRotate % (2 * Math.PI) !== 0) {
+      this.objBox.rotate(this.dblRotate);
+    }
     return this;
   };
 
@@ -202,8 +226,9 @@ CanvasBoxElement = (function() {
       # @return CanvasBoxElement me
   */
 
+
   CanvasBoxElement.prototype.draw = function() {
-    throw New.CanvasBoxException("Draw Method was not properly defined in the {@strClassName}");
+    throw New.CanvasBoxException("Draw Method was not properly defined in the " + strClassName);
     return this;
   };
 
@@ -213,6 +238,7 @@ CanvasBoxElement = (function() {
       # @param Event event
       # @return boolean
   */
+
 
   CanvasBoxElement.prototype.onMouseOver = function(event) {
     this.booMouseOver = true;
@@ -226,6 +252,7 @@ CanvasBoxElement = (function() {
       # @return boolean
   */
 
+
   CanvasBoxElement.prototype.onMouseOut = function(event) {
     this.booMouseOver = false;
     return this.objBehavior.onMouseOut(event);
@@ -238,6 +265,7 @@ CanvasBoxElement = (function() {
       # @return boolean
   */
 
+
   CanvasBoxElement.prototype.onMouseDown = function(event) {
     return this.objBehavior.onMouseDown(event);
   };
@@ -248,6 +276,7 @@ CanvasBoxElement = (function() {
       # @param Event event
       # @return boolean
   */
+
 
   CanvasBoxElement.prototype.onMouseOver = function(event) {
     return this.objBehavior.onMouseOver(event);
@@ -263,13 +292,16 @@ CanvasBoxElement = (function() {
       # @return boolean
   */
 
+
   CanvasBoxElement.prototype.onClick = function(event) {
     var objButton, _i, _len, _ref;
     if (!this.booDrag && this.isActive()) {
       _ref = this.arrButtons;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         objButton = _ref[_i];
-        if (objButton.booMouseOver) return objButton.onClick(event);
+        if (objButton.booMouseOver) {
+          return objButton.onClick(event);
+        }
       }
     }
     return this.objBehavior.onClick(event);
@@ -281,6 +313,7 @@ CanvasBoxElement = (function() {
       # @return boolean
   */
 
+
   CanvasBoxElement.prototype.onDblClick = function(event) {
     return this.objBehavior.onDblClick(event);
   };
@@ -291,6 +324,7 @@ CanvasBoxElement = (function() {
       # @return boolean
   */
 
+
   CanvasBoxElement.prototype.onDrag = function(event) {
     var objButton, _i, _len, _ref;
     this.booDrag = true;
@@ -298,7 +332,9 @@ CanvasBoxElement = (function() {
       _ref = this.arrButtons;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         objButton = _ref[_i];
-        if (objButton.booMouseOver) return objButton.onDrag(event);
+        if (objButton.booMouseOver) {
+          return objButton.onDrag(event);
+        }
       }
     }
     return this.objBehavior.onDrag(event);
@@ -309,6 +345,7 @@ CanvasBoxElement = (function() {
       # @param Event event
       # @return boolean
   */
+
 
   CanvasBoxElement.prototype.onDrop = function(event) {
     var arrConnectors, objConnector;
@@ -336,6 +373,7 @@ CanvasBoxElement = (function() {
       # @return boolean
   */
 
+
   CanvasBoxElement.prototype.onTimer = function(event) {
     return this.objBehavior.onTimer(event);
   };
@@ -345,6 +383,7 @@ CanvasBoxElement = (function() {
       # @param Event event
       # @return boolean
   */
+
 
   CanvasBoxElement.prototype.onContextMenu = function(event) {
     this.objBox.booShowMenu = !this.objBox.booShowMenu;
@@ -364,6 +403,7 @@ CanvasBoxElement = (function() {
       # @param CanvasBoxElement
       # @return Object
   */
+
 
   CanvasBoxElement.prototype.getForce = function(objBoxElement) {
     return this.objBehavior.getForce(objBoxElement);
@@ -389,6 +429,7 @@ CanvasBoxElement = (function() {
       # @return CanvasBoxElement me
   */
 
+
   CanvasBoxElement.prototype.onDelete = function(event) {
     var objElement, _i, _len, _ref;
     _ref = this.getConnectors();
@@ -404,6 +445,7 @@ CanvasBoxElement = (function() {
       # @return integer
   */
 
+
   CanvasBoxElement.prototype.getId = function() {
     return this.objBox.arrElements.indexOf(this);
   };
@@ -413,6 +455,7 @@ CanvasBoxElement = (function() {
       #
       # @return CanvasBoxElement the new element
   */
+
 
   CanvasBoxElement.prototype.copy = function() {
     var objElement;
@@ -431,7 +474,12 @@ CanvasBoxElement = (function() {
   };
 
   CanvasBoxElement.prototype.load = function() {
-    if (this.objMenu !== null) this.objMenu.objBox = this.objBox;
+    if (this.objMenu !== null) {
+      this.objMenu.objBox = this.objBox;
+    }
+    if (this.objBehavior !== null) {
+      this.objBehavior.objBox = this.objBox;
+    }
     return this;
   };
 
@@ -466,19 +514,23 @@ CanvasBoxElement = (function() {
   };
 
   CanvasBoxElement.prototype.isInsideElement = function(mouseX, mouseY) {
-    throw new CanvasBoxException("isInsideElement was not properly defined in the {@strClassName}");
+    throw new CanvasBoxException("isInsideElement was not properly defined in the " + strClassName);
   };
 
   CanvasBoxElement.prototype.isInside = function(mouseX, mouseY) {
     var booResult, objButton, _i, _len, _ref;
     booResult = false;
     this.refresh();
-    if (this.isInsideElement(mouseX, mouseY)) booResult = true;
+    if (this.isInsideElement(mouseX, mouseY)) {
+      booResult = true;
+    }
     if (this.isActive()) {
       _ref = this.arrButtons;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         objButton = _ref[_i];
-        if (objButton.isInside(mouseX, mouseY)) booResult = true;
+        if (objButton.isInside(mouseX, mouseY)) {
+          booResult = true;
+        }
       }
     }
     return booResult;

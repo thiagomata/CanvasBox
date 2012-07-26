@@ -1,6 +1,6 @@
 var CanvasBoxLine,
-  __hasProp = Object.prototype.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 Load.CanvasBoxConnector();
 
@@ -9,10 +9,14 @@ CanvasBoxLine = (function(_super) {
   __extends(CanvasBoxLine, _super);
 
   function CanvasBoxLine() {
-    CanvasBoxLine.__super__.constructor.apply(this, arguments);
+    return CanvasBoxLine.__super__.constructor.apply(this, arguments);
   }
 
   CanvasBoxLine.prototype.side = 3;
+
+  CanvasBoxLine.prototype.x = 0;
+
+  CanvasBoxLine.prototype.y = 0;
 
   CanvasBoxLine.prototype.x0 = 0;
 
@@ -81,14 +85,14 @@ CanvasBoxLine = (function(_super) {
 
   CanvasBoxLine.prototype.createConnectorFrom = function() {
     var objVector;
-    objVector = getVectorFromElement(this.objElementFrom);
+    objVector = this.getVectorFromElement(this.objElementFrom);
     this.drawConnectorFrom(objVector.pointer, this.side);
     return this.objBox.restoreContext();
   };
 
   CanvasBoxLine.prototype.createConnectorTo = function() {
     var objVector;
-    objVector = getVectorFromElement(this.objElementTo);
+    objVector = this.getVectorFromElement(this.objElementTo);
     this.drawConnectorTo(objVector.pointer, this.side);
     return this.objBox.restoreContext();
   };
@@ -126,6 +130,12 @@ CanvasBoxLine = (function(_super) {
   };
 
   CanvasBoxLine.prototype.draw = function() {
+    if (this.objElementFrom === null) {
+      throw new CanvasBoxException("Canvas Box Line has no Element From");
+    }
+    if (this.objElementTo === null) {
+      throw new CanvasBoxException("Canvas Box Line has no Element To");
+    }
     this.refresh();
     this.objBox.saveContext();
     this.objBox.setFillStyle(this.color);
@@ -186,12 +196,16 @@ CanvasBoxLine = (function(_super) {
   };
 
   CanvasBoxLine.prototype.drawMouseOver = function(event) {
-    if (!this.defaultSide) this.defaultSide = this.side;
+    if (!this.defaultSide) {
+      this.defaultSide = this.side;
+    }
     return this.side = 6;
   };
 
   CanvasBoxLine.prototype.drawFixed = function(boolFixed) {
-    if (!this.defaultColor) this.defaultColor = this.color;
+    if (!this.defaultColor) {
+      this.defaultColor = this.color;
+    }
     if (boolFixed) {
       this.color = "rgb( 100 , 100 , 200 )";
       this.borderWidth *= 3;
@@ -205,6 +219,10 @@ CanvasBoxLine = (function(_super) {
 
   CanvasBoxLine.prototype.drawMouseOut = function(event) {
     return this.side = this.defaultSide;
+  };
+
+  CanvasBoxLine.prototype.onDraw = function() {
+    return this.draw();
   };
 
   return CanvasBoxLine;

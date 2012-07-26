@@ -145,7 +145,7 @@ class CanvasBoxConnector
     initialize:( objElementFrom , objElementTo )->
         this.objElementFrom = objElementFrom;
         this.objElementTo = objElementTo;
-        this.objBehavior = New.CanvasBoxDefaultBehavior( this );
+        this.objBehavior = New.CanvasBoxConnectorBehavior( this );
 
     ###
     # Refresh the Canvas Box Connector, changing it's position if necessary
@@ -168,6 +168,22 @@ class CanvasBoxConnector
     isInside:->
         return false;
 
+    ##
+    # Create the Connector with the default behavior
+    ##
+    constructor:( @objElementFrom , @objElementTo )->
+    
+        if( @objElementFrom == null )
+          throw new CanvasBoxException( "Canvas Box Line has no Element From on constructor" );
+
+        if( @objElementTo == null )
+          throw new CanvasBoxException( "Canvas Box Line has no Element To on constructor" );
+    
+        @x = ( @objElementFrom.x + @objElementTo.x ) / 2;
+        @y = ( @objElementFrom.y + @objElementTo.y ) / 2;
+        
+        this.objBehavior = New.CanvasBoxConnectorBehavior( this );
+        
     ###
     # On Connector Mouse Over Event
     # 

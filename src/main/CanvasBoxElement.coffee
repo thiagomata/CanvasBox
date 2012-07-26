@@ -195,7 +195,7 @@ class CanvasBoxElement
     # @return CanvasBoxElement me
     ###
     draw:->
-        throw New.CanvasBoxException( "Draw Method was not properly defined in the {@strClassName}" );
+        throw New.CanvasBoxException( "Draw Method was not properly defined in the #{strClassName}" );
         # to be overhide #
         return this;
 
@@ -397,6 +397,8 @@ class CanvasBoxElement
     load:->
         if( @objMenu != null )
             @objMenu.objBox = @objBox;
+        if( @objBehavior != null )
+            @objBehavior.objBox = @objBox;
         return this;
 
     ##
@@ -451,7 +453,7 @@ class CanvasBoxElement
     # @return boolean
     ## 
     isInsideElement:( mouseX , mouseY )->
-        throw new CanvasBoxException( "isInsideElement was not properly defined in the {@strClassName}" );
+        throw new CanvasBoxException( "isInsideElement was not properly defined in the #{strClassName}" );
 
     ##
     # Returns if the Mouse is Over the Element, or some of it's buttons

@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <title>Testing the Box</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css">
+            *
+            {
+                padding: 0;
+                margin: 0;
+                border: none;
+            }
+            canvas
+            {
+                border-style: solid;
+                border-color: black;
+                border-width: 1px;
+            }
+            #abc
+            {
+                margin-left:0px;
+                margin-top:0px;
+            }
+      </style>
+        <script type="text/javascript" src="../../coffee/jquery-1.4.2.js"></script> 
+        <script type="text/javascript" src="../../coffee/coffee-script.js"></script> 
+        <script type="text/javascript" src="../../php/php.basic.js"></script> 
+        <script type="text/javascript" src="../../php/php.caller.js"></script> 
+        <script type="text/javascript" src="../../main/Browser.js"></script> 
+        <script type="text/javascript" src="../../main/New.js"></script> 
+  </head>
+  <body>
+      <div>
+        <canvas id="abc">
+        </canvas>
+      </div>
+  <form action="" method="post">
+        <label for="behavior">
+            <span> Behavior </span>
+            <select name="behavior" onchange="changeBehavior(this)">
+                <option>
+                    Default
+                </option>
+                <option>
+                    Magnetic
+                </option>
+                <option>
+                    Gravity
+                </option>
+            </select>
+        </label>
+    </form>
+    <script type="text/javascript" charset="utf-8" >
+        var objStateDiagramBox  = New.CanvasBoxStateDiagram( "abc" , document.body.clientHeight * 0.7, document.body.clientHeight * 0.7  );
+        objStateDiagramBox.load(
+            {
+                states:
+                [
+                    { id: "FactoryFromXml"   , name: "Factory From Xml"  , x: 70     , y: 80    , color:  "rgb(250,200,200)"    } ,
+                    { id: "FactoryFromCode"  , name: "Factory From Code" , x: 330    , y: 80    , color:  "green"               } ,
+                    { id: "UmlDiagram"       , name: "Uml Diagram"       , x: 200    , y: 200   , color:  "orange"              } ,
+                    { id: "PrinterHTML"      , name: "Printer HTML"      , x: 100    , y: 350   } ,
+                    { id: "PrinterXML"       , name: "Printer XML"       , x: 200    , y: 400   } ,
+                    { id: "PrinterPNG"       , name: "Printer PNG"       , x: 300    , y: 350   } ,
+                ],
+                lines:
+                [
+                    { name: "import" , from:"FactoryFromXml"    , to:"UmlDiagram"   },
+                    { name: "import" , from:"FactoryFromCode"   , to:"UmlDiagram"   },
+                    { name: "export" , from:"UmlDiagram"        , to:"PrinterHTML"  },
+                    { name: "export" , from:"UmlDiagram"        , to:"PrinterXML"   },
+                    { name: "export" , from:"UmlDiagram"        , to:"PrinterPNG"   },
+                ]
+            }
+        );
+            
+        objStateDiagramBox.play();
+        /*
+        var objFactoryFromXml   = objStateDiagramBox.addState( "Factory From Xml" , 70 , 80 );
+        var objFactoryFromCode  = objStateDiagramBox.addState( "Factory From Code" , 330 , 80 );
+        var objUmlDiagram       = objStateDiagramBox.addState( "Uml Diagram" , 200 , 200 );
+        var objPrinterHtml      = objStateDiagramBox.addState( "Printer HTML" , 100 , 350 );
+        var objPrinterXml       = objStateDiagramBox.addState( "Printer XML" , 200 , 400 );
+        var objPrinterPng       = objStateDiagramBox.addState( "Printer PNG"     , 300 , 350 );
+        objStateDiagramBox.addLine( objFactoryFromXml   , objUmlDiagram );
+        objStateDiagramBox.addLine( objFactoryFromCode  , objUmlDiagram );
+        objStateDiagramBox.addLine( objUmlDiagram       , objPrinterHtml );
+        objStateDiagramBox.addLine( objUmlDiagram       , objPrinterXml  );
+        objStateDiagramBox.addLine( objUmlDiagram       , objPrinterPng  );
+        */
+    </script>
+  </body>
+</html>

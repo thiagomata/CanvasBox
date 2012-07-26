@@ -1,8 +1,14 @@
-if (!(window.MAIN_PATH != null)) {
-  window.MAIN_PATH = "";
+var arrScripts = document.head.getElementsByTagName( "script" );
+    
+for ( var intScriptCount = 0 ; intScriptCount < arrScripts.length ; intScriptCount++ )
+{
+    var objScript = arrScripts[ intScriptCount ];
+    if( objScript.getAttribute( "src" ).indexOf( "php.basic.js" ) > 0 )
+    {
+        php.path = objScript.getAttribute( "src" ).replace( "php.basic.js" , "" );
+        break;
+    }
 }
-
-php.path = window.MAIN_PATH + "./../php/";
 
 php._phpjs_shared_bc = function (arg) { 
     php.require_once( php.path + 'php._phpjs_shared_bc.js' ); 
@@ -783,12 +789,12 @@ php.file = function (arg) {
     php.require_once( php.path + 'php.file.js' ); 
     return php.call_user_func_array( php.file , arguments );
 } 
-
+/*
 php.file_exists = function (arg) { 
     php.require_once( php.path + 'php.file_exists.js' ); 
     return php.call_user_func_array( php.file_exists , arguments );
 } 
-
+*/
 php.filemtime = function (arg) { 
     php.require_once( php.path + 'php.filemtime.js' ); 
     return php.call_user_func_array( php.filemtime , arguments );

@@ -47,7 +47,7 @@ CanvasBoxMenu = (function() {
   CanvasBoxMenu.prototype.objOpenChildMenu = null;
 
   CanvasBoxMenu.prototype.draw = function() {
-    var arrMenuKeys, i, intMenuItemX, intMenuItemY, strMenuKey, _len, _ref;
+    var arrMenuKeys, i, intMenuItemX, intMenuItemY, strMenuKey, _i, _len, _ref;
     this.strCurrentMenuItem = null;
     arrMenuKeys = php.array_keys(this.arrMenuItens);
     this.intMenuHeight = this.intMenuItemHeight * (arrMenuKeys.length - 1);
@@ -56,7 +56,7 @@ CanvasBoxMenu = (function() {
     this.objBox.strokeRect(this.intMenuX, this.intMenuY, this.intMenuWidth, this.intMenuHeight);
     this.objBox.setFillStyle(this.menuFillColor);
     this.objBox.fillRect(this.intMenuX, this.intMenuY, this.intMenuWidth, this.intMenuHeight);
-    for (i = 0, _len = arrMenuKeys.length; i < _len; i++) {
+    for (i = _i = 0, _len = arrMenuKeys.length; _i < _len; i = ++_i) {
       strMenuKey = arrMenuKeys[i];
       intMenuItemX = this.intMenuX;
       intMenuItemY = this.intMenuY + i * this.intMenuItemHeight;
@@ -106,7 +106,9 @@ CanvasBoxMenu = (function() {
   };
 
   CanvasBoxMenu.prototype.onDraw = function(event) {
-    if (event == null) event = null;
+    if (event == null) {
+      event = null;
+    }
     this.draw();
     return true;
   };

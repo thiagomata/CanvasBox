@@ -6,65 +6,72 @@
 # 
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 */
-CanvasBoxConnector.prototype = (function() {
 
-  function prototype() {}
+var CanvasBoxConnector;
 
+CanvasBoxConnector = (function() {
   /*
       # Canvas Box owner of this object
       # @type CanvasBox
   */
 
-  prototype.prototype.objBox = null;
+  CanvasBoxConnector.prototype.objBox = null;
 
   /*
       # Canvas Box Element that this connector is going from
       # @type CanvasBoxElement
   */
 
-  prototype.prototype.objElementFrom = null;
+
+  CanvasBoxConnector.prototype.objElementFrom = null;
 
   /*
       # Camvas Box Element that thi connector is going to
       # @type CanvasBoxElement
   */
 
-  prototype.prototype.objElementTo = null;
+
+  CanvasBoxConnector.prototype.objElementTo = null;
 
   /*
       # Position X of the connector inside the Canvas Box
       # @type integer
   */
 
-  prototype.prototype.x = 0;
+
+  CanvasBoxConnector.prototype.x = 0;
 
   /*
       # Position Y of the connector inside the Canvas Box
       # @type integer
   */
 
-  prototype.prototype.y = 0;
+
+  CanvasBoxConnector.prototype.y = 0;
 
   /*
       # Position Z of the connector inside the Canvas Box
       # @type integer
   */
 
-  prototype.prototype.z = 0;
+
+  CanvasBoxConnector.prototype.z = 0;
 
   /*
       # Velocity into the X position
       # @type integer
   */
 
-  prototype.prototype.dx = 3;
+
+  CanvasBoxConnector.prototype.dx = 3;
 
   /*
       # Veolocity into the Y position
       # @type integer
   */
 
-  prototype.prototype.dy = 3;
+
+  CanvasBoxConnector.prototype.dy = 3;
 
   /*
       # Behavior of the Canvas Box Connector Element
@@ -72,21 +79,24 @@ CanvasBoxConnector.prototype = (function() {
       # @type CanvasBoxDefaultConnectorBehavior
   */
 
-  prototype.prototype.objBehavior = null;
+
+  CanvasBoxConnector.prototype.objBehavior = null;
 
   /*
       # Canvas 2D Context from the Canvas Box Container
       # @type CanvasRenderingContext2D
   */
 
-  prototype.prototype.objContext = null;
+
+  CanvasBoxConnector.prototype.objContext = null;
 
   /*
       # Class name of the Canvas Box Connector
       # @type string
   */
 
-  prototype.prototype.strClassName = "CanvasBoxConnector";
+
+  CanvasBoxConnector.prototype.strClassName = "CanvasBoxConnector";
 
   /*
       # Flag that make easy diff the connectors from the regular elements
@@ -94,41 +104,47 @@ CanvasBoxConnector.prototype = (function() {
       # @type boolean
   */
 
-  prototype.prototype.isConnector = true;
+
+  CanvasBoxConnector.prototype.isConnector = true;
 
   /*
       # Flag that controls if the relative menu is showing up
       # @type boolean
   */
 
-  prototype.prototype.booShowMenu = false;
+
+  CanvasBoxConnector.prototype.booShowMenu = false;
 
   /*
       # Relative menu from the connectors
       # @type CanvasBoxMenu
   */
 
-  prototype.prototype.objMenu = null;
+
+  CanvasBoxConnector.prototype.objMenu = null;
 
   /*
       # Flag of control if the Element is Fixed ( not moving )
   */
 
-  prototype.prototype.fixed = false;
+
+  CanvasBoxConnector.prototype.fixed = false;
 
   /*
       # Flag of control if Element is on DragDrop Event
       # @type boolean
   */
 
-  prototype.prototype.dragdrop = false;
+
+  CanvasBoxConnector.prototype.dragdrop = false;
 
   /*
       # Create a serializable version of this object
       # @return Object
   */
 
-  prototype.prototype.toSerialize = function() {
+
+  CanvasBoxConnector.prototype.toSerialize = function() {
     var objResult;
     objResult = {
       x: this.x,
@@ -147,7 +163,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return void
   */
 
-  prototype.prototype.loadMenu = function() {
+
+  CanvasBoxConnector.prototype.loadMenu = function() {
     this.objMenu = New.CanvasBoxMenu();
     this.objMenu.objParent = this;
     return this.objMenu.arrMenuItens = {
@@ -168,10 +185,11 @@ CanvasBoxConnector.prototype = (function() {
       # @return void
   */
 
-  prototype.prototype.initialize = function(objElementFrom, objElementTo) {
+
+  CanvasBoxConnector.prototype.initialize = function(objElementFrom, objElementTo) {
     this.objElementFrom = objElementFrom;
     this.objElementTo = objElementTo;
-    return this.objBehavior = New.CanvasBoxDefaultBehavior(this);
+    return this.objBehavior = New.CanvasBoxConnectorBehavior(this);
   };
 
   /*
@@ -179,23 +197,40 @@ CanvasBoxConnector.prototype = (function() {
       # @return void
   */
 
-  prototype.prototype.refresh = function() {};
+
+  CanvasBoxConnector.prototype.refresh = function() {};
 
   /*
       # Draw the Canvas Box Connector
       # @return void
   */
 
-  prototype.prototype.draw = function() {};
+
+  CanvasBoxConnector.prototype.draw = function() {};
 
   /*
       # Mouse Over check
       # @return boolean
   */
 
-  prototype.prototype.isInside = function() {
+
+  CanvasBoxConnector.prototype.isInside = function() {
     return false;
   };
+
+  function CanvasBoxConnector(objElementFrom, objElementTo) {
+    this.objElementFrom = objElementFrom;
+    this.objElementTo = objElementTo;
+    if (this.objElementFrom === null) {
+      throw new CanvasBoxException("Canvas Box Line has no Element From on constructor");
+    }
+    if (this.objElementTo === null) {
+      throw new CanvasBoxException("Canvas Box Line has no Element To on constructor");
+    }
+    this.x = (this.objElementFrom.x + this.objElementTo.x) / 2;
+    this.y = (this.objElementFrom.y + this.objElementTo.y) / 2;
+    this.objBehavior = New.CanvasBoxConnectorBehavior(this);
+  }
 
   /*
       # On Connector Mouse Over Event
@@ -204,7 +239,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return boolean
   */
 
-  prototype.prototype.onMouseOver = function(event) {
+
+  CanvasBoxConnector.prototype.onMouseOver = function(event) {
     return this.objBehavior.onMouseOver(event);
   };
 
@@ -215,7 +251,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return boolean
   */
 
-  prototype.prototype.onMouseOut = function(event) {
+
+  CanvasBoxConnector.prototype.onMouseOut = function(event) {
     return this.objBehavior.onMouseOut(event);
   };
 
@@ -226,7 +263,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return boolean
   */
 
-  prototype.prototype.onMouseDown = function(event) {
+
+  CanvasBoxConnector.prototype.onMouseDown = function(event) {
     return this.objBehavior.onMouseDown(event);
   };
 
@@ -236,7 +274,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return boolean
   */
 
-  prototype.prototype.onClick = function(event) {
+
+  CanvasBoxConnector.prototype.onClick = function(event) {
     return this.objBehavior.onClick(event);
   };
 
@@ -246,7 +285,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return boolean
   */
 
-  prototype.prototype.onDblClick = function(event) {
+
+  CanvasBoxConnector.prototype.onDblClick = function(event) {
     return this.objBehavior.onDblClick(event);
   };
 
@@ -256,7 +296,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return boolean
   */
 
-  prototype.prototype.onDrag = function(event) {
+
+  CanvasBoxConnector.prototype.onDrag = function(event) {
     return this.objBehavior.onDrag(event);
   };
 
@@ -266,7 +307,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return boolean
   */
 
-  prototype.prototype.onDrop = function(event) {
+
+  CanvasBoxConnector.prototype.onDrop = function(event) {
     return this.objBehavior.onDrop(event);
   };
 
@@ -276,7 +318,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return boolean
   */
 
-  prototype.prototype.onTimer = function(event) {
+
+  CanvasBoxConnector.prototype.onTimer = function(event) {
     return this.objBehavior.onTimer(event);
   };
 
@@ -286,7 +329,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return boolean
   */
 
-  prototype.prototype.onContextMenu = function(event) {
+
+  CanvasBoxConnector.prototype.onContextMenu = function(event) {
     this.objBox.booShowMenu = !this.objBox.booShowMenu;
     if (this.objBox.booShowMenu) {
       this.loadMenu();
@@ -306,15 +350,16 @@ CanvasBoxConnector.prototype = (function() {
       # @return Object
   */
 
-  prototype.prototype.getForce = function(objElement) {
+
+  CanvasBoxConnector.prototype.getForce = function(objElement) {
     return this.objBehavior.getForce(objElement);
   };
 
-  prototype.prototype.clone = function(objConnector) {
+  CanvasBoxConnector.prototype.clone = function(objConnector) {
     return this.cloneLine(objConnector);
   };
 
-  prototype.prototype.cloneLine = function() {
+  CanvasBoxConnector.prototype.cloneLine = function() {
     var objLine;
     this.intCloneCount++;
     if (this.intCloneCount > 0 && this.intCloneCount % 2 === 0) {
@@ -333,7 +378,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return CanvasBoxConnector
   */
 
-  prototype.prototype.cloneConnector = function(objConnector, booReverse) {
+
+  CanvasBoxConnector.prototype.cloneConnector = function(objConnector, booReverse) {
     if (!objConnector) {
       objConnector = New.CanvasBoxConnector(this, this.objElementTo);
     } else {
@@ -350,8 +396,12 @@ CanvasBoxConnector.prototype = (function() {
     if (!booReverse) {
       objConnector.objElementFrom = this;
       this.objElementTo = objConnector;
-      if (this.objElementFrom) this.objElementFrom.objElementTo = this;
-      if (this.objElementTo) this.objElementTo.objElementFrom = this;
+      if (this.objElementFrom) {
+        this.objElementFrom.objElementTo = this;
+      }
+      if (this.objElementTo) {
+        this.objElementTo.objElementFrom = this;
+      }
       if (objConnector.objElementFrom) {
         objConnector.objElementFrom.objElementTo = objConnector;
       }
@@ -362,8 +412,12 @@ CanvasBoxConnector.prototype = (function() {
       objConnector.objElementFrom = this.objElementFrom;
       objConnector.objElementTo = this;
       this.objElementFrom = objConnector;
-      if (this.objElementTo) this.objElementTo.objElementFrom = this;
-      if (this.objElementFrom) this.objElementFrom.objElementTo = this;
+      if (this.objElementTo) {
+        this.objElementTo.objElementFrom = this;
+      }
+      if (this.objElementFrom) {
+        this.objElementFrom.objElementTo = this;
+      }
       if (objConnector.objElementTo) {
         objConnector.objElementTo.objElementFrom = objConnector;
       }
@@ -380,7 +434,8 @@ CanvasBoxConnector.prototype = (function() {
       # @return CanvasBoxConnector
   */
 
-  prototype.prototype.clone = function(objConnector) {
+
+  CanvasBoxConnector.prototype.clone = function(objConnector) {
     return this.cloneConnector(objConnector);
   };
 
@@ -388,7 +443,8 @@ CanvasBoxConnector.prototype = (function() {
       # Event on Delete Element
   */
 
-  prototype.prototype.onDelete = function() {
+
+  CanvasBoxConnector.prototype.onDelete = function() {
     if (this.objElementFrom.isConnector) {
       this.objElementFrom.objElementTo = this.objElementTo;
     }
@@ -401,7 +457,8 @@ CanvasBoxConnector.prototype = (function() {
       # Recursive Action into delete event
   */
 
-  prototype.prototype.deleteCascade = function() {
+
+  CanvasBoxConnector.prototype.deleteCascade = function() {
     this.deleteCascadeFrom();
     this.deleteCascadeTo();
     return this.objBox.deleteElement(this, false);
@@ -411,9 +468,12 @@ CanvasBoxConnector.prototype = (function() {
       # Recursive Delete into the Element To Direction
   */
 
-  prototype.prototype.deleteCascadeTo = function() {
+
+  CanvasBoxConnector.prototype.deleteCascadeTo = function() {
     if (is_object(this.objElementTo) && this.objElementTo.isConnector) {
-      if (this.objElementTo.getId() !== -1) this.objElementTo.deleteCascadeTo();
+      if (this.objElementTo.getId() !== -1) {
+        this.objElementTo.deleteCascadeTo();
+      }
       return this.objBox.deleteElement(this.objElementTo, false);
     }
   };
@@ -422,7 +482,8 @@ CanvasBoxConnector.prototype = (function() {
       # Recursive Delete into the Element From Direction
   */
 
-  prototype.prototype.deleteCascadeFrom = function() {
+
+  CanvasBoxConnector.prototype.deleteCascadeFrom = function() {
     if (is_object(this.objElementFrom) && this.objElementFrom.isConnector) {
       if (this.objElementFrom.getId() !== -1) {
         this.objElementFrom.deleteCascadeFrom();
@@ -435,7 +496,8 @@ CanvasBoxConnector.prototype = (function() {
       # Copy a Connector
   */
 
-  prototype.prototype.copy = function() {
+
+  CanvasBoxConnector.prototype.copy = function() {
     var objConnector;
     objConnector = new window[this.strClassName]();
     return this.clone(objConnector);
@@ -446,12 +508,13 @@ CanvasBoxConnector.prototype = (function() {
       # @return integer
   */
 
-  prototype.prototype.getId = function() {
+
+  CanvasBoxConnector.prototype.getId = function() {
     return this.objBox.arrElements.indexOf(this);
   };
 
-  prototype.prototype.load = function() {};
+  CanvasBoxConnector.prototype.load = function() {};
 
-  return prototype;
+  return CanvasBoxConnector;
 
 })();
