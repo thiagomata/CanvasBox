@@ -215,6 +215,7 @@ class CanvasBoxState extends CanvasBoxElement
             @fillColor = if @fixed then @fixedColor else @defaultColor;
 
     drawFixed:( boolFixed )->
+        console.log( "fixed! ");
         @fixed = boolFixed;
         
         if( boolFixed )
@@ -227,6 +228,9 @@ class CanvasBoxState extends CanvasBoxElement
         if ( strClassNewName != null )
             @strStateName = strClassNewName;
     
+    onMouseOver:()->
+        console.log( "On Mouse Over" );
+        super
     ##
     # Returns if the Mouse is Over the Element
     #
@@ -235,5 +239,8 @@ class CanvasBoxState extends CanvasBoxElement
     # @return boolean
     ## 
     isInsideElement:( mouseX , mouseY )->
-        return  ( mouseX >= ( @x - @side / 2 ) ) && ( mouseX <= ( @x + @side / 2 ) ) && ( mouseY >= ( @y - @side / 2 ) ) && ( mouseY <= ( @y + @side / 2 ) );
+        return  ( mouseX >= ( @x - @side ) ) && 
+                ( mouseX <= ( @x + @side ) ) && 
+                ( mouseY >= ( @y - @side ) ) && 
+                ( mouseY <= ( @y + @side ) );
         

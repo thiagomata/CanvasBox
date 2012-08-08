@@ -7,7 +7,9 @@ class CanvasBoxStateLink extends CanvasBoxLine
     
     strTitle: null
 
-    draw:->
+    draw:()->
+        return super;
+        
         
         if( @objElementFrom == null )
           throw New.CanvasBoxException( "Canvas Box State link has not the ElementFrom" );
@@ -18,6 +20,7 @@ class CanvasBoxStateLink extends CanvasBoxLine
         @refresh();
         @objBox.saveContext();
 
+        @objBox.setStrokeStyle( @lineStyle );
         @objBox.setFillStyle( @color );
         @objBox.moveTo( @x , @y );
 
@@ -28,7 +31,7 @@ class CanvasBoxStateLink extends CanvasBoxLine
         @objBox.setTextAlign( "left" );
             
         if( @mouseOver || @objBox.objElementClicked == this )
-            @objBox.strokeStyle = @borderColor;
+            @objBox.setStrokeStyle( @lineStyle );
             @objBox.arc( @x, @y, @side , 0 ,  Math.PI * 2 , true );
             @objBox.stroke();
 
@@ -41,27 +44,19 @@ class CanvasBoxStateLink extends CanvasBoxLine
         @drawLine( @x , @y , @objElementTo.x , @objElementTo.y );
         @objBox.stroke();
         @objBox.closePath();
-        @objBox.restoreContext();
-        @objBox.saveContext();
-
-        @objBox.setFillStyle( @color );
         @objBox.moveTo( @x , @y );
-
-        @objBox.beginPath();
-        @objBox.arc( @x , @y , @side , 0 ,  Math.PI * 2 , true );
-        @objBox.fill();
-        @objBox.closePath();
-
+        @objBox.restoreContext();
+        
         @z = 1;
 
+        return false;
+        
         if( @objElementFrom.strClassName != @strClassName )
             @createConnectorFrom();
-            @objBox.setFillStyle( @color );
             @z = 2;
 
         if( @objElementTo.strClassName != @strClassName )
             @createConnectorTo();
-            @objBox.setFillStyle( @color );
             @z = 2;
 
         @objBox.restoreContext();

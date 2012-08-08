@@ -179,6 +179,7 @@ CanvasBoxState = (function(_super) {
   };
 
   CanvasBoxState.prototype.drawFixed = function(boolFixed) {
+    console.log("fixed! ");
     this.fixed = boolFixed;
     if (boolFixed) {
       return this.fillColor = this.fixedColor;
@@ -195,8 +196,13 @@ CanvasBoxState = (function(_super) {
     }
   };
 
+  CanvasBoxState.prototype.onMouseOver = function() {
+    console.log("On Mouse Over");
+    return CanvasBoxState.__super__.onMouseOver.apply(this, arguments);
+  };
+
   CanvasBoxState.prototype.isInsideElement = function(mouseX, mouseY) {
-    return (mouseX >= (this.x - this.side / 2)) && (mouseX <= (this.x + this.side / 2)) && (mouseY >= (this.y - this.side / 2)) && (mouseY <= (this.y + this.side / 2));
+    return (mouseX >= (this.x - this.side)) && (mouseX <= (this.x + this.side)) && (mouseY >= (this.y - this.side)) && (mouseY <= (this.y + this.side));
   };
 
   return CanvasBoxState;

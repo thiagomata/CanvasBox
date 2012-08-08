@@ -44,7 +44,7 @@ CanvasBoxStateDiagram = (function(_super) {
     if (objElementTo === null) {
       throw new CanvasBoxException("Line has no element to");
     }
-    objStateLine = New.CanvasBoxLine(objElementFrom, objElementTo);
+    objStateLine = New.CanvasBoxStateLink(objElementFrom, objElementTo);
     this.addElement(objStateLine);
     return objStateLine;
   };

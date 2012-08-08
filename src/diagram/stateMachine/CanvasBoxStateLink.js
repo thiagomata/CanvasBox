@@ -19,6 +19,7 @@ CanvasBoxStateLink = (function(_super) {
   CanvasBoxStateLink.prototype.strTitle = null;
 
   CanvasBoxStateLink.prototype.draw = function() {
+    return CanvasBoxStateLink.__super__.draw.apply(this, arguments);
     if (this.objElementFrom === null) {
       throw New.CanvasBoxException("Canvas Box State link has not the ElementFrom");
     }
@@ -27,6 +28,7 @@ CanvasBoxStateLink = (function(_super) {
     }
     this.refresh();
     this.objBox.saveContext();
+    this.objBox.setStrokeStyle(this.lineStyle);
     this.objBox.setFillStyle(this.color);
     this.objBox.moveTo(this.x, this.y);
     this.objBox.beginPath();
@@ -34,7 +36,7 @@ CanvasBoxStateLink = (function(_super) {
     this.objBox.fill();
     this.objBox.setTextAlign("left");
     if (this.mouseOver || this.objBox.objElementClicked === this) {
-      this.objBox.strokeStyle = this.borderColor;
+      this.objBox.setStrokeStyle(this.lineStyle);
       this.objBox.arc(this.x, this.y, this.side, 0, Math.PI * 2, true);
       this.objBox.stroke();
     }
@@ -47,23 +49,16 @@ CanvasBoxStateLink = (function(_super) {
     this.drawLine(this.x, this.y, this.objElementTo.x, this.objElementTo.y);
     this.objBox.stroke();
     this.objBox.closePath();
-    this.objBox.restoreContext();
-    this.objBox.saveContext();
-    this.objBox.setFillStyle(this.color);
     this.objBox.moveTo(this.x, this.y);
-    this.objBox.beginPath();
-    this.objBox.arc(this.x, this.y, this.side, 0, Math.PI * 2, true);
-    this.objBox.fill();
-    this.objBox.closePath();
+    this.objBox.restoreContext();
     this.z = 1;
+    return false;
     if (this.objElementFrom.strClassName !== this.strClassName) {
       this.createConnectorFrom();
-      this.objBox.setFillStyle(this.color);
       this.z = 2;
     }
     if (this.objElementTo.strClassName !== this.strClassName) {
       this.createConnectorTo();
-      this.objBox.setFillStyle(this.color);
       this.z = 2;
     }
     return this.objBox.restoreContext();
