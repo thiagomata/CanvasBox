@@ -291,17 +291,6 @@ class CanvasBoxElement
     ###
     onDrop:( event )->
         @booDrag = false;
-
-        if( @intMass == 0 )
-            arrConnectors = @getConnectors();
-            if( arrConnectors.length == 1 && ( @objBox.objElementOver != this ) )
-                objConnector = arrConnectors[0];
-                if( objConnector.objElementFrom == this )
-                    objConnector.objElementFrom = @objBox.objElementOver;
-                if( objConnector.objElementTo == this )
-                    objConnector.objElementTo = @objBox.objElementOver;
-                @objBox.deleteElement( this );
-        @intMass = 1;
         return @objBehavior.onDrop( event );
     
     ###
@@ -345,9 +334,10 @@ class CanvasBoxElement
         arrConnection = [];
         for objElement in @objBox.arrElements
             if      php.is_object( objElement ) and
-                    (   objElement.objElementFrom == this or 
-                        objElement.objElementTo == this )
+                    (   objElement.objElementFrom.getId() == this.getId() or 
+                        objElement.objElementTo.getId() == this.getId() )
                 arrConnection.push( objElement );
+        alert( "element has #{arrConnection.length} connections" );
         return arrConnection;
 
     ###

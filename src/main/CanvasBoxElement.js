@@ -348,22 +348,7 @@ CanvasBoxElement = (function() {
 
 
   CanvasBoxElement.prototype.onDrop = function(event) {
-    var arrConnectors, objConnector;
     this.booDrag = false;
-    if (this.intMass === 0) {
-      arrConnectors = this.getConnectors();
-      if (arrConnectors.length === 1 && (this.objBox.objElementOver !== this)) {
-        objConnector = arrConnectors[0];
-        if (objConnector.objElementFrom === this) {
-          objConnector.objElementFrom = this.objBox.objElementOver;
-        }
-        if (objConnector.objElementTo === this) {
-          objConnector.objElementTo = this.objBox.objElementOver;
-        }
-        this.objBox.deleteElement(this);
-      }
-    }
-    this.intMass = 1;
     return this.objBehavior.onDrop(event);
   };
 
@@ -415,10 +400,11 @@ CanvasBoxElement = (function() {
     _ref = this.objBox.arrElements;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       objElement = _ref[_i];
-      if (php.is_object(objElement) && (objElement.objElementFrom === this || objElement.objElementTo === this)) {
+      if (php.is_object(objElement) && (objElement.objElementFrom.getId() === this.getId() || objElement.objElementTo.getId() === this.getId())) {
         arrConnection.push(objElement);
       }
     }
+    alert("element has " + arrConnection.length + " connections");
     return arrConnection;
   };
 

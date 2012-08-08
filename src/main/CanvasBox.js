@@ -687,19 +687,22 @@ CanvasBox = (function() {
         break;
       }
     }
-    if (this.objElementOver !== objElementOver) {
+    if ((this.objElementOver === null ? 0 : this.objElementOver.getId()) !== (objElementOver === null ? 0 : objElementOver.getId())) {
       this.change();
       if (this.objElementOver !== null) {
         this.objElementOver.onMouseOut(event);
       }
       if (objElementOver !== null) {
-        this.objCanvasHtml.style.cursor = "pointer";
+        this.onMouseOver(event);
         objElementOver.onMouseOver(event);
-      } else {
-        this.objCanvasHtml.style.cursor = "default";
       }
-      this.objElementOver = objElementOver;
     }
+    if (objElementOver !== null) {
+      this.objCanvasHtml.style.cursor = "pointer";
+    } else {
+      this.objCanvasHtml.style.cursor = "default";
+    }
+    this.objElementOver = objElementOver;
     if ((this.objElementSelected != null)) {
       this.change();
       this.objElementSelected.onDrag(event);
@@ -763,6 +766,7 @@ CanvasBox = (function() {
 
   CanvasBox.prototype.onClick = function(event) {
     var objButton, _i, _len, _ref;
+    console.log("canvas box on click");
     this.booMouseOver = true;
     this.change();
     if (this.booShowMenu) {

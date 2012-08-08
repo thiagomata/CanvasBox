@@ -129,6 +129,30 @@ CanvasBoxLine = (function(_super) {
     return this.objBox.lineTo(intXto, intYto);
   };
 
+  CanvasBoxLine.prototype.drawAnchor = function() {
+    this.objBox.saveContext();
+    this.objBox.setFillStyle(this.color);
+    this.objBox.setStrokeStyle(this.style);
+    this.objBox.moveTo(this.x, this.y);
+    this.objBox.beginPath();
+    this.objBox.arc(this.x, this.y, this.side, 0, Math.PI * 2, true);
+    this.objBox.fill();
+    this.objBox.closePath();
+    return this.objBox.restoreContext();
+  };
+
+  CanvasBoxLine.prototype.drawLines = function() {
+    this.objBox.saveContext();
+    this.objBox.moveTo(this.x, this.y);
+    this.objBox.setStrokeStyle(this.style);
+    this.objBox.setFillStyle(this.color);
+    this.objBox.setLineWidth(this.width);
+    this.drawLine(this.x, this.y, this.objElementFrom.x, this.objElementFrom.y);
+    this.drawLine(this.x, this.y, this.objElementTo.x, this.objElementTo.y);
+    this.objBox.stroke();
+    return this.objBox.restoreContext();
+  };
+
   CanvasBoxLine.prototype.draw = function() {
     if (this.objElementFrom === null) {
       throw new CanvasBoxException("Canvas Box Line has no Element From");
@@ -137,26 +161,10 @@ CanvasBoxLine = (function(_super) {
       throw new CanvasBoxException("Canvas Box Line has no Element To");
     }
     this.refresh();
-    this.objBox.saveContext();
+    this.drawAnchor();
+    return;
     this.objBox.setFillStyle(this.color);
-    this.objBox.moveTo(this.x, this.y);
-    this.objBox.beginPath();
-    this.objBox.arc(this.x, this.y, this.side, 0, Math.PI * 2, true);
-    this.objBox.fill();
-    if (this.mouseOver || this.objBox.objElementClicked === this) {
-      this.objBox.strokeStyle = this.draggableColor;
-      this.objBox.arc(this.x, this.y, this.side * 2, 0, Math.PI * 2, true);
-      this.objBox.stroke();
-    }
-    this.objBox.setStrokeStyle(this.style);
-    this.objBox.setLineWidth(this.width);
-    this.drawLine(this.x, this.y, this.objElementFrom.x, this.objElementFrom.y);
-    this.drawLine(this.x, this.y, this.objElementTo.x, this.objElementTo.y);
-    this.objBox.stroke();
-    this.objBox.closePath();
-    this.objBox.restoreContext();
-    this.objBox.saveContext();
-    this.objBox.setFillStyle(this.color);
+    this.objBox.setStrokeStyle(this.color);
     this.objBox.moveTo(this.x, this.y);
     this.objBox.beginPath();
     this.objBox.arc(this.x, this.y, this.side, 0, Math.PI * 2, true);
@@ -212,7 +220,7 @@ CanvasBoxLine = (function(_super) {
       return this.side = this.defaultSide;
     } else {
       this.color = this.defaultColor;
-      this.borderWidth /= 3;
+      this.borderWidth = 1;
       return this.side = this.defaultSide;
     }
   };

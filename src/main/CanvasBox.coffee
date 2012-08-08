@@ -531,7 +531,6 @@ class CanvasBox
     # Search if the Mouse is Over some Canvas Element
     # @param event event
     ###
-    # 
     onMouseMove:( event = null )->
         objElementOver = null;
         @refreshMousePosition( event );
@@ -541,16 +540,29 @@ class CanvasBox
                 objElementOver = objElement;
                 break;
                 
-        if( @objElementOver != objElementOver )
+        ##
+        # If the element over has changed 
+        # ( null versus object ) or ( object.id != object.id )
+        ##
+        if(   ( if @objElementOver == null then 0 else @objElementOver.getId() ) !=
+              ( if  objElementOver == null then 0 else  objElementOver.getId() )  )
+            
             @change()
+            
             if( @objElementOver != null )
                 @objElementOver.onMouseOut( event );
-            if( objElementOver != null )
-                @objCanvasHtml.style.cursor = "pointer";
+                
+            if(  objElementOver != null )
+                @onMouseOver( event );
                 objElementOver.onMouseOver( event );
-            else
-                @objCanvasHtml.style.cursor = "default";
-            @objElementOver = objElementOver;
+                
+        if( objElementOver != null )
+            @objCanvasHtml.style.cursor = "pointer";
+        else
+            @objCanvasHtml.style.cursor = "default";
+            
+        @objElementOver = objElementOver;
+            
         if( @objElementSelected? )
             @change()
             @objElementSelected.onDrag( event );
@@ -595,6 +607,7 @@ class CanvasBox
     # @param Event event
     ###
     onClick:( event )->
+        console.log( "canvas box on click" );
         @booMouseOver = true;
         @change()
         if( @booShowMenu )

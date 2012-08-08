@@ -276,9 +276,16 @@ class CanvasBoxConnector
     getForce:( objElement )->
         return this.objBehavior.getForce( objElement );
     
+    ###
+    # Clone some connector object
+    ###
     clone:( objConnector )->
         return this.cloneLine( objConnector );
 
+    ###
+    # Choose betwen clone from the elements from and to or
+    # link to a another connector
+    ###
     cloneLine:->
         this.intCloneCount++;
         if( this.intCloneCount > 0 && this.intCloneCount % 2 == 0 )
@@ -390,6 +397,9 @@ class CanvasBoxConnector
     getId:->
         return this.objBox.arrElements.indexOf( this );
 
+    ##
+    # Load the connector
+    ##
     load:->
-        # nothing greate #
+        # nothing great #
         

@@ -182,6 +182,36 @@ class CanvasBoxLine extends CanvasBoxConnector
     @objBox.moveTo( intXfrom , intYfrom );
     @objBox.lineTo( intXto , intYto );
     
+  drawAnchor:()->
+    @objBox.saveContext();
+
+    @objBox.setFillStyle( @color );
+    @objBox.setStrokeStyle( @style );
+    @objBox.moveTo( @x , @y );
+
+    @objBox.beginPath();
+    @objBox.arc( @x , @y , @side , 0 ,  Math.PI * 2 , true );
+    @objBox.fill();
+    
+    #if( @mouseOver || @objBox.objElementClicked == this )
+    #  @objBox.setStrokeStyle( @draggableColor );
+    #  @objBox.arc( @x , @y , @side * 2 , 0 ,  Math.PI * 2 , true );
+    #  @objBox.stroke();
+
+    @objBox.closePath();
+    @objBox.restoreContext();
+
+  drawLines:()->
+    @objBox.saveContext();
+    @objBox.moveTo( @x , @y );
+    @objBox.setStrokeStyle( @style );
+    @objBox.setFillStyle( @color );
+    @objBox.setLineWidth( @width );
+    @drawLine( @x , @y , @objElementFrom.x , @objElementFrom.y );
+    @drawLine( @x , @y , @objElementTo.x , @objElementTo.y );
+    @objBox.stroke();
+    @objBox.restoreContext();
+  
   draw:()->    
     if( @objElementFrom == null )
       throw new CanvasBoxException( "Canvas Box Line has no Element From" );
@@ -190,30 +220,12 @@ class CanvasBoxLine extends CanvasBoxConnector
       throw new CanvasBoxException( "Canvas Box Line has no Element To" );
       
     @refresh();
-    @objBox.saveContext();
-
+    #@drawLines();
+    @drawAnchor();
+    return;
+    
     @objBox.setFillStyle( @color );
-    @objBox.moveTo( @x , @y );
-
-    @objBox.beginPath();
-    @objBox.arc( @x , @y , @side , 0 ,  Math.PI * 2 , true );
-    @objBox.fill();
-
-    if( @mouseOver || @objBox.objElementClicked == this )
-      @objBox.strokeStyle = @draggableColor;
-      @objBox.arc( @x , @y , @side * 2 , 0 ,  Math.PI * 2 , true );
-      @objBox.stroke();
-
-    @objBox.setStrokeStyle( @style );
-    @objBox.setLineWidth( @width );
-    @drawLine( @x , @y , @objElementFrom.x , @objElementFrom.y );
-    @drawLine( @x , @y , @objElementTo.x , @objElementTo.y );
-    @objBox.stroke();
-    @objBox.closePath();
-    @objBox.restoreContext();
-    @objBox.saveContext();
-
-    @objBox.setFillStyle( @color );
+    @objBox.setStrokeStyle( @color );
     @objBox.moveTo( @x , @y );
 
     @objBox.beginPath();
@@ -266,7 +278,7 @@ class CanvasBoxLine extends CanvasBoxConnector
       @side = @defaultSide
     else
       @color = @defaultColor
-      @borderWidth /= 3
+      @borderWidth = 1
       @side = @defaultSide
 
   drawMouseOut:( event )->

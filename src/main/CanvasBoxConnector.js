@@ -355,9 +355,20 @@ CanvasBoxConnector = (function() {
     return this.objBehavior.getForce(objElement);
   };
 
+  /*
+      # Clone some connector object
+  */
+
+
   CanvasBoxConnector.prototype.clone = function(objConnector) {
     return this.cloneLine(objConnector);
   };
+
+  /*
+      # Choose betwen clone from the elements from and to or
+      # link to a another connector
+  */
+
 
   CanvasBoxConnector.prototype.cloneLine = function() {
     var objLine;
