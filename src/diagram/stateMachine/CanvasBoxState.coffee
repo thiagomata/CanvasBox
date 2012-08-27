@@ -169,7 +169,8 @@ class CanvasBoxState extends CanvasBoxElement
 
     draw:()->
         @refresh();
-
+        @objBox.saveContext();
+        
         if( @mouseOver || @objBox.objElementClicked == this )
             ##
             # Draw External Border
@@ -195,6 +196,7 @@ class CanvasBoxState extends CanvasBoxElement
         @objBox.setFont( "10px Arial lighter" );
         @objBox.setTextAlign( "center" );
         @objBox.strokeText( @strStateName  , @x , @y );
+        @objBox.restoreContext();
 
     drawMouseOver:( event )->
         if(!@defaultColor)

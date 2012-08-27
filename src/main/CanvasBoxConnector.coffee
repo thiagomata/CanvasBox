@@ -302,6 +302,8 @@ class CanvasBoxConnector
     # @return CanvasBoxConnector
     ###
     cloneConnector:( objConnector , booReverse )->
+        console.log( "clone connector");
+        
         if( not objConnector )
             objConnector = New.CanvasBoxConnector( this , this.objElementTo );
         else

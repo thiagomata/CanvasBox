@@ -72,6 +72,11 @@ class CanvasBoxLine extends CanvasBoxConnector
   strClassName: "CanvasBoxLine"
 
   ##
+  # Color
+  ##
+  color: "black";
+  
+  ##
   # Create the serialize object witch describe the canvas box line
   ##
   toSerialize:()->
@@ -193,10 +198,10 @@ class CanvasBoxLine extends CanvasBoxConnector
     @objBox.arc( @x , @y , @side , 0 ,  Math.PI * 2 , true );
     @objBox.fill();
     
-    #if( @mouseOver || @objBox.objElementClicked == this )
-    #  @objBox.setStrokeStyle( @draggableColor );
-    #  @objBox.arc( @x , @y , @side * 2 , 0 ,  Math.PI * 2 , true );
-    #  @objBox.stroke();
+    if( @mouseOver || @objBox.objElementClicked == this )
+      @objBox.setStrokeStyle( @draggableColor );
+      @objBox.arc( @x , @y , @side * 2 , 0 ,  Math.PI * 2 , true );
+      @objBox.stroke();
 
     @objBox.closePath();
     @objBox.restoreContext();
@@ -206,7 +211,6 @@ class CanvasBoxLine extends CanvasBoxConnector
     @objBox.moveTo( @x , @y );
     @objBox.setStrokeStyle( @style );
     @objBox.setFillStyle( @color );
-    @objBox.setLineWidth( @width );
     @drawLine( @x , @y , @objElementFrom.x , @objElementFrom.y );
     @drawLine( @x , @y , @objElementTo.x , @objElementTo.y );
     @objBox.stroke();
@@ -220,7 +224,7 @@ class CanvasBoxLine extends CanvasBoxConnector
       throw new CanvasBoxException( "Canvas Box Line has no Element To" );
       
     @refresh();
-    #@drawLines();
+    @drawLines();
     @drawAnchor();
     return;
     
@@ -273,11 +277,11 @@ class CanvasBoxLine extends CanvasBoxConnector
       @defaultColor = @color
 
     if( boolFixed )
-      @color = "rgb( 100 , 100 , 200 )"
+#      @color = "rgb( 100 , 100 , 200 )"
       @borderWidth *= 3
       @side = @defaultSide
     else
-      @color = @defaultColor
+#      @color = @defaultColor
       @borderWidth = 1
       @side = @defaultSide
 

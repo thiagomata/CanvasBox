@@ -40,6 +40,8 @@ CanvasBoxLine = (function(_super) {
 
   CanvasBoxLine.prototype.strClassName = "CanvasBoxLine";
 
+  CanvasBoxLine.prototype.color = "black";
+
   CanvasBoxLine.prototype.toSerialize = function() {
     var objResult;
     objResult = {
@@ -137,6 +139,11 @@ CanvasBoxLine = (function(_super) {
     this.objBox.beginPath();
     this.objBox.arc(this.x, this.y, this.side, 0, Math.PI * 2, true);
     this.objBox.fill();
+    if (this.mouseOver || this.objBox.objElementClicked === this) {
+      this.objBox.setStrokeStyle(this.draggableColor);
+      this.objBox.arc(this.x, this.y, this.side * 2, 0, Math.PI * 2, true);
+      this.objBox.stroke();
+    }
     this.objBox.closePath();
     return this.objBox.restoreContext();
   };
@@ -146,7 +153,6 @@ CanvasBoxLine = (function(_super) {
     this.objBox.moveTo(this.x, this.y);
     this.objBox.setStrokeStyle(this.style);
     this.objBox.setFillStyle(this.color);
-    this.objBox.setLineWidth(this.width);
     this.drawLine(this.x, this.y, this.objElementFrom.x, this.objElementFrom.y);
     this.drawLine(this.x, this.y, this.objElementTo.x, this.objElementTo.y);
     this.objBox.stroke();
@@ -161,6 +167,7 @@ CanvasBoxLine = (function(_super) {
       throw new CanvasBoxException("Canvas Box Line has no Element To");
     }
     this.refresh();
+    this.drawLines();
     this.drawAnchor();
     return;
     this.objBox.setFillStyle(this.color);
@@ -215,11 +222,9 @@ CanvasBoxLine = (function(_super) {
       this.defaultColor = this.color;
     }
     if (boolFixed) {
-      this.color = "rgb( 100 , 100 , 200 )";
       this.borderWidth *= 3;
       return this.side = this.defaultSide;
     } else {
-      this.color = this.defaultColor;
       this.borderWidth = 1;
       return this.side = this.defaultSide;
     }

@@ -997,11 +997,17 @@ CanvasBox = (function() {
   };
 
   CanvasBox.prototype.saveContext = function() {
-    return this.getContext().save();
+    this.getContext().save();
+    this.setFillStyle("red");
+    this.setStrokeStyle("red");
+    return this.setLineWidth("1px");
   };
 
   CanvasBox.prototype.restoreContext = function() {
-    return this.getContext().restore();
+    this.getContext().restore();
+    this.setFillStyle("red");
+    this.setStrokeStyle("red");
+    return this.setLineWidth("1px");
   };
 
   CanvasBox.prototype.beginPath = function() {
@@ -1013,10 +1019,24 @@ CanvasBox = (function() {
   };
 
   CanvasBox.prototype.setFillStyle = function(strFillStyle) {
+    var objError;
+    console.log("fill Style = " + strFillStyle);
+    if (!(strFillStyle != null)) {
+      objError = (function() {
+        throw new CanvasBoxException("Fill Style not defined");
+      })();
+      console.log(ojbErro);
+    }
     return this.getContext().fillStyle = strFillStyle;
   };
 
   CanvasBox.prototype.setStrokeStyle = function(strStrokeStyle) {
+    var objError;
+    console.log("strokey style = " + strStrokeStyle);
+    if (!(strStrokeStyle != null)) {
+      objError = new CanvasBoxException("Stroke Style not defined");
+      console.log(objError);
+    }
     return this.getContext().strokeStyle = strStrokeStyle;
   };
 

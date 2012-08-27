@@ -132,6 +132,7 @@ CanvasBoxState = (function(_super) {
 
   CanvasBoxState.prototype.draw = function() {
     this.refresh();
+    this.objBox.saveContext();
     if (this.mouseOver || this.objBox.objElementClicked === this) {
       this.objBox.setStrokeStyle("rgb( 200 , 200 , 250 )");
       this.objBox.setLineWidth(1);
@@ -149,7 +150,8 @@ CanvasBoxState = (function(_super) {
     this.objBox.setLineWidth("0.5");
     this.objBox.setFont("10px Arial lighter");
     this.objBox.setTextAlign("center");
-    return this.objBox.strokeText(this.strStateName, this.x, this.y);
+    this.objBox.strokeText(this.strStateName, this.x, this.y);
+    return this.objBox.restoreContext();
   };
 
   CanvasBoxState.prototype.drawMouseOver = function(event) {

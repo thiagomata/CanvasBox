@@ -368,6 +368,8 @@ class CanvasBox
             Math.max( @width , @defaultWidth ),
             Math.max( @height , @defaultHeight )
         );
+        @defaultStyle();
+        
 
     ###
     # Draw all the elements into the CanvasBox
@@ -801,11 +803,18 @@ class CanvasBox
             booClockwise
         );
 
+    defaultStyle:->
+        @setFillStyle("red");
+        @setStrokeStyle("red");
+        @setLineWidth("1px");
+        
     saveContext:->
         @getContext().save();
+        @defaultStyle();
 
     restoreContext:->
         @getContext().restore();
+        @defaultStyle();
 
     beginPath:->
         @getContext().beginPath();
@@ -814,9 +823,17 @@ class CanvasBox
         @getContext().closePath();
 
     setFillStyle:( strFillStyle )->
+        console.log( "fill Style = " + strFillStyle );
+        if( not strFillStyle? )
+            objError = throw new CanvasBoxException( "Fill Style not defined");
+            console.log( ojbErro );
         @getContext().fillStyle = strFillStyle;
-
+    
     setStrokeStyle:( strStrokeStyle )->
+        console.log( "strokey style = "+ strStrokeStyle );
+        if( not strStrokeStyle? )
+            objError = new CanvasBoxException( "Stroke Style not defined");
+            console.log( objError );
         @getContext().strokeStyle = ( strStrokeStyle );
 
     setLineWidth:( dblLineWidth )->

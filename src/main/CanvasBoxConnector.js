@@ -391,6 +391,7 @@ CanvasBoxConnector = (function() {
 
 
   CanvasBoxConnector.prototype.cloneConnector = function(objConnector, booReverse) {
+    console.log("clone connector");
     if (!objConnector) {
       objConnector = New.CanvasBoxConnector(this, this.objElementTo);
     } else {
