@@ -11,9 +11,10 @@ class CanvasBoxBehavior
         };
     
     constructor:( objBoxElement )->
-        this.objBoxElement = objBoxElement;
-        this.objBoxElement.dx = 0;
-        this.objBoxElement.dy = 0;
+        if( objBoxElement? )
+          this.objBoxElement = objBoxElement;
+          this.objBoxElement.dx = 0;
+          this.objBoxElement.dy = 0;
 
     getBox:()->
         return @objBoxElement.objBox;
@@ -58,3 +59,11 @@ class CanvasBoxBehavior
 
     move:()->
         return true;
+        
+    changeBehavior:( strNewBehavior )->
+        objNewBehavior = New[ strNewBehavior ]( this.objBoxElement );
+        objNewBehavior.objBoxElement = this.objBoxElement;
+        objNewBehavior.dx = this.dx;
+        objNewBehavior.dy = this.dy;
+        this.objBoxElement.objBehavior = objNewBehavior;
+        return objNewBehavior;

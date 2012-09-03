@@ -470,7 +470,8 @@ CanvasBox = (function() {
   CanvasBox.prototype.clear = function() {
     var objContext;
     objContext = this.getContext();
-    return objContext.clearRect(0, 0, Math.max(this.width, this.defaultWidth), Math.max(this.height, this.defaultHeight));
+    objContext.clearRect(0, 0, Math.max(this.width, this.defaultWidth), Math.max(this.height, this.defaultHeight));
+    return this.defaultStyle();
   };
 
   /*
@@ -731,7 +732,6 @@ CanvasBox = (function() {
 
 
   CanvasBox.prototype.onMouseUp = function(event) {
-    console.log("canvas box mouse up");
     this.booMouseOver = true;
     if ((this.objElementSelected != null)) {
       this.change();
@@ -766,7 +766,6 @@ CanvasBox = (function() {
 
   CanvasBox.prototype.onClick = function(event) {
     var objButton, _i, _len, _ref;
-    console.log("canvas box on click");
     this.booMouseOver = true;
     this.change();
     if (this.booShowMenu) {
@@ -895,7 +894,6 @@ CanvasBox = (function() {
 
   CanvasBox.prototype.onKeyUp = function(event) {
     this.change();
-    console.log(":D");
     switch (event.keyCode) {
       case 46:
         if (this.objElementClicked !== null) {
@@ -996,18 +994,20 @@ CanvasBox = (function() {
     return this.getContext().arc(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.abs(Math.round(dblRadius * this.dblZoom)), dblStartAngle, dblEndAngle, booClockwise);
   };
 
-  CanvasBox.prototype.saveContext = function() {
-    this.getContext().save();
+  CanvasBox.prototype.defaultStyle = function() {
     this.setFillStyle("red");
     this.setStrokeStyle("red");
     return this.setLineWidth("1px");
   };
 
+  CanvasBox.prototype.saveContext = function() {
+    this.getContext().save();
+    return this.defaultStyle();
+  };
+
   CanvasBox.prototype.restoreContext = function() {
     this.getContext().restore();
-    this.setFillStyle("red");
-    this.setStrokeStyle("red");
-    return this.setLineWidth("1px");
+    return this.defaultStyle();
   };
 
   CanvasBox.prototype.beginPath = function() {
@@ -1020,28 +1020,36 @@ CanvasBox = (function() {
 
   CanvasBox.prototype.setFillStyle = function(strFillStyle) {
     var objError;
-    console.log("fill Style = " + strFillStyle);
-    if (!(strFillStyle != null)) {
-      objError = (function() {
-        throw new CanvasBoxException("Fill Style not defined");
-      })();
-      console.log(ojbErro);
+    try {
+      if (!(strFillStyle != null)) {
+        objError = (function() {
+          throw new CanvasBoxException("Fill Style not defined");
+        })();
+      }
+      return this.getContext().fillStyle = strFillStyle;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Fill Style [" + strFillStyle + "]");
     }
-    return this.getContext().fillStyle = strFillStyle;
   };
 
   CanvasBox.prototype.setStrokeStyle = function(strStrokeStyle) {
     var objError;
-    console.log("strokey style = " + strStrokeStyle);
-    if (!(strStrokeStyle != null)) {
-      objError = new CanvasBoxException("Stroke Style not defined");
-      console.log(objError);
+    try {
+      if (!(strStrokeStyle != null)) {
+        objError = new CanvasBoxException("Stroke Style not defined");
+      }
+      return this.getContext().strokeStyle = strStrokeStyle;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Stroke Style [" + strStrokeStyle + "]");
     }
-    return this.getContext().strokeStyle = strStrokeStyle;
   };
 
   CanvasBox.prototype.setLineWidth = function(dblLineWidth) {
-    return this.getContext().lineWidth = dblLineWidth * this.dblZoom;
+    try {
+      return this.getContext().lineWidth = dblLineWidth * this.dblZoom;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Line Width [" + dblLineWidth + "]");
+    }
   };
 
   CanvasBox.prototype.fill = function() {
@@ -1053,65 +1061,117 @@ CanvasBox = (function() {
   };
 
   CanvasBox.prototype.strokeText = function(strText, intPosX, intPosY) {
-    return this.getContext().strokeText(strText, Math.round(intPosX * this.dblZoom), Math.round(intPosY * this.dblZoom));
+    try {
+      return this.getContext().strokeText(strText, Math.round(intPosX * this.dblZoom), Math.round(intPosY * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Stroke Text");
+    }
   };
 
   CanvasBox.prototype.fillText = function(strText, intPosX, intPosY) {
-    return this.getContext().fillText(strText, Math.round(intPosX * this.dblZoom), Math.round(intPosY * this.dblZoom));
+    try {
+      return this.getContext().fillText(strText, Math.round(intPosX * this.dblZoom), Math.round(intPosY * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on fill Text");
+    }
   };
 
   CanvasBox.prototype.strokeRect = function(intX, intY, intWidth, intHeight) {
-    return this.getContext().strokeRect(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.round(intWidth * this.dblZoom), Math.round(intHeight * this.dblZoom));
+    try {
+      return this.getContext().strokeRect(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.round(intWidth * this.dblZoom), Math.round(intHeight * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on stroke Rect");
+    }
   };
 
   CanvasBox.prototype.fillRect = function(intX, intY, intWidth, intHeight) {
-    return this.getContext().fillRect(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.round(intWidth * this.dblZoom), Math.round(intHeight * this.dblZoom));
+    try {
+      return this.getContext().fillRect(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.round(intWidth * this.dblZoom), Math.round(intHeight * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on fill Rect");
+    }
   };
 
   CanvasBox.prototype.setShadowOffsetX = function(intX) {
-    return this.getContext().shadowOffsetX = Math.round(intX * this.dblZoom);
+    try {
+      return this.getContext().shadowOffsetX = Math.round(intX * this.dblZoom);
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Shadow Offset X");
+    }
   };
 
   CanvasBox.prototype.setShadowOffsetY = function(intY) {
-    return this.getContext().shadowOffsetY = Math.round(intY * this.dblZoom);
+    try {
+      return this.getContext().shadowOffsetY = Math.round(intY * this.dblZoom);
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Shadow Offset Y");
+    }
   };
 
   CanvasBox.prototype.setShadowBlur = function(intBlur) {
-    return this.getContext().shadowBlur = intBlur;
+    try {
+      return this.getContext().shadowBlur = intBlur;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Shadow Blur");
+    }
   };
 
   CanvasBox.prototype.setShadowColor = function(strColor) {
-    return this.getContext().shadowColor = strColor;
+    try {
+      return this.getContext().shadowColor = strColor;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Shadow Color");
+    }
   };
 
   CanvasBox.prototype.setFont = function(strFontDescription) {
     var arrFontData, dblSizeNumber, strNewSizeNumber, strSize, strSizeNumber, strSizeType;
-    arrFontData = php.explode(" ", strFontDescription);
-    strSize = arrFontData[0];
-    strSizeNumber = strSize.substr(0, strSize.length - 2);
-    strSizeType = strSize.substr(strSize.length - 2);
-    dblSizeNumber = 1 * strSizeNumber;
-    dblSizeNumber = dblSizeNumber * this.dblZoom;
-    strNewSizeNumber = dblSizeNumber + strSizeType;
-    arrFontData[0] = strNewSizeNumber;
-    strFontDescription = php.implode(" ", arrFontData);
-    return this.getContext().font = strFontDescription;
+    try {
+      arrFontData = php.explode(" ", strFontDescription);
+      strSize = arrFontData[0];
+      strSizeNumber = strSize.substr(0, strSize.length - 2);
+      strSizeType = strSize.substr(strSize.length - 2);
+      dblSizeNumber = 1 * strSizeNumber;
+      dblSizeNumber = dblSizeNumber * this.dblZoom;
+      strNewSizeNumber = dblSizeNumber + strSizeType;
+      arrFontData[0] = strNewSizeNumber;
+      strFontDescription = php.implode(" ", arrFontData);
+      return this.getContext().font = strFontDescription;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Font " + strFontDescription);
+    }
   };
 
   CanvasBox.prototype.translate = function(dblDegree, intDistance) {
-    return this.getContext().translate(Math.round(dblDegree * this.dblZoom), Math.round(intDistance * this.dblZoom));
+    try {
+      return this.getContext().translate(Math.round(dblDegree * this.dblZoom), Math.round(intDistance * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on translate");
+    }
   };
 
   CanvasBox.prototype.drawLine = function(intXfrom, intYfrom, intXto, intYto) {
-    return this.getContext().drawLine(Math.round(intXfrom * this.dblZoom), Math.round(intYfrom * this.dblZoom), Math.round(intXto * this.dblZoom), Math.round(intYto * this.dblZoom));
+    try {
+      return this.getContext().drawLine(Math.round(intXfrom * this.dblZoom), Math.round(intYfrom * this.dblZoom), Math.round(intXto * this.dblZoom), Math.round(intYto * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on drawLine");
+    }
   };
 
   CanvasBox.prototype.rotate = function(dblDegree) {
-    return this.getContext().rotate(dblDegree);
+    try {
+      return this.getContext().rotate(dblDegree);
+    } catch (objError) {
+      throw new CanvasBoxException("Error on rotate");
+    }
   };
 
   CanvasBox.prototype.setTextAlign = function(strTextAling) {
-    return this.getContext().textAlign = strTextAling;
+    try {
+      return this.getContext().textAlign = strTextAling;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on setTextAling " + strTextAling);
+    }
   };
 
   CanvasBox.prototype.addButton = function(objButton) {

@@ -89,6 +89,18 @@ CanvasBoxConnectorBehavior = (function() {
     return null;
   };
 
+  CanvasBoxConnectorBehavior.prototype.changeBehavior = function(strNewBehavior) {
+    var objNewBehavior;
+    objNewBehavior = New[strNewBehavior](this.objBoxElement);
+    objNewBehavior.dx = this.dx;
+    objNewBehavior.dy = this.dy;
+    objNewBehavior.intXDistance = this.intXDistance;
+    objNewBehavior.intYDistance = this.intYDistance;
+    objNewBehavior.objBox = this.objBox;
+    this.objBoxElement.objBehavior = objNewBehavior;
+    return objNewBehavior;
+  };
+
   return CanvasBoxConnectorBehavior;
 
 })();

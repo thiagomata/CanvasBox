@@ -37,7 +37,6 @@ New.prototype.arrMap = {
   CanvasBoxMenu: "" + window.MAIN_PATH + "CanvasBoxMenu",
   CanvasBoxPointer: "" + window.MAIN_PATH + "CanvasBoxPointer",
   CanvasBoxPolygon: "" + window.MAIN_PATH + "CanvasBoxPolygon",
-  CanvasBoxConnectorBehavior: "" + window.MAIN_PATH + "CanvasBoxConnectorBehavior",
   CanvasBoxExportButton: "" + window.MAIN_PATH + "button/CanvasBoxExportButton",
   CanvasBoxFixedButton: "" + window.MAIN_PATH + "button/CanvasBoxFixedButton",
   CanvasBoxSaveButton: "" + window.MAIN_PATH + "button/CanvasBoxSaveButton",
@@ -45,7 +44,10 @@ New.prototype.arrMap = {
   CanvasBoxZoomOutButton: "" + window.MAIN_PATH + "button/CanvasBoxZoomOutButton",
   CanvasBoxState: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxState",
   CanvasBoxStateDiagram: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateDiagram",
-  CanvasBoxStateLink: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateLink"
+  CanvasBoxStateLink: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateLink",
+  CanvasBoxConnectorBehavior: "" + window.MAIN_PATH + "CanvasBoxConnectorBehavior",
+  CanvasBoxGravityBehavior: "" + window.MAIN_PATH + "CanvasBoxGravityBehavior",
+  CanvasBoxMagneticBehavior: "" + window.MAIN_PATH + "CanvasBoxMagneticBehavior"
 };
 
 New.prototype.arrClasses = Array();

@@ -13,9 +13,11 @@ CanvasBoxBehavior = (function() {
   };
 
   function CanvasBoxBehavior(objBoxElement) {
-    this.objBoxElement = objBoxElement;
-    this.objBoxElement.dx = 0;
-    this.objBoxElement.dy = 0;
+    if ((objBoxElement != null)) {
+      this.objBoxElement = objBoxElement;
+      this.objBoxElement.dx = 0;
+      this.objBoxElement.dy = 0;
+    }
   }
 
   CanvasBoxBehavior.prototype.getBox = function() {
@@ -74,6 +76,16 @@ CanvasBoxBehavior = (function() {
 
   CanvasBoxBehavior.prototype.move = function() {
     return true;
+  };
+
+  CanvasBoxBehavior.prototype.changeBehavior = function(strNewBehavior) {
+    var objNewBehavior;
+    objNewBehavior = New[strNewBehavior](this.objBoxElement);
+    objNewBehavior.objBoxElement = this.objBoxElement;
+    objNewBehavior.dx = this.dx;
+    objNewBehavior.dy = this.dy;
+    this.objBoxElement.objBehavior = objNewBehavior;
+    return objNewBehavior;
   };
 
   return CanvasBoxBehavior;
