@@ -203,9 +203,7 @@ CanvasBoxFixedButton = (function() {
     this.refresh();
     if (this.objElement.booMouseOver) {
       this.drawButton();
-      if (this.booMouseOver) {
-        return this.drawTitle();
-      }
+      if (this.booMouseOver) return this.drawTitle();
     }
   };
 

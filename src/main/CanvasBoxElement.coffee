@@ -161,6 +161,7 @@ class CanvasBoxElement
     ###
     refresh:->
         # to be overhide #
+        @objBox.change()
         return this;
 
     ###

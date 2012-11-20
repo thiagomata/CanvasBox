@@ -582,9 +582,9 @@ class CanvasBox
     # @param Event event
     ###
     onMouseUp:( event )->
-        console.log( "canvas box mouse up" );
+        #console.log( "canvas box mouse up" );
         @booMouseOver = true;
-        
+
         if( @objElementSelected? )
             @change()
             @objElementSelected.onDrop( event);
@@ -609,7 +609,7 @@ class CanvasBox
     # @param Event event
     ###
     onClick:( event )->
-        console.log( "canvas box on click" );
+        #console.log( "canvas box on click" );
         @booMouseOver = true;
         @change()
         if( @booShowMenu )
@@ -711,7 +711,7 @@ class CanvasBox
     ###
     onKeyUp:( event )->
         @change()
-        console.log( ":D" );
+        #console.log( ":D" );
         switch event.keyCode
             
             when 46 then ( # delete
@@ -823,21 +823,32 @@ class CanvasBox
         @getContext().closePath();
 
     setFillStyle:( strFillStyle )->
-        console.log( "fill Style = " + strFillStyle );
-        if( not strFillStyle? )
-            objError = throw new CanvasBoxException( "Fill Style not defined");
-            console.log( ojbErro );
-        @getContext().fillStyle = strFillStyle;
+        try
+          #console.log( "fill Style = " + strFillStyle );
+          if( not strFillStyle? )
+              objError = throw new CanvasBoxException( "Fill Style not defined");
+              #console.log( ojbErro );
+          @getContext().fillStyle = strFillStyle;
+        catch objError
+          throw new CanvasBoxException( "Error on set Fill Style [#{strFillStyle}]" );
+          
     
     setStrokeStyle:( strStrokeStyle )->
-        console.log( "strokey style = "+ strStrokeStyle );
-        if( not strStrokeStyle? )
-            objError = new CanvasBoxException( "Stroke Style not defined");
-            console.log( objError );
-        @getContext().strokeStyle = ( strStrokeStyle );
+        try
+          if( not strStrokeStyle? )
+              objError = new CanvasBoxException( "Stroke Style not defined");
+              console.log( objError );
+              throw objError
+          @getContext().strokeStyle = ( strStrokeStyle );
+        catch objError
+          throw new CanvasBoxException( "Error on set Stroke Style [#{strStrokeStyle}]" );
 
     setLineWidth:( dblLineWidth )->
-        @getContext().lineWidth = ( dblLineWidth * @dblZoom );
+        try
+          #console.log( "set line width = " + dblLineWidth );
+          @getContext().lineWidth = ( dblLineWidth * @dblZoom );
+        catch objError
+          throw new CanvasBoxException( "Error on set Line Width [#{dblLineWidth}]" );
 
     fill:->
         @getContext().fill();
@@ -846,78 +857,128 @@ class CanvasBox
         @getContext().stroke();
 
     strokeText:( strText , intPosX , intPosY )->
-        @getContext().strokeText(
-            strText ,
-            Math.round( intPosX * @dblZoom ),
-            Math.round( intPosY * @dblZoom )
-        );
+        try
+          #console.log( "stroke Text = " + strText + " x =  " + intPosX + " y = " + intPosY );
+          @getContext().strokeText(
+              strText ,
+              Math.round( intPosX * @dblZoom ),
+              Math.round( intPosY * @dblZoom )
+          );
+        catch objError
+          throw new CanvasBoxException( "Error on set Stroke Text" );
 
     fillText:( strText , intPosX , intPosY )->
-        @getContext().fillText(
-            strText ,
-            Math.round( intPosX * @dblZoom ),
-            Math.round( intPosY * @dblZoom )
-        );
+        try
+          #console.log( "fill text " + strText + " x =  " + intPosX + " y = " + intPosY );
+          @getContext().fillText(
+              strText ,
+              Math.round( intPosX * @dblZoom ),
+              Math.round( intPosY * @dblZoom )
+          );
+        catch objError
+          throw new CanvasBoxException( "Error on fill Text" );
 
     strokeRect:( intX, intY, intWidth, intHeight )->
-        @getContext().strokeRect(
-            Math.round( intX        * @dblZoom ),
-            Math.round( intY        * @dblZoom ),
-            Math.round( intWidth    * @dblZoom ),
-            Math.round( intHeight  * @dblZoom )
-        );
+        try
+          #console.log( "stroke rect width = " + intwidth + " height = " + intHeight + " x =  " + intPosX + " y = " + intPosY );
+          @getContext().strokeRect(
+              Math.round( intX        * @dblZoom ),
+              Math.round( intY        * @dblZoom ),
+              Math.round( intWidth    * @dblZoom ),
+              Math.round( intHeight  * @dblZoom )
+          );
+        catch objError
+          throw new CanvasBoxException( "Error on stroke Rect" );
 
     fillRect:( intX, intY, intWidth, intHeight )->
-        @getContext().fillRect(
-            Math.round( intX        * @dblZoom ),
-            Math.round( intY        * @dblZoom ),
-            Math.round( intWidth    * @dblZoom ),
-            Math.round( intHeight  * @dblZoom )
-        );
+        try
+          #console.log( "fill rect width = " + intwidth + " height = " + intHeight + " x =  " + intPosX + " y = " + intPosY );
+          @getContext().fillRect(
+              Math.round( intX        * @dblZoom ),
+              Math.round( intY        * @dblZoom ),
+              Math.round( intWidth    * @dblZoom ),
+              Math.round( intHeight  * @dblZoom )
+          );
+        catch objError
+          throw new CanvasBoxException( "Error on fill Rect" );
 
     setShadowOffsetX:( intX )->
-        @getContext().shadowOffsetX = Math.round( intX * @dblZoom );
+        try
+          #console.log( "set shadown offset X = " + intX );
+          @getContext().shadowOffsetX = Math.round( intX * @dblZoom );
+        catch objError
+          throw new CanvasBoxException( "Error on set Shadow Offset X" );
 
     setShadowOffsetY:( intY )->
-        @getContext().shadowOffsetY = Math.round( intY * @dblZoom );
+        try
+          #console.log( "set shadown offset Y = " + intY );
+          @getContext().shadowOffsetY = Math.round( intY * @dblZoom );
+        catch objError
+          throw new CanvasBoxException( "Error on set Shadow Offset Y" );
 
     setShadowBlur:( intBlur )->
-        @getContext().shadowBlur = intBlur;
+        try
+          #console.log( "set shadown blur = " + intBlur );
+          @getContext().shadowBlur = intBlur;
+        catch objError
+          throw new CanvasBoxException( "Error on set Shadow Blur" );
 
     setShadowColor:( strColor )->
-        @getContext().shadowColor = strColor;
+        try
+          #console.log( "set shadown color = " + strColor );
+          @getContext().shadowColor = strColor;
+        catch objError
+          throw new CanvasBoxException( "Error on set Shadow Color" );
 
     setFont:( strFontDescription )->
-        arrFontData = php.explode( " " , strFontDescription );
-        strSize = arrFontData[0];
-        strSizeNumber = strSize.substr( 0 , strSize.length - 2 );
-        strSizeType = strSize.substr( strSize.length - 2 );
-        dblSizeNumber = 1 * strSizeNumber;
-        dblSizeNumber = dblSizeNumber * @dblZoom;
-        strNewSizeNumber = dblSizeNumber + strSizeType;
-        arrFontData[0] = strNewSizeNumber;
-        strFontDescription = php.implode( " " , arrFontData );
-        @getContext().font = strFontDescription;
+        try
+          #console.log( "set Font " + strFontDescription );
+          arrFontData = php.explode( " " , strFontDescription );
+          strSize = arrFontData[0];
+          strSizeNumber = strSize.substr( 0 , strSize.length - 2 );
+          strSizeType = strSize.substr( strSize.length - 2 );
+          dblSizeNumber = 1 * strSizeNumber;
+          dblSizeNumber = dblSizeNumber * @dblZoom;
+          strNewSizeNumber = dblSizeNumber + strSizeType;
+          arrFontData[0] = strNewSizeNumber;
+          strFontDescription = php.implode( " " , arrFontData );
+          #console.log( "set Font After " + strFontDescription );
+          @getContext().font = strFontDescription;
+        catch objError
+          throw new CanvasBoxException( "Error on set Font #{strFontDescription}" );
 
     translate:( dblDegree , intDistance )->
-        @getContext().translate(
-            Math.round( dblDegree    * @dblZoom ),
-            Math.round( intDistance * @dblZoom )
-        );
+        try
+          @getContext().translate(
+              Math.round( dblDegree    * @dblZoom ),
+              Math.round( intDistance * @dblZoom )
+          );
+        catch objError
+          throw new CanvasBoxException( "Error on translate" );
 
     drawLine:( intXfrom , intYfrom , intXto , intYto )->
-        @getContext().drawLine(
-            Math.round( intXfrom    * @dblZoom ),
-            Math.round( intYfrom    * @dblZoom ),
-            Math.round( intXto      * @dblZoom ),
-            Math.round( intYto      * @dblZoom )
-        )
+        try
+          @getContext().drawLine(
+              Math.round( intXfrom    * @dblZoom ),
+              Math.round( intYfrom    * @dblZoom ),
+              Math.round( intXto      * @dblZoom ),
+              Math.round( intYto      * @dblZoom )
+          )
+        catch objError
+          throw new CanvasBoxException( "Error on drawLine" );
 
     rotate:( dblDegree )->
-        @getContext().rotate( dblDegree );
+        try
+          @getContext().rotate( dblDegree );
+        catch objError
+          throw new CanvasBoxException( "Error on rotate" );
 
     setTextAlign:( strTextAling )->
-        @getContext().textAlign = strTextAling;
+        try
+          #console.log( "set Text Align " + strTextAling  );
+          @getContext().textAlign = strTextAling;
+        catch objError
+          throw new CanvasBoxException( "Error on setTextAling #{strTextAling}" );
     
     addButton:( objButton )->
         objButton.intPaddingLeft = 0;

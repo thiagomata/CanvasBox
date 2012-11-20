@@ -166,6 +166,7 @@ class CanvasBoxState extends CanvasBoxElement
         @x1 = @x + ( @width / 2 );
         @y0 = @y - ( @height / 2 );
         @y1 = @y + ( @height / 2 );
+        super
 
     draw:()->
         @refresh();

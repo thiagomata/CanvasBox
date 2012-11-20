@@ -24,34 +24,16 @@ CanvasBoxPointer = (function() {
   };
 
   function CanvasBoxPointer(objParams) {
-    if (objParams == null) {
-      objParams = null;
-    }
+    if (objParams == null) objParams = null;
     if ((objParams != null)) {
-      if (objParams.x != null) {
-        this.x = objParams.x;
-      }
-      if (objParams.y != null) {
-        this.y = objParams.y;
-      }
-      if (objParams.x1 != null) {
-        this.objControl1.x = objParams.x1;
-      }
-      if (objParams.y1 != null) {
-        this.objControl1.y = objParams.y1;
-      }
-      if (objParams.x2 != null) {
-        this.objControl2.x = objParams.x2;
-      }
-      if (objParams.y2 != null) {
-        this.objControl2.y = objParams.y2;
-      }
-      if (objParams.strokeStyle != null) {
-        this.strokeStyle = objParams.strokeStyle;
-      }
-      if (objParams.lineWidth != null) {
-        this.lineWidth = objParams.lineWidth;
-      }
+      if (objParams.x != null) this.x = objParams.x;
+      if (objParams.y != null) this.y = objParams.y;
+      if (objParams.x1 != null) this.objControl1.x = objParams.x1;
+      if (objParams.y1 != null) this.objControl1.y = objParams.y1;
+      if (objParams.x2 != null) this.objControl2.x = objParams.x2;
+      if (objParams.y2 != null) this.objControl2.y = objParams.y2;
+      if (objParams.strokeStyle != null) this.strokeStyle = objParams.strokeStyle;
+      if (objParams.lineWidth != null) this.lineWidth = objParams.lineWidth;
     }
   }
 
@@ -73,9 +55,7 @@ CanvasBoxPointer = (function() {
   };
 
   CanvasBoxPointer.prototype.round = function(dblPercent) {
-    if (dblPercent == null) {
-      dblPercent = 50;
-    }
+    if (dblPercent == null) dblPercent = 50;
     this.objControl1.x = 10;
     return this.objControl1.y = 10;
   };

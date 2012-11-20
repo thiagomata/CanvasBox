@@ -13,9 +13,11 @@ CanvasBoxBehavior = (function() {
   };
 
   function CanvasBoxBehavior(objBoxElement) {
-    this.objBoxElement = objBoxElement;
-    this.objBoxElement.dx = 0;
-    this.objBoxElement.dy = 0;
+    if ((objBoxElement != null)) {
+      this.objBoxElement = objBoxElement;
+      this.objBoxElement.dx = 0;
+      this.objBoxElement.dy = 0;
+    }
   }
 
   CanvasBoxBehavior.prototype.getBox = function() {
@@ -49,17 +51,13 @@ CanvasBoxBehavior = (function() {
     this.dragdrop = true;
     this.objBoxElement.x = this.objBoxElement.objBox.mouseX;
     this.objBoxElement.y = this.objBoxElement.objBox.mouseY;
-    if (this.objBoxElement.drawDrag) {
-      this.objBoxElement.drawDrag();
-    }
+    if (this.objBoxElement.drawDrag) this.objBoxElement.drawDrag();
     return false;
   };
 
   CanvasBoxBehavior.prototype.onDrop = function(event) {
     this.dragdrop = false;
-    if (this.objBoxElement.drawDrop) {
-      return this.objBoxElement.drawDrop();
-    }
+    if (this.objBoxElement.drawDrop) return this.objBoxElement.drawDrop();
   };
 
   CanvasBoxBehavior.prototype.onTimer = function() {
@@ -73,7 +71,17 @@ CanvasBoxBehavior = (function() {
   };
 
   CanvasBoxBehavior.prototype.move = function() {
+    this.objBoxElement.refresh();
     return true;
+  };
+
+  CanvasBoxBehavior.prototype.changeBehavior = function(strNewBehavior) {
+    var objNewBehavior;
+    console.log(strNewBehavior);
+    objNewBehavior = New[strNewBehavior](this.objBoxElement);
+    objNewBehavior.objBoxElement = this.objBoxElement;
+    this.objBoxElement.objBehavior = objNewBehavior;
+    return objNewBehavior;
   };
 
   return CanvasBoxBehavior;

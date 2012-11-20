@@ -6,13 +6,11 @@ CanvasBox = (function() {
   /*
       # Zoom Distance
   */
-
   CanvasBox.prototype.dblZoom = 1;
 
   /*
       # Counter of Stand By Frames
   */
-
 
   CanvasBox.prototype.intCounterStandyBy = 0;
 
@@ -21,14 +19,12 @@ CanvasBox = (function() {
       # @type integer
   */
 
-
   CanvasBox.prototype.x = 0;
 
   /*
       # Position y of the Canvas Box Element relative to the page
       # @type integer
   */
-
 
   CanvasBox.prototype.y = 0;
 
@@ -37,14 +33,12 @@ CanvasBox = (function() {
       # @type integer
   */
 
-
   CanvasBox.prototype.id = null;
 
   /*
       # width of the Sand Box
       # @type integer
   */
-
 
   CanvasBox.prototype.width = 400;
 
@@ -53,14 +47,12 @@ CanvasBox = (function() {
       # @type integer
   */
 
-
   CanvasBox.prototype.height = 400;
 
   /*
       # Width of the Sand Box
       # @type integer
   */
-
 
   CanvasBox.prototype.defaultWidth = 400;
 
@@ -69,7 +61,6 @@ CanvasBox = (function() {
       # @type integer
   */
 
-
   CanvasBox.prototype.defaultHeight = 400;
 
   /*
@@ -77,14 +68,12 @@ CanvasBox = (function() {
       # @type Canvas
   */
 
-
   CanvasBox.prototype.objCanvasHtml = null;
 
   /*
       # Collection of Elements inside the Box
       # @type CanvasBoxElement[]
   */
-
 
   CanvasBox.prototype.arrElements = Array();
 
@@ -94,14 +83,12 @@ CanvasBox = (function() {
       # @type CanvasBoxButton[]
   */
 
-
   CanvasBox.prototype.arrButtons = Array();
 
   /*
       # CanvasBoxElement Over
       # @type CanvasBoxElement
   */
-
 
   CanvasBox.prototype.objElementOver = null;
 
@@ -110,14 +97,12 @@ CanvasBox = (function() {
       # @type CanvasBoxElement
   */
 
-
   CanvasBox.prototype.objElementClicked = null;
 
   /*
       # Interval of Image Refreshing
       # @type integer
   */
-
 
   CanvasBox.prototype.intIntervalDraw = 0;
 
@@ -126,14 +111,12 @@ CanvasBox = (function() {
       # @type integer
   */
 
-
   CanvasBox.prototype.intIntervalTimer = 1;
 
   /*
       # Control if the refreshing is active or not
       # @type boolean
   */
-
 
   CanvasBox.prototype.booActive = false;
 
@@ -142,14 +125,12 @@ CanvasBox = (function() {
       # @integer
   */
 
-
   CanvasBox.prototype.mouseX = 0;
 
   /*
       # Mouse Y position relative to canvas box
       # @integer
   */
-
 
   CanvasBox.prototype.mouseY = 0;
 
@@ -158,13 +139,11 @@ CanvasBox = (function() {
       # @type boolean
   */
 
-
   CanvasBox.prototype.booOnDraw = false;
 
   /*
       # Flag of control if the canvas box is moving right now
   */
-
 
   CanvasBox.prototype.booOnTimer = false;
 
@@ -172,13 +151,11 @@ CanvasBox = (function() {
       # Flag of the on change event
   */
 
-
   CanvasBox.prototype.booChanged = true;
 
   /*
       # Flag of the mouse over event
   */
-
 
   CanvasBox.prototype.booMouseOver = true;
 
@@ -186,13 +163,11 @@ CanvasBox = (function() {
       # Flag of Draw event
   */
 
-
   CanvasBox.prototype.booDrawBoxMenu = true;
 
   /*
       # Javascript constant of right button click
   */
-
 
   CanvasBox.prototype.intRightButtonClick = 2;
 
@@ -201,14 +176,12 @@ CanvasBox = (function() {
       # @type string
   */
 
-
   CanvasBox.prototype.strClassName = "CanvasBox";
 
   /*
       # Frames per Second Counter
       # @type integer
   */
-
 
   CanvasBox.prototype.intFps = 0;
 
@@ -217,13 +190,11 @@ CanvasBox = (function() {
       # @type integer
   */
 
-
   CanvasBox.prototype.intLastFps = 0;
 
   /*
       # Flag that controls if the FPS counter is active
   */
-
 
   CanvasBox.prototype.booCountFps = false;
 
@@ -231,13 +202,11 @@ CanvasBox = (function() {
       # Background Color of the Canvas Box
   */
 
-
   CanvasBox.prototype.backgroundColor = "white";
 
   /*
       # Flag that controls if the menu is showing
   */
-
 
   CanvasBox.prototype.booShowMenu = false;
 
@@ -245,13 +214,11 @@ CanvasBox = (function() {
       # Native Menu element of the Canvas Box
   */
 
-
   CanvasBox.prototype.objMenu = null;
 
   /*
       # Actual Menu Element of the Canvas
   */
-
 
   CanvasBox.prototype.objMenuSelected = null;
 
@@ -260,10 +227,9 @@ CanvasBox = (function() {
       # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
   */
 
-
   CanvasBox.prototype.clientWidth = function() {
-    var _ref, _ref1, _ref2;
-    return CanvasBox.prototype.filterResults((_ref = window.innerWidth) != null ? _ref : window.innerWidth = 0, (_ref1 = document.documentElement) != null ? _ref1 : document.documentElement = 0, (_ref2 = document.body) != null ? _ref2 : document.body = 0);
+    var _ref, _ref2, _ref3;
+    return CanvasBox.prototype.filterResults((_ref = window.innerWidth) != null ? _ref : window.innerWidth = 0, (_ref2 = document.documentElement) != null ? _ref2 : document.documentElement = 0, (_ref3 = document.body) != null ? _ref3 : document.body = 0);
   };
 
   CanvasBox.prototype.toSerialize = function() {
@@ -289,7 +255,6 @@ CanvasBox = (function() {
       # 
       # @return CanvasBox
   */
-
 
   CanvasBox.prototype.defineMenu = function() {
     this.objMenu = New.CanvasBoxMenu();
@@ -330,7 +295,6 @@ CanvasBox = (function() {
       # @return CanvasBox
   */
 
-
   CanvasBox.prototype.getPosition = function() {
     var objElement, x, y;
     x = this.objCanvasHtml.offsetLeft;
@@ -362,16 +326,11 @@ CanvasBox = (function() {
       # @return CanvasBox
   */
 
-
   function CanvasBox(idCanvasHtmlElement, intWidth, intHeight) {
     var strHeight, strWidth,
       _this = this;
-    if (intWidth == null) {
-      intWidth = 400;
-    }
-    if (intHeight == null) {
-      intHeight = 400;
-    }
+    if (intWidth == null) intWidth = 400;
+    if (intHeight == null) intHeight = 400;
     this.defaultWidth = intWidth;
     this.defaultHeight = intHeight;
     this.width = this.defaultWidth / this.dblZoom;
@@ -432,7 +391,6 @@ CanvasBox = (function() {
             objButton = New.CanvasBoxSaveButton( this );
             @addButton( objButton );
     */
-
     return this;
   }
 
@@ -441,7 +399,6 @@ CanvasBox = (function() {
       #
       # @param objElement CanvasBoxElement
   */
-
 
   CanvasBox.prototype.addElement = function(objElement) {
     this.arrElements.push(objElement);
@@ -455,7 +412,6 @@ CanvasBox = (function() {
       # @return CanvasRenderingContext2D
   */
 
-
   CanvasBox.prototype.getContext = function() {
     var objContext;
     objContext = this.objCanvasHtml.getContext('2d');
@@ -466,20 +422,19 @@ CanvasBox = (function() {
       # Clear the image into the Canvas Html Element Context
   */
 
-
   CanvasBox.prototype.clear = function() {
     var objContext;
     objContext = this.getContext();
-    return objContext.clearRect(0, 0, Math.max(this.width, this.defaultWidth), Math.max(this.height, this.defaultHeight));
+    objContext.clearRect(0, 0, Math.max(this.width, this.defaultWidth), Math.max(this.height, this.defaultHeight));
+    return this.defaultStyle();
   };
 
   /*
       # Draw all the elements into the CanvasBox
   */
 
-
   CanvasBox.prototype.draw = function() {
-    var arrLayerElements, arrLayers, objButton, objElement, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1;
+    var arrLayerElements, arrLayers, objButton, objElement, _i, _j, _k, _l, _len, _len2, _len3, _len4, _ref, _ref2;
     if (!this.booChanged) {
       this.intCounterStandyBy++;
       return;
@@ -491,31 +446,24 @@ CanvasBox = (function() {
     /*
             # Create one array to each layer into the z dimension
     */
-
     _ref = this.arrElements;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       objElement = _ref[_i];
-      if (!(arrLayers[objElement.z] != null)) {
-        arrLayers[objElement.z] = Array();
-      }
+      if (!(arrLayers[objElement.z] != null)) arrLayers[objElement.z] = Array();
       arrLayers[objElement.z].push(objElement);
     }
     /*
             # Order layers by the z dimension
     */
-
     arrLayers = php.sort(arrLayers);
     /*
             # Draw Elements each z dimension layer of time
     */
-
-    for (_j = 0, _len1 = arrLayers.length; _j < _len1; _j++) {
+    for (_j = 0, _len2 = arrLayers.length; _j < _len2; _j++) {
       arrLayerElements = arrLayers[_j];
-      for (_k = 0, _len2 = arrLayerElements.length; _k < _len2; _k++) {
+      for (_k = 0, _len3 = arrLayerElements.length; _k < _len3; _k++) {
         objElement = arrLayerElements[_k];
-        if ((objElement != null)) {
-          objElement.onDraw();
-        }
+        if ((objElement != null)) objElement.onDraw();
       }
     }
     objElement = null;
@@ -525,9 +473,9 @@ CanvasBox = (function() {
       this.objMenuSelected.onDraw();
     }
     if (this.booDrawBoxMenu) {
-      _ref1 = this.arrButtons;
-      for (_l = 0, _len3 = _ref1.length; _l < _len3; _l++) {
-        objButton = _ref1[_l];
+      _ref2 = this.arrButtons;
+      for (_l = 0, _len4 = _ref2.length; _l < _len4; _l++) {
+        objButton = _ref2[_l];
         objButton.refresh();
         objButton.onDraw();
       }
@@ -540,16 +488,13 @@ CanvasBox = (function() {
       # Draw all the elements into the CanvasBox
   */
 
-
   CanvasBox.prototype.onTimerElements = function() {
     var objElement, _i, _len, _ref;
     this.booOnTimer = true;
     _ref = this.arrElements;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       objElement = _ref[_i];
-      if (php.is_object(objElement)) {
-        objElement.onTimer();
-      }
+      if (php.is_object(objElement)) objElement.onTimer();
     }
     return this.booOnTimer = false;
   };
@@ -558,12 +503,9 @@ CanvasBox = (function() {
       # Active the auto refresh timer
   */
 
-
   CanvasBox.prototype.play = function() {
     this.intCounterStandyBy = 0;
-    if (this.booActive) {
-      return;
-    }
+    if (this.booActive) return;
     this.booActive = true;
     setTimeout(this.onTimer.bind(this), this.intIntervalTimer);
     setTimeout(this.onDraw.bind(this), this.intIntervalDraw);
@@ -573,7 +515,6 @@ CanvasBox = (function() {
   /*
       # Stop the auto refresh timer
   */
-
 
   CanvasBox.prototype.stop = function() {
     return this.booActive = false;
@@ -587,11 +528,8 @@ CanvasBox = (function() {
       # @return boolean
   */
 
-
   CanvasBox.prototype.onTimer = function() {
-    if (this.booActive === false) {
-      return false;
-    }
+    if (this.booActive === false) return false;
     if (this.intCounterStandyBy < 10) {
       setTimeout(this.onTimer.bind(this), this.intIntervalTimer);
     } else {
@@ -602,12 +540,8 @@ CanvasBox = (function() {
         this.stop();
       }
     }
-    if (this.intCounterStandyBy > 10) {
-      this.intCounterStandyBy = 10;
-    }
-    if (!this.booOnTimer) {
-      this.onTimerElements();
-    }
+    if (this.intCounterStandyBy > 10) this.intCounterStandyBy = 10;
+    if (!this.booOnTimer) this.onTimerElements();
     return true;
   };
 
@@ -615,13 +549,10 @@ CanvasBox = (function() {
       # On show counter FPS
   */
 
-
   CanvasBox.prototype.onCountFps = function() {
     this.intLastFps = this.intFps;
     this.intFps = 0;
-    if (!this.booCountFps) {
-      return false;
-    }
+    if (!this.booCountFps) return false;
     document.title = "FPS: " + this.intLastFps;
     setTimeout(this.onCountFps.bind(this), 1000);
     return true;
@@ -634,11 +565,8 @@ CanvasBox = (function() {
       # - Call the next timer if should
   */
 
-
   CanvasBox.prototype.onDraw = function() {
-    if (this.booActive === false) {
-      return false;
-    }
+    if (this.booActive === false) return false;
     setTimeout(this.onDraw.bind(this), this.intIntervalDraw);
     if (!this.booOnDraw) {
       this.draw();
@@ -653,11 +581,8 @@ CanvasBox = (function() {
       # @param event Event
   */
 
-
   CanvasBox.prototype.refreshMousePosition = function(event) {
-    if (event == null) {
-      event = null;
-    }
+    if (event == null) event = null;
     if ((event != null)) {
       this.mouseX = (event.clientX - this.x + CanvasBox.prototype.scrollLeft()) / this.dblZoom;
       return this.mouseY = (event.clientY - this.y + CanvasBox.prototype.scrollTop()) / this.dblZoom;
@@ -670,12 +595,9 @@ CanvasBox = (function() {
       # @param event event
   */
 
-
   CanvasBox.prototype.onMouseMove = function(event) {
-    var objButton, objElement, objElementOver, _i, _j, _len, _len1, _ref, _ref1, _results;
-    if (event == null) {
-      event = null;
-    }
+    var objButton, objElement, objElementOver, _i, _j, _len, _len2, _ref, _ref2, _results;
+    if (event == null) event = null;
     objElementOver = null;
     this.refreshMousePosition(event);
     _ref = this.arrElements;
@@ -689,9 +611,7 @@ CanvasBox = (function() {
     }
     if ((this.objElementOver === null ? 0 : this.objElementOver.getId()) !== (objElementOver === null ? 0 : objElementOver.getId())) {
       this.change();
-      if (this.objElementOver !== null) {
-        this.objElementOver.onMouseOut(event);
-      }
+      if (this.objElementOver !== null) this.objElementOver.onMouseOut(event);
       if (objElementOver !== null) {
         this.onMouseOver(event);
         objElementOver.onMouseOver(event);
@@ -707,10 +627,10 @@ CanvasBox = (function() {
       this.change();
       this.objElementSelected.onDrag(event);
     }
-    _ref1 = this.arrButtons;
+    _ref2 = this.arrButtons;
     _results = [];
-    for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-      objButton = _ref1[_j];
+    for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+      objButton = _ref2[_j];
       objButton.refresh();
       if (objButton.booMouseOver !== objButton.isInside(this.mouseX * this.dblZoom, this.mouseY * this.dblZoom)) {
         _results.push(this.change());
@@ -729,9 +649,7 @@ CanvasBox = (function() {
       # @param Event event
   */
 
-
   CanvasBox.prototype.onMouseUp = function(event) {
-    console.log("canvas box mouse up");
     this.booMouseOver = true;
     if ((this.objElementSelected != null)) {
       this.change();
@@ -745,7 +663,6 @@ CanvasBox = (function() {
       # 
       # @param Event event
   */
-
 
   CanvasBox.prototype.onMouseDown = function(event) {
     this.booMouseOver = true;
@@ -763,10 +680,8 @@ CanvasBox = (function() {
       # @param Event event
   */
 
-
   CanvasBox.prototype.onClick = function(event) {
     var objButton, _i, _len, _ref;
-    console.log("canvas box on click");
     this.booMouseOver = true;
     this.change();
     if (this.booShowMenu) {
@@ -784,9 +699,7 @@ CanvasBox = (function() {
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       objButton = _ref[_i];
       objButton.refresh();
-      if (objButton.booMouseOver) {
-        objButton.onClick();
-      }
+      if (objButton.booMouseOver) objButton.onClick();
     }
     this.objCanvasHtml.focus();
     return false;
@@ -797,7 +710,6 @@ CanvasBox = (function() {
       # 
       # @param Event event
   */
-
 
   CanvasBox.prototype.onDblClick = function(event) {
     this.booMouseOver = true;
@@ -815,7 +727,6 @@ CanvasBox = (function() {
       # @param Event event
   */
 
-
   CanvasBox.prototype.onBoxRightClick = function(event) {
     this.booMouseOver = true;
     this.change();
@@ -827,7 +738,6 @@ CanvasBox = (function() {
       # 
       # @param Event event
   */
-
 
   CanvasBox.prototype.onContextMenu = function(event) {
     this.booMouseOver = true;
@@ -844,7 +754,6 @@ CanvasBox = (function() {
       # On Context Menu Clicked into a empty space of the Canvas Box
       # @param Event event
   */
-
 
   CanvasBox.prototype.onBoxContextMenu = function(event) {
     this.booMouseOver = true;
@@ -865,7 +774,6 @@ CanvasBox = (function() {
       # @param Event event
   */
 
-
   CanvasBox.prototype.onBoxClick = function(event) {
     this.booMouseOver = true;
     this.change();
@@ -880,7 +788,6 @@ CanvasBox = (function() {
       # @param Event event
   */
 
-
   CanvasBox.prototype.onBoxDblClick = function(event) {
     this.booMouseOver = true;
     return this.change();
@@ -892,10 +799,8 @@ CanvasBox = (function() {
       # @param Event event
   */
 
-
   CanvasBox.prototype.onKeyUp = function(event) {
     this.change();
-    console.log(":D");
     switch (event.keyCode) {
       case 46:
         if (this.objElementClicked !== null) {
@@ -903,24 +808,16 @@ CanvasBox = (function() {
         }
         break;
       case 38:
-        if (this.objElementClicked !== null) {
-          this.objElementClicked.goUp();
-        }
+        if (this.objElementClicked !== null) this.objElementClicked.goUp();
         break;
       case 40:
-        if (this.objElementClicked !== null) {
-          this.objElementClicked.goDown();
-        }
+        if (this.objElementClicked !== null) this.objElementClicked.goDown();
         break;
       case 39:
-        if (this.objElementClicked !== null) {
-          this.objElementClicked.goRight();
-        }
+        if (this.objElementClicked !== null) this.objElementClicked.goRight();
         break;
       case 37:
-        if (this.objElementClicked !== null) {
-          this.objElementClicked.goLeft();
-        }
+        if (this.objElementClicked !== null) this.objElementClicked.goLeft();
         break;
       case 32:
         if (this.objElementClicked !== null) {
@@ -929,14 +826,10 @@ CanvasBox = (function() {
         }
         break;
       case 113:
-        if (this.objElementClicked !== null) {
-          this.objElementClicked.rename();
-        }
+        if (this.objElementClicked !== null) this.objElementClicked.rename();
         break;
       case 45:
-        if (this.objElementClicked !== null) {
-          this.objElementClicked.copy();
-        }
+        if (this.objElementClicked !== null) this.objElementClicked.copy();
     }
     return false;
   };
@@ -948,20 +841,13 @@ CanvasBox = (function() {
       # @param boolean booCallOnDelete
   */
 
-
   CanvasBox.prototype.deleteElement = function(objElement, booCallOnDelete) {
     var intId;
-    if (booCallOnDelete == null) {
-      booCallOnDelete = true;
-    }
+    if (booCallOnDelete == null) booCallOnDelete = true;
     this.change();
-    if (booCallOnDelete) {
-      objElement.onDelete();
-    }
+    if (booCallOnDelete) objElement.onDelete();
     intId = this.arrElements.indexOf(objElement);
-    if (intId !== -1) {
-      this.arrElements.splice(intId, 1);
-    }
+    if (intId !== -1) this.arrElements.splice(intId, 1);
     if (this.arrElements.length > 0) {
       return this.objElementClicked = this.arrElements[0];
     } else {
@@ -996,18 +882,20 @@ CanvasBox = (function() {
     return this.getContext().arc(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.abs(Math.round(dblRadius * this.dblZoom)), dblStartAngle, dblEndAngle, booClockwise);
   };
 
-  CanvasBox.prototype.saveContext = function() {
-    this.getContext().save();
+  CanvasBox.prototype.defaultStyle = function() {
     this.setFillStyle("red");
     this.setStrokeStyle("red");
     return this.setLineWidth("1px");
   };
 
+  CanvasBox.prototype.saveContext = function() {
+    this.getContext().save();
+    return this.defaultStyle();
+  };
+
   CanvasBox.prototype.restoreContext = function() {
     this.getContext().restore();
-    this.setFillStyle("red");
-    this.setStrokeStyle("red");
-    return this.setLineWidth("1px");
+    return this.defaultStyle();
   };
 
   CanvasBox.prototype.beginPath = function() {
@@ -1020,28 +908,38 @@ CanvasBox = (function() {
 
   CanvasBox.prototype.setFillStyle = function(strFillStyle) {
     var objError;
-    console.log("fill Style = " + strFillStyle);
-    if (!(strFillStyle != null)) {
-      objError = (function() {
-        throw new CanvasBoxException("Fill Style not defined");
-      })();
-      console.log(ojbErro);
+    try {
+      if (!(strFillStyle != null)) {
+        objError = (function() {
+          throw new CanvasBoxException("Fill Style not defined");
+        })();
+      }
+      return this.getContext().fillStyle = strFillStyle;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Fill Style [" + strFillStyle + "]");
     }
-    return this.getContext().fillStyle = strFillStyle;
   };
 
   CanvasBox.prototype.setStrokeStyle = function(strStrokeStyle) {
     var objError;
-    console.log("strokey style = " + strStrokeStyle);
-    if (!(strStrokeStyle != null)) {
-      objError = new CanvasBoxException("Stroke Style not defined");
-      console.log(objError);
+    try {
+      if (!(strStrokeStyle != null)) {
+        objError = new CanvasBoxException("Stroke Style not defined");
+        console.log(objError);
+        throw objError;
+      }
+      return this.getContext().strokeStyle = strStrokeStyle;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Stroke Style [" + strStrokeStyle + "]");
     }
-    return this.getContext().strokeStyle = strStrokeStyle;
   };
 
   CanvasBox.prototype.setLineWidth = function(dblLineWidth) {
-    return this.getContext().lineWidth = dblLineWidth * this.dblZoom;
+    try {
+      return this.getContext().lineWidth = dblLineWidth * this.dblZoom;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Line Width [" + dblLineWidth + "]");
+    }
   };
 
   CanvasBox.prototype.fill = function() {
@@ -1053,65 +951,117 @@ CanvasBox = (function() {
   };
 
   CanvasBox.prototype.strokeText = function(strText, intPosX, intPosY) {
-    return this.getContext().strokeText(strText, Math.round(intPosX * this.dblZoom), Math.round(intPosY * this.dblZoom));
+    try {
+      return this.getContext().strokeText(strText, Math.round(intPosX * this.dblZoom), Math.round(intPosY * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Stroke Text");
+    }
   };
 
   CanvasBox.prototype.fillText = function(strText, intPosX, intPosY) {
-    return this.getContext().fillText(strText, Math.round(intPosX * this.dblZoom), Math.round(intPosY * this.dblZoom));
+    try {
+      return this.getContext().fillText(strText, Math.round(intPosX * this.dblZoom), Math.round(intPosY * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on fill Text");
+    }
   };
 
   CanvasBox.prototype.strokeRect = function(intX, intY, intWidth, intHeight) {
-    return this.getContext().strokeRect(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.round(intWidth * this.dblZoom), Math.round(intHeight * this.dblZoom));
+    try {
+      return this.getContext().strokeRect(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.round(intWidth * this.dblZoom), Math.round(intHeight * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on stroke Rect");
+    }
   };
 
   CanvasBox.prototype.fillRect = function(intX, intY, intWidth, intHeight) {
-    return this.getContext().fillRect(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.round(intWidth * this.dblZoom), Math.round(intHeight * this.dblZoom));
+    try {
+      return this.getContext().fillRect(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.round(intWidth * this.dblZoom), Math.round(intHeight * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on fill Rect");
+    }
   };
 
   CanvasBox.prototype.setShadowOffsetX = function(intX) {
-    return this.getContext().shadowOffsetX = Math.round(intX * this.dblZoom);
+    try {
+      return this.getContext().shadowOffsetX = Math.round(intX * this.dblZoom);
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Shadow Offset X");
+    }
   };
 
   CanvasBox.prototype.setShadowOffsetY = function(intY) {
-    return this.getContext().shadowOffsetY = Math.round(intY * this.dblZoom);
+    try {
+      return this.getContext().shadowOffsetY = Math.round(intY * this.dblZoom);
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Shadow Offset Y");
+    }
   };
 
   CanvasBox.prototype.setShadowBlur = function(intBlur) {
-    return this.getContext().shadowBlur = intBlur;
+    try {
+      return this.getContext().shadowBlur = intBlur;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Shadow Blur");
+    }
   };
 
   CanvasBox.prototype.setShadowColor = function(strColor) {
-    return this.getContext().shadowColor = strColor;
+    try {
+      return this.getContext().shadowColor = strColor;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Shadow Color");
+    }
   };
 
   CanvasBox.prototype.setFont = function(strFontDescription) {
     var arrFontData, dblSizeNumber, strNewSizeNumber, strSize, strSizeNumber, strSizeType;
-    arrFontData = php.explode(" ", strFontDescription);
-    strSize = arrFontData[0];
-    strSizeNumber = strSize.substr(0, strSize.length - 2);
-    strSizeType = strSize.substr(strSize.length - 2);
-    dblSizeNumber = 1 * strSizeNumber;
-    dblSizeNumber = dblSizeNumber * this.dblZoom;
-    strNewSizeNumber = dblSizeNumber + strSizeType;
-    arrFontData[0] = strNewSizeNumber;
-    strFontDescription = php.implode(" ", arrFontData);
-    return this.getContext().font = strFontDescription;
+    try {
+      arrFontData = php.explode(" ", strFontDescription);
+      strSize = arrFontData[0];
+      strSizeNumber = strSize.substr(0, strSize.length - 2);
+      strSizeType = strSize.substr(strSize.length - 2);
+      dblSizeNumber = 1 * strSizeNumber;
+      dblSizeNumber = dblSizeNumber * this.dblZoom;
+      strNewSizeNumber = dblSizeNumber + strSizeType;
+      arrFontData[0] = strNewSizeNumber;
+      strFontDescription = php.implode(" ", arrFontData);
+      return this.getContext().font = strFontDescription;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on set Font " + strFontDescription);
+    }
   };
 
   CanvasBox.prototype.translate = function(dblDegree, intDistance) {
-    return this.getContext().translate(Math.round(dblDegree * this.dblZoom), Math.round(intDistance * this.dblZoom));
+    try {
+      return this.getContext().translate(Math.round(dblDegree * this.dblZoom), Math.round(intDistance * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on translate");
+    }
   };
 
   CanvasBox.prototype.drawLine = function(intXfrom, intYfrom, intXto, intYto) {
-    return this.getContext().drawLine(Math.round(intXfrom * this.dblZoom), Math.round(intYfrom * this.dblZoom), Math.round(intXto * this.dblZoom), Math.round(intYto * this.dblZoom));
+    try {
+      return this.getContext().drawLine(Math.round(intXfrom * this.dblZoom), Math.round(intYfrom * this.dblZoom), Math.round(intXto * this.dblZoom), Math.round(intYto * this.dblZoom));
+    } catch (objError) {
+      throw new CanvasBoxException("Error on drawLine");
+    }
   };
 
   CanvasBox.prototype.rotate = function(dblDegree) {
-    return this.getContext().rotate(dblDegree);
+    try {
+      return this.getContext().rotate(dblDegree);
+    } catch (objError) {
+      throw new CanvasBoxException("Error on rotate");
+    }
   };
 
   CanvasBox.prototype.setTextAlign = function(strTextAling) {
-    return this.getContext().textAlign = strTextAling;
+    try {
+      return this.getContext().textAlign = strTextAling;
+    } catch (objError) {
+      throw new CanvasBoxException("Error on setTextAling " + strTextAling);
+    }
   };
 
   CanvasBox.prototype.addButton = function(objButton) {
@@ -1190,13 +1140,11 @@ CanvasBox = (function() {
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 */
 
-
 CanvasBox.prototype.arrInstances = Array();
 
 /*
 # Get instance of canvas box by its id
 */
-
 
 CanvasBox.prototype.getCanvasBoxById = function(id) {
   return CanvasBox.prototype.arrInstances[id];
@@ -1208,10 +1156,9 @@ CanvasBox.prototype.getCanvasBoxById = function(id) {
 # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
 */
 
-
 CanvasBox.prototype.clientHeight = function() {
-  var _ref, _ref1, _ref2;
-  return CanvasBox.prototype.filterResults((_ref = window.innerHeight) != null ? _ref : window.innerHeight = 0, (_ref1 = document.documentElement) != null ? _ref1 : document.documentElement = 0, (_ref2 = document.body) != null ? _ref2 : document.body = 0);
+  var _ref, _ref2, _ref3;
+  return CanvasBox.prototype.filterResults((_ref = window.innerHeight) != null ? _ref : window.innerHeight = 0, (_ref2 = document.documentElement) != null ? _ref2 : document.documentElement = 0, (_ref3 = document.body) != null ? _ref3 : document.body = 0);
 };
 
 /*
@@ -1220,10 +1167,9 @@ CanvasBox.prototype.clientHeight = function() {
 # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
 */
 
-
 CanvasBox.prototype.scrollLeft = function() {
-  var _base, _base1, _ref, _ref1, _ref2;
-  return CanvasBox.prototype.filterResults((_ref = window.pageXOffset) != null ? _ref : window.pageXOffset = 0, (_ref1 = (_base = document.documentElement).scrollWidth) != null ? _ref1 : _base.scrollWidth = 0, (_ref2 = (_base1 = document.body).scrollWidth) != null ? _ref2 : _base1.scrollWidth = 0);
+  var _base, _base2, _ref, _ref2, _ref3;
+  return CanvasBox.prototype.filterResults((_ref = window.pageXOffset) != null ? _ref : window.pageXOffset = 0, (_ref2 = (_base = document.documentElement).scrollWidth) != null ? _ref2 : _base.scrollWidth = 0, (_ref3 = (_base2 = document.body).scrollWidth) != null ? _ref3 : _base2.scrollWidth = 0);
 };
 
 /*
@@ -1232,10 +1178,9 @@ CanvasBox.prototype.scrollLeft = function() {
 # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
 */
 
-
 CanvasBox.prototype.scrollTop = function() {
-  var _base, _base1, _ref, _ref1, _ref2;
-  return CanvasBox.prototype.filterResults((_ref = window.pageYOffset) != null ? _ref : window.pageYOffset = 0, (_ref1 = (_base = document.documentElement).scrollHeight) != null ? _ref1 : _base.scrollHeight = 0, (_ref2 = (_base1 = document.body).scrollHeight) != null ? _ref2 : _base1.scrollHeight = 0);
+  var _base, _base2, _ref, _ref2, _ref3;
+  return CanvasBox.prototype.filterResults((_ref = window.pageYOffset) != null ? _ref : window.pageYOffset = 0, (_ref2 = (_base = document.documentElement).scrollHeight) != null ? _ref2 : _base.scrollHeight = 0, (_ref3 = (_base2 = document.body).scrollHeight) != null ? _ref3 : _base2.scrollHeight = 0);
 };
 
 /*
@@ -1243,14 +1188,11 @@ CanvasBox.prototype.scrollTop = function() {
 # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
 */
 
-
 CanvasBox.prototype.filterResults = function(intWin, intDocel, intBody) {
   var intresult, _ref;
   return intWin;
   intresult = intWin != null ? intWin : intWin = 0;
-  if (intDocel && (!intresult || (intresult > intDocel))) {
-    intresult = intDocel;
-  }
+  if (intDocel && (!intresult || (intresult > intDocel))) intresult = intDocel;
   return (_ref = intBody && (!intresult || (intresult > intBody))) != null ? _ref : {
     intBody: intresult
   };

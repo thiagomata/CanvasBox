@@ -1,6 +1,4 @@
 class CanvasBoxConnectorBehavior
-    strClassName: "CanvasBoxDefaultConnectorBehavior"
-    
     objBox: null
 
     objBoxElement: null
@@ -67,3 +65,13 @@ class CanvasBoxConnectorBehavior
 
     getForce:( objElement )->
         return null;
+        
+    changeBehavior:( strNewBehavior )->
+        objNewBehavior = New[ strNewBehavior ]( this.objBoxElement );
+        objNewBehavior.dx = this.dx;
+        objNewBehavior.dy = this.dy;
+        objNewBehavior.intXDistance = this.intXDistance;
+        objNewBehavior.intYDistance = this.intYDistance;
+        objNewBehavior.objBox = this.objBox;
+        this.objBoxElement.objBehavior = objNewBehavior;
+        return objNewBehavior;        

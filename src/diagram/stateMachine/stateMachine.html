@@ -50,7 +50,7 @@
         </label>
     </form>
     <script type="text/javascript" charset="utf-8" >
-        var objStateDiagramBox  = New.CanvasBoxStateDiagram( "abc" , document.body.clientHeight * 0.7, document.body.clientHeight * 0.7  );
+        var objStateDiagramBox  = New.CanvasBoxStateDiagram( "abc" , document.body.clientWidth  * 0.9, document.body.clientHeight * 0.9);
         objStateDiagramBox.load(
             {
                 states:
@@ -74,6 +74,38 @@
         );
             
         objStateDiagramBox.play();
+        
+        function changeBehavior( objSelectBehavior )
+        {
+            var strClassBehavior;
+            for( var i = 0; i < objStateDiagramBox.arrElements.length; i++ )
+            {
+                var objElement = objStateDiagramBox.arrElements[i];
+                
+                if( objElement.isConnector )
+                    continue;
+                
+                switch( objSelectBehavior.value )
+                {
+                    case "Magnetic":
+                    {
+                        objElement.objBehavior.changeBehavior( "CanvasBoxMagneticBehavior" );
+                        break;
+                    }
+                    case "Gravity":
+                    {
+                        objElement.objBehavior.changeBehavior( "CanvasBoxGravityBehavior" );
+                        break;
+                    }
+                    case "Default":
+                    default:
+                    {
+                        objElement.objBehavior.changeBehavior( "CanvasBoxBehavior" );
+                        break;
+                    }
+                }
+            }
+        }
         /*
         var objFactoryFromXml   = objStateDiagramBox.addState( "Factory From Xml" , 70 , 80 );
         var objFactoryFromCode  = objStateDiagramBox.addState( "Factory From Code" , 330 , 80 );

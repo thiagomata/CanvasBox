@@ -4,7 +4,17 @@ class CanvasBoxLine extends CanvasBoxConnector
   ##
   # The circle of drag and drop side size
   ##
-  side: 3
+  side: 1
+
+  ##
+  # The circle of drag and drop side size
+  ##
+  hoverSide: 5
+
+  ##
+  # The circle of drag and drop side size
+  ##
+  shaddow: 20
 
   ##
   # The X Position of the Draggable Element
@@ -59,7 +69,12 @@ class CanvasBoxLine extends CanvasBoxConnector
   ##
   # line Style, color, transparency, etc.
   ##
-  style: "rgb( 200, 200, 220 )"
+  strokeStyle: "rgb( 200, 200, 220 )"
+
+  ##
+  # fill Style, color, transparency, etc.
+  ##
+  fillStyle: "rgb( 100, 100, 220 )"
 
   ##
   # Line Width
@@ -74,7 +89,7 @@ class CanvasBoxLine extends CanvasBoxConnector
   ##
   # Color
   ##
-  color: "black";
+  color: "black"
   
   ##
   # Create the serialize object witch describe the canvas box line
@@ -90,7 +105,7 @@ class CanvasBoxLine extends CanvasBoxConnector
       dy: @dy
       draggableColor: @draggableColor,
       draggableBorderColor: @draggableBorderColor,
-      style: @style,
+      strokeStyle: @strokeStyle,
       width: @width,
       strClassName: @strClassName
     return objResult;
@@ -135,6 +150,8 @@ class CanvasBoxLine extends CanvasBoxConnector
   ##
   createConnectorFrom:()->
     objVector = @getVectorFromElement( @objElementFrom );
+    # @objBox.saveContext();
+    @rotateVector( objVector )
     @drawConnectorFrom( objVector.pointer , @side );
     @objBox.restoreContext();
         
@@ -143,6 +160,7 @@ class CanvasBoxLine extends CanvasBoxConnector
   ##
   createConnectorTo:()->
     objVector = @getVectorFromElement( @objElementTo );
+    @rotateVector( objVector )
     @drawConnectorTo( objVector.pointer , @side );
     @objBox.restoreContext();
 
@@ -151,17 +169,34 @@ class CanvasBoxLine extends CanvasBoxConnector
   ##    
   drawConnectorFrom:( objPointer , intSide )->
     @drawBackgroundCircle( intSide );
+    @objBox.setFillStyle( @fillStyle );
+    @objBox.setStrokeStyle( @strokeStyle );
+    @objBox.beginPath();
+    @drawArrowFrom( intSide );
+    @objBox.fill();
+    @objBox.stroke();
 
   ##
   # Draw the Connector in the To side of the line
   ##
   drawConnectorTo:( objPointer , intSide )->
     @drawBackgroundCircle( intSide );
+    @objBox.setFillStyle( @fillStyle );
+    @objBox.setStrokeStyle( @strokeStyle );
+    @objBox.beginPath();
+    @drawArrowTo( intSide );
+    @objBox.fill();
+    @objBox.stroke();
 
   ##
   # Draw the Background Circle
   ##
   drawBackgroundCircle:( intSide )->
+    this.objBox.beginPath();
+    this.objBox.setFillStyle( this.objBox.backgroundColor );
+    this.objBox.setStrokeStyle( "rgb( 0 , 0, 0 )");
+    this.objBox.arc( 0 , 0 , @shaddow , 0 ,  Math.PI  , true );
+    this.objBox.fill();
 
   ##
   # Refresh the X0,Y0,X1,Y1 based on the X and Y and Side
@@ -191,7 +226,7 @@ class CanvasBoxLine extends CanvasBoxConnector
     @objBox.saveContext();
 
     @objBox.setFillStyle( @color );
-    @objBox.setStrokeStyle( @style );
+    @objBox.setStrokeStyle( @strokeStyle );
     @objBox.moveTo( @x , @y );
 
     @objBox.beginPath();
@@ -200,7 +235,7 @@ class CanvasBoxLine extends CanvasBoxConnector
     
     if( @mouseOver || @objBox.objElementClicked == this )
       @objBox.setStrokeStyle( @draggableColor );
-      @objBox.arc( @x , @y , @side * 2 , 0 ,  Math.PI * 2 , true );
+      @objBox.arc( @x , @y , @hoverSide , 0 ,  Math.PI * 2 , true );
       @objBox.stroke();
 
     @objBox.closePath();
@@ -209,48 +244,30 @@ class CanvasBoxLine extends CanvasBoxConnector
   drawLines:()->
     @objBox.saveContext();
     @objBox.moveTo( @x , @y );
-    @objBox.setStrokeStyle( @style );
+    @objBox.setStrokeStyle( @strokeStyle );
     @objBox.setFillStyle( @color );
     @drawLine( @x , @y , @objElementFrom.x , @objElementFrom.y );
     @drawLine( @x , @y , @objElementTo.x , @objElementTo.y );
     @objBox.stroke();
     @objBox.restoreContext();
   
-  draw:()->    
+  draw:()-> 
     if( @objElementFrom == null )
       throw new CanvasBoxException( "Canvas Box Line has no Element From" );
       
     if( @objElementTo == null )
       throw new CanvasBoxException( "Canvas Box Line has no Element To" );
       
-    @refresh();
-    @drawLines();
-    @drawAnchor();
-    return;
-    
-    @objBox.setFillStyle( @color );
-    @objBox.setStrokeStyle( @color );
-    @objBox.moveTo( @x , @y );
+    @refresh()
+    @drawLines()
+    @drawAnchor()
+    @createConnectorFrom()
+    @createConnectorTo()
 
-    @objBox.beginPath();
-    @objBox.arc( @x , @y , @side , 0 ,  Math.PI * 2 , true );
-    @objBox.fill();
-    @objBox.closePath();
 
-    @z = 1;
+  drawArrowTo:( intSide )->
 
-    # not line elements shall be in top
-    if( @objElementFrom.strClassName != @strClassName )
-      @createConnectorFrom();
-      @objBox.setFillStyle( @color );
-      @z = 2;
-
-    if( @objElementTo.strClassName != @strClassName )
-      @createConnectorTo();
-      @objBox.setFillStyle( @color );
-      @z = 2;
-
-    @objBox.restoreContext();
+  drawArrowFrom:( intSide )->
 
   findArrow:( objBoxElement , intSide )->
     intDegree = Math.round( 180 + 180 * Math.atan2( objBoxElement.x - @x , objBoxElement.y - @y ) / Math.PI );

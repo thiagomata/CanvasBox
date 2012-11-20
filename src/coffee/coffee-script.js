@@ -11146,7 +11146,7 @@ this.CoffeeScript = function() {
                         for (d = 0, e = c.length; d < e; d++) b = c[d], f.push(b.compile(a, w));
                         return f
                     }().join(", ");
-                    return this.isSuper ? this.superReference(a) + (".call(this" + (c && ", " + c) + ")") : (this.isNew ? "new " : "") + this.variable.compile(a, u) + ("(" + c + ")")
+                    return this.isSuper ? this.superReference(a) + (".call(this" + (c && ", " + c) + ")") : (this.isNew ? "New." : "") + this.variable.compile(a, u) + ("(" + c + ")")
                 }, a.prototype.compileSuper = function(a, b) {
                     return "" + this.superReference(b) + ".call(this" + (a.length ? ", " : "") + a + ")"
                 }, a.prototype.compileSplat = function(a, b) {

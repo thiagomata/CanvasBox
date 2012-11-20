@@ -1,27 +1,27 @@
 var runScripts;
+
 CoffeeScript.loadFile = function(file) {
   var code;
   alert(file);
   code = php.file_get_contents(file);
   return eval(CoffeeScript.compile(code));
 };
+
 CoffeeScript.eval = function(code, options) {
   return eval(CoffeeScript.compile(code, options));
 };
+
 CoffeeScript.run = function(code, options) {
-  if (options == null) {
-    options = {};
-  }
+  if (options == null) options = {};
   options.bare = true;
   return window.eval.call(window, CoffeeScript.compile(code, options));
 };
+
 CoffeeScript.load = function(url, callback) {
   var xhr;
   xhr = new (window.ActiveXObject || XMLHttpRequest)('Microsoft.XMLHTTP');
   xhr.open('GET', url, true);
-  if ('overrideMimeType' in xhr) {
-    xhr.overrideMimeType('text/plain');
-  }
+  if ('overrideMimeType' in xhr) xhr.overrideMimeType('text/plain');
   xhr.onreadystatechange = function() {
     var _ref;
     if (xhr.readyState === 4) {
@@ -30,13 +30,12 @@ CoffeeScript.load = function(url, callback) {
       } else {
         throw new Error("Could not load " + url);
       }
-      if (callback) {
-        return callback();
-      }
+      if (callback) return callback();
     }
   };
   return xhr.send(null);
 };
+
 runScripts = function() {
   var coffees, execute, index, length, s, scripts;
   scripts = document.getElementsByTagName('script');
@@ -45,9 +44,7 @@ runScripts = function() {
     _results = [];
     for (_i = 0, _len = scripts.length; _i < _len; _i++) {
       s = scripts[_i];
-      if (s.type === 'text/coffeescript') {
-        _results.push(s);
-      }
+      if (s.type === 'text/coffeescript') _results.push(s);
     }
     return _results;
   })();
@@ -67,6 +64,7 @@ runScripts = function() {
   })();
   return null;
 };
+
 if (window.addEventListener) {
   addEventListener('DOMContentLoaded', runScripts, false);
 } else {

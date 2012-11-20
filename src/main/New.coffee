@@ -39,6 +39,8 @@ New::arrMap =
  CanvasBoxStateDiagram:  "#{window.MAIN_PATH}../diagram/stateMachine/CanvasBoxStateDiagram"
  CanvasBoxStateLink:     "#{window.MAIN_PATH}../diagram/stateMachine/CanvasBoxStateLink"
  CanvasBoxConnectorBehavior: "#{window.MAIN_PATH}CanvasBoxConnectorBehavior"
+ CanvasBoxGravityBehavior:   "#{window.MAIN_PATH}CanvasBoxGravityBehavior" 
+ CanvasBoxMagneticBehavior:  "#{window.MAIN_PATH}CanvasBoxMagneticBehavior" 
  
 New::arrClasses = Array();
 
@@ -66,7 +68,7 @@ New::loadClass = ( strClass )->
 
 New::construct=(klass,args)->
   ObjectPointer = ->
-    klass.apply(this, arguments[0]); 
+    klass.apply(this, arguments[0]);
   ObjectPointer.prototype = klass.prototype; 
   return new ObjectPointer(args);
 

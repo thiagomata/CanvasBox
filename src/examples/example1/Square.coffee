@@ -29,7 +29,7 @@ class Square extends CanvasBoxElement
     ##
     # Current Color
     ##
-    color: null
+    color: "blue"
     
     ##
     # Square Border Color
@@ -56,10 +56,12 @@ class Square extends CanvasBoxElement
     ##
     strClassName: "Square"
 
-    constructor:->
+    constructor:()->
+        alert(  "constructor color 0" + @color );
         @color = @colorRegular
         @borderColor = @borderColorRegular
-        return super();
+        super();
+        alert(  "constructor color " + @color );
 
     ##
     # Serialize the important data of this element
@@ -76,6 +78,7 @@ class Square extends CanvasBoxElement
     # @return Square me
     ###
     draw:->
+        alert( "draw color = " + @color );
         @refresh();
         @objBox.setFillStyle( @color );
         @objBox.fillRect( 
@@ -100,7 +103,9 @@ class Square extends CanvasBoxElement
     onMouseOver:( event )->
         console.log( "square over" );
         @borderColor = @borderColorOver;
+        alert( "color antes = " + @color );
         @color = @colorOver;
+        alert( "color depois = " + @color );
         return super( event );
 
     ##
@@ -108,21 +113,27 @@ class Square extends CanvasBoxElement
     ##
     onMouseOut:( event )->
         @borderColor = @borderColorRegular;
+        alert( "color 2antes = " + @color );
         @color = @colorRegular;
+        alert( "color 2depois = " + @color );
         return super( event );
 
     ##
     # On drag event
     ##
     onDrag:( event )->
+        alert( "color 3antes = " + @color );
         @color = @colorDrag
+        alert( "color 3depois = " + @color );
         return super( event );
 
     ##
     # On drop event
     ##
     onDrop:( event )->
+        alert( "color 4antes = " + @color );
         @color = @colorRegular;
+        alert( "color 4depois = " + @color );
         return super( event );
 
     onClick:( event )->

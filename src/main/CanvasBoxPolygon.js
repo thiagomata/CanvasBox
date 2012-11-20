@@ -1,6 +1,6 @@
 var CanvasBoxPolygon,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __hasProp = Object.prototype.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
 Load.CanvasBoxElement();
 
@@ -9,7 +9,7 @@ CanvasBoxPolygon = (function(_super) {
   __extends(CanvasBoxPolygon, _super);
 
   function CanvasBoxPolygon() {
-    return CanvasBoxPolygon.__super__.constructor.apply(this, arguments);
+    CanvasBoxPolygon.__super__.constructor.apply(this, arguments);
   }
 
   CanvasBoxPolygon.prototype.debug = false;
@@ -73,7 +73,7 @@ CanvasBoxPolygon = (function(_super) {
   };
 
   CanvasBoxPolygon.prototype.draw = function() {
-    var arrPoints, intKey, objAfter, objBefore, objFirstPoint, objNextPoint, objPoint, objPrevious, _i, _j, _len, _len1, _ref, _ref1;
+    var arrPoints, intKey, objAfter, objBefore, objFirstPoint, objNextPoint, objPoint, objPrevious, _len, _len2, _ref, _ref2;
     if (this.arrPoints.length < 2) {
       return CanvasBoxPolygon.__super__.draw.call(this);
     }
@@ -85,13 +85,11 @@ CanvasBoxPolygon = (function(_super) {
     objFirstPoint = arrPoints[0];
     this.objBox.beginPath();
     _ref = this.arrPoints;
-    for (intKey = _i = 0, _len = _ref.length; _i < _len; intKey = ++_i) {
+    for (intKey = 0, _len = _ref.length; intKey < _len; intKey++) {
       objPoint = _ref[intKey];
       objNextPoint = this.arrPoints[(intKey + 1) % this.arrPoints.length];
       objPrevious = this.arrPoints[(intKey - 1 + this.arrPoints.length) % this.arrPoints.length];
-      if (intKey === 0) {
-        this.objBox.moveTo(objPoint.x, objPoint.y);
-      }
+      if (intKey === 0) this.objBox.moveTo(objPoint.x, objPoint.y);
       if (objPoint instanceof CanvasBoxPointer) {
         if (objPoint.strokeStyle != null) {
           this.objBox.setStrokeStyle(objPoint.strokeStyle);
@@ -105,9 +103,9 @@ CanvasBoxPolygon = (function(_super) {
     this.objBox.fill();
     this.objBox.stroke();
     if (this.debug) {
-      _ref1 = this.arrPoints;
-      for (intKey = _j = 0, _len1 = _ref1.length; _j < _len1; intKey = ++_j) {
-        objPoint = _ref1[intKey];
+      _ref2 = this.arrPoints;
+      for (intKey = 0, _len2 = _ref2.length; intKey < _len2; intKey++) {
+        objPoint = _ref2[intKey];
         objPrevious = this.arrPoints[(intKey - 1 + this.arrPoints.length) % this.arrPoints.length];
         if (objPoint instanceof CanvasBoxPointer) {
           if (objPoint.strokeStyle != null) {
@@ -137,17 +135,15 @@ CanvasBoxPolygon = (function(_super) {
   };
 
   CanvasBoxPolygon.prototype.isInsidePolygon = function(objPoint) {
-    var arrRotatedPoints, booInside, intCurrentDiffX, intDiffBACAY, intDiffCABAY, intKey, intLastDiffX, intQtdPoints, objAPoint, objBPoint, objCurrentPoint, objLastPoint, _i, _len;
+    var arrRotatedPoints, booInside, intCurrentDiffX, intDiffBACAY, intDiffCABAY, intKey, intLastDiffX, intQtdPoints, objAPoint, objBPoint, objCurrentPoint, objLastPoint, _len;
     objPoint.x = this.x - objPoint.x;
     objPoint.y = this.y - objPoint.y;
     arrRotatedPoints = this.getRotatedPoints();
     intQtdPoints = arrRotatedPoints.length;
-    if (intQtdPoints < 3) {
-      return false;
-    }
+    if (intQtdPoints < 3) return false;
     booInside = false;
     objLastPoint = arrRotatedPoints[intQtdPoints - 1];
-    for (intKey = _i = 0, _len = arrRotatedPoints.length; _i < _len; intKey = ++_i) {
+    for (intKey = 0, _len = arrRotatedPoints.length; intKey < _len; intKey++) {
       objCurrentPoint = arrRotatedPoints[intKey];
       if (objCurrentPoint.x > objLastPoint.x) {
         objAPoint = objLastPoint;
@@ -179,10 +175,10 @@ CanvasBoxPolygon = (function(_super) {
   };
 
   CanvasBoxPolygon.prototype.smooth = function() {
-    var arrNewPoints, intKey, objBeforePoint, objMiddlePointAB, objMiddlePointBC, objNewB, objNextPoint, objPoint, objShadowB, _i, _len, _ref;
+    var arrNewPoints, intKey, objBeforePoint, objMiddlePointAB, objMiddlePointBC, objNewB, objNextPoint, objPoint, objShadowB, _len, _ref;
     arrNewPoints = new Array();
     _ref = this.arrPoints;
-    for (intKey = _i = 0, _len = _ref.length; _i < _len; intKey = ++_i) {
+    for (intKey = 0, _len = _ref.length; intKey < _len; intKey++) {
       objPoint = _ref[intKey];
       objNextPoint = this.arrPoints[(intKey + 1) % this.arrPoints.length];
       objBeforePoint = this.arrPoints[(intKey - 1 + this.arrPoints.length) % this.arrPoints.length];

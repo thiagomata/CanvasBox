@@ -31,6 +31,7 @@ class CanvasBoxStateDiagram extends CanvasBox
     objStateElement = New.CanvasBoxState();
     objStateElement.x = posX;
     objStateElement.y = posY;
+    objStateElement.objBehavior = New.CanvasBoxBehavior( objStateElement );
     objStateElement.strStateName = strStateName;
     this.addElement( objStateElement );
     return objStateElement;

@@ -37,7 +37,6 @@ New.prototype.arrMap = {
   CanvasBoxMenu: "" + window.MAIN_PATH + "CanvasBoxMenu",
   CanvasBoxPointer: "" + window.MAIN_PATH + "CanvasBoxPointer",
   CanvasBoxPolygon: "" + window.MAIN_PATH + "CanvasBoxPolygon",
-  CanvasBoxConnectorBehavior: "" + window.MAIN_PATH + "CanvasBoxConnectorBehavior",
   CanvasBoxExportButton: "" + window.MAIN_PATH + "button/CanvasBoxExportButton",
   CanvasBoxFixedButton: "" + window.MAIN_PATH + "button/CanvasBoxFixedButton",
   CanvasBoxSaveButton: "" + window.MAIN_PATH + "button/CanvasBoxSaveButton",
@@ -45,7 +44,10 @@ New.prototype.arrMap = {
   CanvasBoxZoomOutButton: "" + window.MAIN_PATH + "button/CanvasBoxZoomOutButton",
   CanvasBoxState: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxState",
   CanvasBoxStateDiagram: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateDiagram",
-  CanvasBoxStateLink: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateLink"
+  CanvasBoxStateLink: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateLink",
+  CanvasBoxConnectorBehavior: "" + window.MAIN_PATH + "CanvasBoxConnectorBehavior",
+  CanvasBoxGravityBehavior: "" + window.MAIN_PATH + "CanvasBoxGravityBehavior",
+  CanvasBoxMagneticBehavior: "" + window.MAIN_PATH + "CanvasBoxMagneticBehavior"
 };
 
 New.prototype.arrClasses = Array();
@@ -53,9 +55,7 @@ New.prototype.arrClasses = Array();
 New.prototype.loadClass = function(strClass) {
   var strContent;
   try {
-    if (php.in_array(strClass, New.prototype.arrClasses)) {
-      return false;
-    }
+    if (php.in_array(strClass, New.prototype.arrClasses)) return false;
     if (!(New.prototype.arrMap[strClass] != null)) {
       throw new CanvasBoxException("Unabled to map the class " + strClass);
     }
@@ -86,12 +86,8 @@ New.prototype.construct = function(klass, args) {
 };
 
 New.prototype.addMap = function(strClass, link) {
-  if (link == null) {
-    link = null;
-  }
-  if (link != null) {
-    New.prototype.arrMap[strClass] = link;
-  }
+  if (link == null) link = null;
+  if (link != null) New.prototype.arrMap[strClass] = link;
   New[strClass] = new Function("return New.prototype.Instance({ name: '" + strClass + "', data: arguments });");
   return Load[strClass] = new Function("return Load.prototype.Instance({ name: '" + strClass + "', data: arguments });");
 };

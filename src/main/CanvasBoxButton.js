@@ -5,7 +5,6 @@
 # 
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 */
-
 var CanvasBoxButton;
 
 CanvasBoxButton = (function() {
@@ -16,13 +15,11 @@ CanvasBoxButton = (function() {
       # Title of the Button
   */
 
-
   CanvasBoxButton.prototype.strTitle = "Default Button";
 
   /*
       # Padding Top of The Button
   */
-
 
   CanvasBoxButton.prototype.intPaddingTop = 0;
 
@@ -30,13 +27,11 @@ CanvasBoxButton = (function() {
       # Padding Left of The Button
   */
 
-
   CanvasBoxButton.prototype.intPaddingLeft = 0;
 
   /*
       # X Position of the Button relative to the element what it's belong to
   */
-
 
   CanvasBoxButton.prototype.intRelativeX = 0;
 
@@ -44,13 +39,11 @@ CanvasBoxButton = (function() {
       # Y Position of the Button relative to the element what it's belong to
   */
 
-
   CanvasBoxButton.prototype.intRelativeY = 0;
 
   /*
       # X Absolute Position
   */
-
 
   CanvasBoxButton.prototype.x = 0;
 
@@ -58,13 +51,11 @@ CanvasBoxButton = (function() {
       # Y Absolute Position
   */
 
-
   CanvasBoxButton.prototype.y = 0;
 
   /*
       # Possibles Horizontal Positions
   */
-
 
   CanvasBoxButton.prototype.arrPositionsHorizontal = ["left", "center", "right"];
 
@@ -72,13 +63,11 @@ CanvasBoxButton = (function() {
       # Button Horizontal Position
   */
 
-
   CanvasBoxButton.prototype.strPositionHorizontal = "right";
 
   /*
       # Possibles Vertical Positions
   */
-
 
   CanvasBoxButton.prototype.arrPositionsVertical = ["top", "middle", "bottom"];
 
@@ -86,13 +75,11 @@ CanvasBoxButton = (function() {
       # Button Vertical Position
   */
 
-
   CanvasBoxButton.prototype.strPositionVertical = "top";
 
   /*
       # Button Width
   */
-
 
   CanvasBoxButton.prototype.width = 25;
 
@@ -100,13 +87,11 @@ CanvasBoxButton = (function() {
       # Button Height
   */
 
-
   CanvasBoxButton.prototype.height = 25;
 
   /*
       # Distance between the button and the element
   */
-
 
   CanvasBoxButton.prototype.borderWidth = 10;
 
@@ -114,13 +99,11 @@ CanvasBoxButton = (function() {
       # Distance between the button and the element
   */
 
-
   CanvasBoxButton.prototype.borderHeight = 3;
 
   /*
       # @var CanvasBoxButton
   */
-
 
   CanvasBoxButton.prototype.objPreviousButton = null;
 
@@ -128,13 +111,11 @@ CanvasBoxButton = (function() {
       # @var CanvasBoxElement
   */
 
-
   CanvasBoxButton.prototype.objElement = null;
 
   /*
       # Flag to control if the mouse is over the element
   */
-
 
   CanvasBoxButton.prototype.booMouseOver = false;
 
@@ -144,7 +125,6 @@ CanvasBoxButton = (function() {
       # @param objElement CanvasBoxElement
       # @return void
   */
-
 
   CanvasBoxButton.prototype.initialize = function(objElement) {
     return this.objElement = objElement;
@@ -292,9 +272,7 @@ CanvasBoxButton = (function() {
     this.refresh();
     if (this.objElement.booMouseOver) {
       this.drawButton();
-      if (this.booMouseOver) {
-        return this.drawTitle();
-      }
+      if (this.booMouseOver) return this.drawTitle();
     }
   };
 

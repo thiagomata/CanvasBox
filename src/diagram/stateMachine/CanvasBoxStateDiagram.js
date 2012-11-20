@@ -1,6 +1,6 @@
 var CanvasBoxStateDiagram,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __hasProp = Object.prototype.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
 Load.CanvasBox();
 
@@ -9,7 +9,7 @@ CanvasBoxStateDiagram = (function(_super) {
   __extends(CanvasBoxStateDiagram, _super);
 
   function CanvasBoxStateDiagram() {
-    return CanvasBoxStateDiagram.__super__.constructor.apply(this, arguments);
+    CanvasBoxStateDiagram.__super__.constructor.apply(this, arguments);
   }
 
   CanvasBoxStateDiagram.prototype.strClassName = "CanvasBoxStateDiagram";
@@ -54,27 +54,26 @@ CanvasBoxStateDiagram = (function(_super) {
     objStateElement = New.CanvasBoxState();
     objStateElement.x = posX;
     objStateElement.y = posY;
+    objStateElement.objBehavior = New.CanvasBoxBehavior(objStateElement);
     objStateElement.strStateName = strStateName;
     this.addElement(objStateElement);
     return objStateElement;
   };
 
   CanvasBoxStateDiagram.prototype.load = function(objJsonInport) {
-    var arrStates, keyLine, keyState, objLine, objLineJson, objState, objStateJson, _ref, _ref1, _results;
+    var arrStates, keyLine, keyState, objLine, objLineJson, objState, objStateJson, _ref, _ref2, _results;
     arrStates = [];
     _ref = objJsonInport.states;
     for (keyState in _ref) {
       objStateJson = _ref[keyState];
       objState = this.addState(objStateJson.name, objStateJson.x, objStateJson.y);
-      if (objStateJson.color) {
-        objState.fillColor = objStateJson.color;
-      }
+      if (objStateJson.color) objState.fillColor = objStateJson.color;
       arrStates[objStateJson.id] = objState;
     }
-    _ref1 = objJsonInport.lines;
+    _ref2 = objJsonInport.lines;
     _results = [];
-    for (keyLine in _ref1) {
-      objLineJson = _ref1[keyLine];
+    for (keyLine in _ref2) {
+      objLineJson = _ref2[keyLine];
       objLine = this.addLine(arrStates[objLineJson.from], arrStates[objLineJson.to]);
       _results.push(objLine.strName = objLineJson.name);
     }

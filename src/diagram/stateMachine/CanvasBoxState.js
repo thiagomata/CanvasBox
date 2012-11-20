@@ -1,6 +1,6 @@
 var CanvasBoxState,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __hasProp = Object.prototype.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
 Load.CanvasBoxElement();
 
@@ -9,7 +9,7 @@ CanvasBoxState = (function(_super) {
   __extends(CanvasBoxState, _super);
 
   function CanvasBoxState() {
-    return CanvasBoxState.__super__.constructor.apply(this, arguments);
+    CanvasBoxState.__super__.constructor.apply(this, arguments);
   }
 
   CanvasBoxState.prototype.width = 90;
@@ -127,7 +127,8 @@ CanvasBoxState = (function(_super) {
     this.x0 = this.x - (this.width / 2);
     this.x1 = this.x + (this.width / 2);
     this.y0 = this.y - (this.height / 2);
-    return this.y1 = this.y + (this.height / 2);
+    this.y1 = this.y + (this.height / 2);
+    return CanvasBoxState.__super__.refresh.apply(this, arguments);
   };
 
   CanvasBoxState.prototype.draw = function() {
@@ -155,9 +156,7 @@ CanvasBoxState = (function(_super) {
   };
 
   CanvasBoxState.prototype.drawMouseOver = function(event) {
-    if (!this.defaultColor) {
-      this.defaultColor = this.fillColor;
-    }
+    if (!this.defaultColor) this.defaultColor = this.fillColor;
     return this.fillColor = this.overColor;
   };
 
@@ -168,9 +167,7 @@ CanvasBoxState = (function(_super) {
   };
 
   CanvasBoxState.prototype.drawDrag = function(event) {
-    if (!this.defaultColor) {
-      this.defaultColor = this.fillColor;
-    }
+    if (!this.defaultColor) this.defaultColor = this.fillColor;
     return this.fillColor = this.dragColor;
   };
 
@@ -193,9 +190,7 @@ CanvasBoxState = (function(_super) {
   CanvasBoxState.prototype.rename = function() {
     var strClassNewName;
     strClassNewName = prompt("Inform the new name of the state.");
-    if (strClassNewName !== null) {
-      return this.strStateName = strClassNewName;
-    }
+    if (strClassNewName !== null) return this.strStateName = strClassNewName;
   };
 
   CanvasBoxState.prototype.onMouseOver = function() {

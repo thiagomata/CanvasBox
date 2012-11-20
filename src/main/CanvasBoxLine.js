@@ -1,6 +1,6 @@
 var CanvasBoxLine,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+  __hasProp = Object.prototype.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
 Load.CanvasBoxConnector();
 
@@ -9,10 +9,14 @@ CanvasBoxLine = (function(_super) {
   __extends(CanvasBoxLine, _super);
 
   function CanvasBoxLine() {
-    return CanvasBoxLine.__super__.constructor.apply(this, arguments);
+    CanvasBoxLine.__super__.constructor.apply(this, arguments);
   }
 
-  CanvasBoxLine.prototype.side = 3;
+  CanvasBoxLine.prototype.side = 1;
+
+  CanvasBoxLine.prototype.hoverSide = 5;
+
+  CanvasBoxLine.prototype.shaddow = 20;
 
   CanvasBoxLine.prototype.x = 0;
 
@@ -34,7 +38,9 @@ CanvasBoxLine = (function(_super) {
 
   CanvasBoxLine.prototype.draggableBorderColor = "rgb( 200, 200, 220 )";
 
-  CanvasBoxLine.prototype.style = "rgb( 200, 200, 220 )";
+  CanvasBoxLine.prototype.strokeStyle = "rgb( 200, 200, 220 )";
+
+  CanvasBoxLine.prototype.fillStyle = "rgb( 100, 100, 220 )";
 
   CanvasBoxLine.prototype.width = 1;
 
@@ -54,7 +60,7 @@ CanvasBoxLine = (function(_super) {
       dy: this.dy,
       draggableColor: this.draggableColor,
       draggableBorderColor: this.draggableBorderColor,
-      style: this.style,
+      strokeStyle: this.strokeStyle,
       width: this.width,
       strClassName: this.strClassName
     };
@@ -88,6 +94,7 @@ CanvasBoxLine = (function(_super) {
   CanvasBoxLine.prototype.createConnectorFrom = function() {
     var objVector;
     objVector = this.getVectorFromElement(this.objElementFrom);
+    this.rotateVector(objVector);
     this.drawConnectorFrom(objVector.pointer, this.side);
     return this.objBox.restoreContext();
   };
@@ -95,19 +102,38 @@ CanvasBoxLine = (function(_super) {
   CanvasBoxLine.prototype.createConnectorTo = function() {
     var objVector;
     objVector = this.getVectorFromElement(this.objElementTo);
+    this.rotateVector(objVector);
     this.drawConnectorTo(objVector.pointer, this.side);
     return this.objBox.restoreContext();
   };
 
   CanvasBoxLine.prototype.drawConnectorFrom = function(objPointer, intSide) {
-    return this.drawBackgroundCircle(intSide);
+    this.drawBackgroundCircle(intSide);
+    this.objBox.setFillStyle(this.fillStyle);
+    this.objBox.setStrokeStyle(this.strokeStyle);
+    this.objBox.beginPath();
+    this.drawArrowFrom(intSide);
+    this.objBox.fill();
+    return this.objBox.stroke();
   };
 
   CanvasBoxLine.prototype.drawConnectorTo = function(objPointer, intSide) {
-    return this.drawBackgroundCircle(intSide);
+    this.drawBackgroundCircle(intSide);
+    this.objBox.setFillStyle(this.fillStyle);
+    this.objBox.setStrokeStyle(this.strokeStyle);
+    this.objBox.beginPath();
+    this.drawArrowTo(intSide);
+    this.objBox.fill();
+    return this.objBox.stroke();
   };
 
-  CanvasBoxLine.prototype.drawBackgroundCircle = function(intSide) {};
+  CanvasBoxLine.prototype.drawBackgroundCircle = function(intSide) {
+    this.objBox.beginPath();
+    this.objBox.setFillStyle(this.objBox.backgroundColor);
+    this.objBox.setStrokeStyle("rgb( 0 , 0, 0 )");
+    this.objBox.arc(0, 0, this.shaddow, 0, Math.PI, true);
+    return this.objBox.fill();
+  };
 
   CanvasBoxLine.prototype.refresh = function() {
     this.x0 = this.x - (this.side / 2);
@@ -134,14 +160,14 @@ CanvasBoxLine = (function(_super) {
   CanvasBoxLine.prototype.drawAnchor = function() {
     this.objBox.saveContext();
     this.objBox.setFillStyle(this.color);
-    this.objBox.setStrokeStyle(this.style);
+    this.objBox.setStrokeStyle(this.strokeStyle);
     this.objBox.moveTo(this.x, this.y);
     this.objBox.beginPath();
     this.objBox.arc(this.x, this.y, this.side, 0, Math.PI * 2, true);
     this.objBox.fill();
     if (this.mouseOver || this.objBox.objElementClicked === this) {
       this.objBox.setStrokeStyle(this.draggableColor);
-      this.objBox.arc(this.x, this.y, this.side * 2, 0, Math.PI * 2, true);
+      this.objBox.arc(this.x, this.y, this.hoverSide, 0, Math.PI * 2, true);
       this.objBox.stroke();
     }
     this.objBox.closePath();
@@ -151,7 +177,7 @@ CanvasBoxLine = (function(_super) {
   CanvasBoxLine.prototype.drawLines = function() {
     this.objBox.saveContext();
     this.objBox.moveTo(this.x, this.y);
-    this.objBox.setStrokeStyle(this.style);
+    this.objBox.setStrokeStyle(this.strokeStyle);
     this.objBox.setFillStyle(this.color);
     this.drawLine(this.x, this.y, this.objElementFrom.x, this.objElementFrom.y);
     this.drawLine(this.x, this.y, this.objElementTo.x, this.objElementTo.y);
@@ -169,27 +195,13 @@ CanvasBoxLine = (function(_super) {
     this.refresh();
     this.drawLines();
     this.drawAnchor();
-    return;
-    this.objBox.setFillStyle(this.color);
-    this.objBox.setStrokeStyle(this.color);
-    this.objBox.moveTo(this.x, this.y);
-    this.objBox.beginPath();
-    this.objBox.arc(this.x, this.y, this.side, 0, Math.PI * 2, true);
-    this.objBox.fill();
-    this.objBox.closePath();
-    this.z = 1;
-    if (this.objElementFrom.strClassName !== this.strClassName) {
-      this.createConnectorFrom();
-      this.objBox.setFillStyle(this.color);
-      this.z = 2;
-    }
-    if (this.objElementTo.strClassName !== this.strClassName) {
-      this.createConnectorTo();
-      this.objBox.setFillStyle(this.color);
-      this.z = 2;
-    }
-    return this.objBox.restoreContext();
+    this.createConnectorFrom();
+    return this.createConnectorTo();
   };
+
+  CanvasBoxLine.prototype.drawArrowTo = function(intSide) {};
+
+  CanvasBoxLine.prototype.drawArrowFrom = function(intSide) {};
 
   CanvasBoxLine.prototype.findArrow = function(objBoxElement, intSide) {
     var intDegree;
@@ -211,16 +223,12 @@ CanvasBoxLine = (function(_super) {
   };
 
   CanvasBoxLine.prototype.drawMouseOver = function(event) {
-    if (!this.defaultSide) {
-      this.defaultSide = this.side;
-    }
+    if (!this.defaultSide) this.defaultSide = this.side;
     return this.side = 6;
   };
 
   CanvasBoxLine.prototype.drawFixed = function(boolFixed) {
-    if (!this.defaultColor) {
-      this.defaultColor = this.color;
-    }
+    if (!this.defaultColor) this.defaultColor = this.color;
     if (boolFixed) {
       this.borderWidth *= 3;
       return this.side = this.defaultSide;

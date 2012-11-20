@@ -3,7 +3,9 @@ var arrScripts = document.head.getElementsByTagName( "script" );
 for ( var intScriptCount = 0 ; intScriptCount < arrScripts.length ; intScriptCount++ )
 {
     var objScript = arrScripts[ intScriptCount ];
-    if( objScript.getAttribute( "src" ).indexOf( "php.basic.js" ) > 0 )
+    if( objScript.getAttribute( "src" ) !== undefined && 
+        objScript.getAttribute( "src" ) !== null && 
+        objScript.getAttribute( "src" ).indexOf( "php.basic.js" ) > 0 )
     {
         php.path = objScript.getAttribute( "src" ).replace( "php.basic.js" , "" );
         break;

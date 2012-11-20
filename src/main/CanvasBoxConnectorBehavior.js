@@ -2,8 +2,6 @@ var CanvasBoxConnectorBehavior;
 
 CanvasBoxConnectorBehavior = (function() {
 
-  CanvasBoxConnectorBehavior.prototype.strClassName = "CanvasBoxDefaultConnectorBehavior";
-
   CanvasBoxConnectorBehavior.prototype.objBox = null;
 
   CanvasBoxConnectorBehavior.prototype.objBoxElement = null;
@@ -69,9 +67,7 @@ CanvasBoxConnectorBehavior = (function() {
   CanvasBoxConnectorBehavior.prototype.onClick = function(event) {};
 
   CanvasBoxConnectorBehavior.prototype.move = function() {
-    if (this.objBoxElement.fixed) {
-      return;
-    }
+    if (this.objBoxElement.fixed) return;
     if (this.objBoxElement.objElementFrom !== this.objBoxElement.objElementTo) {
       this.objBoxElement.x = (this.objBoxElement.objElementFrom.x + this.objBoxElement.objElementTo.x) / 2 + this.intXDistance;
       return this.objBoxElement.y = (this.objBoxElement.objElementFrom.y + this.objBoxElement.objElementTo.y) / 2 + this.intYDistance;
@@ -87,6 +83,18 @@ CanvasBoxConnectorBehavior = (function() {
 
   CanvasBoxConnectorBehavior.prototype.getForce = function(objElement) {
     return null;
+  };
+
+  CanvasBoxConnectorBehavior.prototype.changeBehavior = function(strNewBehavior) {
+    var objNewBehavior;
+    objNewBehavior = New[strNewBehavior](this.objBoxElement);
+    objNewBehavior.dx = this.dx;
+    objNewBehavior.dy = this.dy;
+    objNewBehavior.intXDistance = this.intXDistance;
+    objNewBehavior.intYDistance = this.intYDistance;
+    objNewBehavior.objBox = this.objBox;
+    this.objBoxElement.objBehavior = objNewBehavior;
+    return objNewBehavior;
   };
 
   return CanvasBoxConnectorBehavior;
