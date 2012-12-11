@@ -793,6 +793,25 @@ class CanvasBox
             Math.round( intY * @dblZoom )
         );
 
+    quadraticCurveTo:( intCurveX , intCurveY, intX , intY )->
+        @getContext().quadraticCurveTo(
+            Math.round( intCurveX * @dblZoom ),
+            Math.round( intCurveY * @dblZoom ),
+            Math.round( intX * @dblZoom ),
+            Math.round( intY * @dblZoom )
+        );
+
+    bezierCurveTo:( intCurveX , intCurveY, intX , intY )->
+        
+        @getContext().bezierCurveTo(
+          Math.round( intCurveX * @dblZoom ), 
+          Math.round( intCurveY * @dblZoom ), 
+          Math.round( intCurveX * @dblZoom ), 
+          Math.round( intCurveY * @dblZoom ) , 
+          Math.round( intX  * @dblZoom ), 
+          Math.round( intY * @dblZoom )
+        )
+
     arc:( intX , intY, dblRadius , dblStartAngle , dblEndAngle, booClockwise)->
         @getContext().arc(
             Math.round( intX * @dblZoom  ),
@@ -824,10 +843,8 @@ class CanvasBox
 
     setFillStyle:( strFillStyle )->
         try
-          #console.log( "fill Style = " + strFillStyle );
-          if( not strFillStyle? )
-              objError = throw new CanvasBoxException( "Fill Style not defined");
-              #console.log( ojbErro );
+          if not strFillStyle?
+            objError = throw new CanvasBoxException( "Fill Style not defined" )
           @getContext().fillStyle = strFillStyle;
         catch objError
           throw new CanvasBoxException( "Error on set Fill Style [#{strFillStyle}]" );
@@ -934,13 +951,15 @@ class CanvasBox
         try
           #console.log( "set Font " + strFontDescription );
           arrFontData = php.explode( " " , strFontDescription );
-          strSize = arrFontData[0];
-          strSizeNumber = strSize.substr( 0 , strSize.length - 2 );
-          strSizeType = strSize.substr( strSize.length - 2 );
-          dblSizeNumber = 1 * strSizeNumber;
-          dblSizeNumber = dblSizeNumber * @dblZoom;
-          strNewSizeNumber = dblSizeNumber + strSizeType;
-          arrFontData[0] = strNewSizeNumber;
+          for strFontData , key in arrFontData
+            if  strFontData.indexOf( "px" ) > -1 or
+                strFontData.indexOf( "pt" ) > -1
+              strSizeNumber = strFontData.substr( 0 , strFontData.length - 2 );
+              strSizeType   = strFontData.substr( strFontData.length - 2 );
+              dblSizeNumber = 1 * strSizeNumber;
+              dblSizeNumber = dblSizeNumber * @dblZoom;
+              strNewSizeNumber = dblSizeNumber + strSizeType;
+              arrFontData[ key ] = strNewSizeNumber;
           strFontDescription = php.implode( " " , arrFontData );
           #console.log( "set Font After " + strFontDescription );
           @getContext().font = strFontDescription;
@@ -958,14 +977,33 @@ class CanvasBox
 
     drawLine:( intXfrom , intYfrom , intXto , intYto )->
         try
-          @getContext().drawLine(
-              Math.round( intXfrom    * @dblZoom ),
-              Math.round( intYfrom    * @dblZoom ),
-              Math.round( intXto      * @dblZoom ),
-              Math.round( intYto      * @dblZoom )
-          )
+          @getContext().moveTo( intXfrom , intYfrom )
+          @getContext().lineTo( intXto   , intYto )
         catch objError
-          throw new CanvasBoxException( "Error on drawLine" );
+          objCanvasError = new CanvasBoxException( "Error on drawLine" );
+          objCanvasError.setParentError( objError )
+          throw objCanvasError
+
+    drawQuadraticLine:( intXfrom , intYfrom , intXto , intYto , intXCurve , intYCurve )->
+
+        try
+          @getContext().moveTo( intXfrom , intYfrom )
+          @getContext().quadraticCurveTo( intXCurve, intYCurve, intXto   , intYto )
+        catch objError
+          objCanvasError = new CanvasBoxException( "Error on quadraticCurveTo" );
+          objCanvasError.setParentError( objError )
+          throw objCanvasError
+
+    drawBezierLine:( intXfrom , intYfrom , intXto , intYto , intXCurve , intYCurve )->
+
+        try
+          @getContext().moveTo( intXfrom , intYfrom )
+          @bezierCurveTo( intXCurve, intYCurve, intXto   , intYto )
+        catch objError
+          objCanvasError = new CanvasBoxException( "Error on drawBezierLine" );
+          objCanvasError.setParentError( objError )
+          throw objCanvasError
+
 
     rotate:( dblDegree )->
         try

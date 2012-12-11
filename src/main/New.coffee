@@ -54,10 +54,11 @@ New::loadClass = ( strClass )->
             throw new CanvasBoxException( "Unabled to map the class #{strClass}" );
         console.log( "loading... " + strClass );
         if( php.file_exists( New::arrMap[ strClass] + ".js" ) )
-            console.log( New::arrMap[ strClass] + ".js" );
+            console.log( "load " + New::arrMap[ strClass] + ".js" );
             php.require_once( New::arrMap[ strClass] + ".js" );
         else
             strContent = php.file_get_contents( New::arrMap[ strClass] + ".coffee");
+            console.log( "run " + strClass+ ".coffee" )
             CoffeeScript.run( strContent );
         New::arrClasses.push( strClass );
         return true;

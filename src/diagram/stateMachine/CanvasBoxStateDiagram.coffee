@@ -27,11 +27,15 @@ class CanvasBoxStateDiagram extends CanvasBox
     this.addElement( objStateLine );
     return objStateLine;
     
-  addState:( strStateName , posX , posY )->
+  addState:( strStateName , posX = null , posY = null )->
     objStateElement = New.CanvasBoxState();
+    if( posX == null )
+      posX = Math.round( Math.random() * 1200 )
+    if( posY== null )
+      posY = Math.round( Math.random() * 1200 )
     objStateElement.x = posX;
     objStateElement.y = posY;
-    objStateElement.objBehavior = New.CanvasBoxBehavior( objStateElement );
+    objStateElement.objBehavior = New.CanvasBoxMagneticBehavior( objStateElement );
     objStateElement.strStateName = strStateName;
     this.addElement( objStateElement );
     return objStateElement;

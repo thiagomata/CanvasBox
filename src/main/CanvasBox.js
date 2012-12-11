@@ -878,6 +878,14 @@ CanvasBox = (function() {
     return this.getContext().lineTo(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom));
   };
 
+  CanvasBox.prototype.quadraticCurveTo = function(intCurveX, intCurveY, intX, intY) {
+    return this.getContext().quadraticCurveTo(Math.round(intCurveX * this.dblZoom), Math.round(intCurveY * this.dblZoom), Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom));
+  };
+
+  CanvasBox.prototype.bezierCurveTo = function(intCurveX, intCurveY, intX, intY) {
+    return this.getContext().bezierCurveTo(Math.round(intCurveX * this.dblZoom), Math.round(intCurveY * this.dblZoom), Math.round(intCurveX * this.dblZoom), Math.round(intCurveY * this.dblZoom), Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom));
+  };
+
   CanvasBox.prototype.arc = function(intX, intY, dblRadius, dblStartAngle, dblEndAngle, booClockwise) {
     return this.getContext().arc(Math.round(intX * this.dblZoom), Math.round(intY * this.dblZoom), Math.abs(Math.round(dblRadius * this.dblZoom)), dblStartAngle, dblEndAngle, booClockwise);
   };
@@ -1015,16 +1023,20 @@ CanvasBox = (function() {
   };
 
   CanvasBox.prototype.setFont = function(strFontDescription) {
-    var arrFontData, dblSizeNumber, strNewSizeNumber, strSize, strSizeNumber, strSizeType;
+    var arrFontData, dblSizeNumber, key, strFontData, strNewSizeNumber, strSizeNumber, strSizeType, _len;
     try {
       arrFontData = php.explode(" ", strFontDescription);
-      strSize = arrFontData[0];
-      strSizeNumber = strSize.substr(0, strSize.length - 2);
-      strSizeType = strSize.substr(strSize.length - 2);
-      dblSizeNumber = 1 * strSizeNumber;
-      dblSizeNumber = dblSizeNumber * this.dblZoom;
-      strNewSizeNumber = dblSizeNumber + strSizeType;
-      arrFontData[0] = strNewSizeNumber;
+      for (key = 0, _len = arrFontData.length; key < _len; key++) {
+        strFontData = arrFontData[key];
+        if (strFontData.indexOf("px") > -1 || strFontData.indexOf("pt") > -1) {
+          strSizeNumber = strFontData.substr(0, strFontData.length - 2);
+          strSizeType = strFontData.substr(strFontData.length - 2);
+          dblSizeNumber = 1 * strSizeNumber;
+          dblSizeNumber = dblSizeNumber * this.dblZoom;
+          strNewSizeNumber = dblSizeNumber + strSizeType;
+          arrFontData[key] = strNewSizeNumber;
+        }
+      }
       strFontDescription = php.implode(" ", arrFontData);
       return this.getContext().font = strFontDescription;
     } catch (objError) {
@@ -1041,10 +1053,38 @@ CanvasBox = (function() {
   };
 
   CanvasBox.prototype.drawLine = function(intXfrom, intYfrom, intXto, intYto) {
+    var objCanvasError;
     try {
-      return this.getContext().drawLine(Math.round(intXfrom * this.dblZoom), Math.round(intYfrom * this.dblZoom), Math.round(intXto * this.dblZoom), Math.round(intYto * this.dblZoom));
+      this.getContext().moveTo(intXfrom, intYfrom);
+      return this.getContext().lineTo(intXto, intYto);
     } catch (objError) {
-      throw new CanvasBoxException("Error on drawLine");
+      objCanvasError = new CanvasBoxException("Error on drawLine");
+      objCanvasError.setParentError(objError);
+      throw objCanvasError;
+    }
+  };
+
+  CanvasBox.prototype.drawQuadraticLine = function(intXfrom, intYfrom, intXto, intYto, intXCurve, intYCurve) {
+    var objCanvasError;
+    try {
+      this.getContext().moveTo(intXfrom, intYfrom);
+      return this.getContext().quadraticCurveTo(intXCurve, intYCurve, intXto, intYto);
+    } catch (objError) {
+      objCanvasError = new CanvasBoxException("Error on quadraticCurveTo");
+      objCanvasError.setParentError(objError);
+      throw objCanvasError;
+    }
+  };
+
+  CanvasBox.prototype.drawBezierLine = function(intXfrom, intYfrom, intXto, intYto, intXCurve, intYCurve) {
+    var objCanvasError;
+    try {
+      this.getContext().moveTo(intXfrom, intYfrom);
+      return this.bezierCurveTo(intXCurve, intYCurve, intXto, intYto);
+    } catch (objError) {
+      objCanvasError = new CanvasBoxException("Error on drawBezierLine");
+      objCanvasError.setParentError(objError);
+      throw objCanvasError;
     }
   };
 

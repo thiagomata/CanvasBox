@@ -1,99 +1,110 @@
 Load.CanvasBoxConnector();
 class CanvasBoxLine extends CanvasBoxConnector
 
-  ##
+  intMass: 1
+  
+  ###
   # The circle of drag and drop side size
-  ##
+  ###
   side: 1
 
-  ##
+  ###
   # The circle of drag and drop side size
-  ##
+  ###
   hoverSide: 5
 
-  ##
+  ###
   # The circle of drag and drop side size
-  ##
+  ###
   shaddow: 20
 
-  ##
+  shaddowColor: "rgba(100,100,100,0.5)"
+
+  hoverDistance: 10
+
+  ###
   # The X Position of the Draggable Element
-  ##
+  ###
   x: 0
 
-  ##
+  ###
   # The Y Position of the Draggable Element
-  ##
+  ###
   y: 0
 
-  ##
+  ###
   # The X Position of the Dot in the Start
-  ##
+  ###
   x0: 0
 
-  ##
+  ###
   # The X Position of the Dot in the End
-  ##
+  ###
   x1: 0
 
-  ##
+  ###
   # The X speed
-  ##
+  ###
   dx: 0
 
-  ##
+  ###
   # The Y Position of the Dot in the Start
-  ##
+  ###
   y0: 0
 
-  ##
+  ###
   # The Y Position of the Dot in the End
-  ##
+  ###
   y1: 0
   
-  ##
+  ###
   # The Y speed
-  ##
+  ###
   dy: 0
 
-  ##
+  ###
   # Color of the Draggable Element
-  ##
+  ###
   draggableColor: "rgb( 200, 200, 220 )"
 
-  ##
+  ###
   # Color of the Draggable Element
-  ##
+  ###
   draggableBorderColor: "rgb( 200, 200, 220 )"
 
-  ##
+  ###
   # line Style, color, transparency, etc.
-  ##
+  ###
   strokeStyle: "rgb( 200, 200, 220 )"
 
-  ##
+  ###
   # fill Style, color, transparency, etc.
-  ##
+  ###
   fillStyle: "rgb( 100, 100, 220 )"
 
-  ##
+  ###
   # Line Width
-  ##
+  ###
   width: 1
 
-  ##
+  ###
   # Class Name
-  ##
+  ###
   strClassName: "CanvasBoxLine"
 
-  ##
+  ###
   # Color
-  ##
+  ###
   color: "black"
+
+  ###
+  # Text
+  ###
+  strText: null
   
-  ##
+  ###
   # Create the serialize object witch describe the canvas box line
-  ##
+  ###
   toSerialize:()->
     objResult =
       side: @side
@@ -110,11 +121,11 @@ class CanvasBoxLine extends CanvasBoxConnector
       strClassName: @strClassName
     return objResult;
 
-  ##
+  ###
   # Get the vector ( pointer, distance and the angle )
   # based on the received element
   # @objElement CanvasBoxElement
-  ##
+  ###
   getVectorFromElement:( objElement  )->
     objPointer = @findArrow( objElement , @side );
     dblAngle = objPointer.degree * 2 * Math.PI / 360;
@@ -129,10 +140,10 @@ class CanvasBoxLine extends CanvasBoxConnector
       reverseAngle: dblReverseAngle
     );
     
-  ##
+  ###
   # Rotate the context based on the received vector
   # @param objVector Vector
-  ##
+  ###
   rotateVector:( objVector )->
     @objBox.restoreContext();
     @objBox.moveTo( objVector.pointer.x , objVector.pointer.y );
@@ -145,9 +156,9 @@ class CanvasBoxLine extends CanvasBoxConnector
       objVector.distance
     );
 
-  ##
+  ###
   # Create the Connector in the From side of the line
-  ##
+  ###
   createConnectorFrom:()->
     objVector = @getVectorFromElement( @objElementFrom );
     # @objBox.saveContext();
@@ -155,18 +166,18 @@ class CanvasBoxLine extends CanvasBoxConnector
     @drawConnectorFrom( objVector.pointer , @side );
     @objBox.restoreContext();
         
-  ##
+  ###
   # Create the Connector in the To side of the line
-  ##
+  ###
   createConnectorTo:()->
     objVector = @getVectorFromElement( @objElementTo );
     @rotateVector( objVector )
     @drawConnectorTo( objVector.pointer , @side );
     @objBox.restoreContext();
 
-  ##
+  ###
   # Draw the Connector in the From side of the line
-  ##    
+  ###    
   drawConnectorFrom:( objPointer , intSide )->
     @drawBackgroundCircle( intSide );
     @objBox.setFillStyle( @fillStyle );
@@ -176,9 +187,9 @@ class CanvasBoxLine extends CanvasBoxConnector
     @objBox.fill();
     @objBox.stroke();
 
-  ##
+  ###
   # Draw the Connector in the To side of the line
-  ##
+  ###
   drawConnectorTo:( objPointer , intSide )->
     @drawBackgroundCircle( intSide );
     @objBox.setFillStyle( @fillStyle );
@@ -188,9 +199,9 @@ class CanvasBoxLine extends CanvasBoxConnector
     @objBox.fill();
     @objBox.stroke();
 
-  ##
+  ###
   # Draw the Background Circle
-  ##
+  ###
   drawBackgroundCircle:( intSide )->
     this.objBox.beginPath();
     this.objBox.setFillStyle( this.objBox.backgroundColor );
@@ -198,10 +209,10 @@ class CanvasBoxLine extends CanvasBoxConnector
     this.objBox.arc( 0 , 0 , @shaddow , 0 ,  Math.PI  , true );
     this.objBox.fill();
 
-  ##
+  ###
   # Refresh the X0,Y0,X1,Y1 based on the X and Y and Side
   # Draw everything in the new place
-  ##
+  ###
   refresh:()->
     @x0 = @x - ( @side / 2 );
     @x1 = @x + ( @side / 2 );
@@ -219,9 +230,18 @@ class CanvasBoxLine extends CanvasBoxConnector
     @height = @side;
 
   drawLine:( intXfrom, intYfrom, intXto, intYto )->
-    @objBox.moveTo( intXfrom , intYfrom );
-    @objBox.lineTo( intXto , intYto );
+    @objBox.drawLine( intXfrom, intYfrom, intXto, intYto )
     
+  drawQuadraticLine:( intXfrom, intYfrom, intXto, intYto , intXCurve, intYCurve )->
+    @objBox.drawBezierLine( intXfrom, intYfrom, intXto, intYto, intXCurve, intYCurve)
+  
+  getMouseDistance:()->
+    dblDiffX = ( @objBox.mouseX - @x )
+    dblDiffY = ( @objBox.mouseY - @y )
+    dblDiffX = dblDiffX * dblDiffX
+    dblDiffY = dblDiffY * dblDiffY
+    return Math.round( Math.sqrt( dblDiffX + dblDiffY ) )
+
   drawAnchor:()->
     @objBox.saveContext();
 
@@ -229,14 +249,26 @@ class CanvasBoxLine extends CanvasBoxConnector
     @objBox.setStrokeStyle( @strokeStyle );
     @objBox.moveTo( @x , @y );
 
-    @objBox.beginPath();
-    @objBox.arc( @x , @y , @side , 0 ,  Math.PI * 2 , true );
-    @objBox.fill();
     
-    if( @mouseOver || @objBox.objElementClicked == this )
-      @objBox.setStrokeStyle( @draggableColor );
-      @objBox.arc( @x , @y , @hoverSide , 0 ,  Math.PI * 2 , true );
-      @objBox.stroke();
+    dblMouseDistance = @getMouseDistance() / 8
+
+    shaddowArc = 0
+
+    if  dblMouseDistance < @hoverDistance
+      shaddowArc = @hoverDistance - dblMouseDistance
+
+    if  @mouseOver or
+        @objBox.objElementClicked == this or
+        @objBox.objElementClicked == @objElementFrom or
+        @objBox.objElementClicked == @objElementTo
+      shaddowArc = @hoverDistance
+      
+    if shaddowArc > 0
+      @objBox.beginPath();
+      @objBox.setFillStyle( @shaddowColor );
+      @objBox.arc( @x , @y , shaddowArc , 0 ,  Math.PI * 2 , true );
+      @objBox.fill();
+
 
     @objBox.closePath();
     @objBox.restoreContext();
@@ -246,8 +278,8 @@ class CanvasBoxLine extends CanvasBoxConnector
     @objBox.moveTo( @x , @y );
     @objBox.setStrokeStyle( @strokeStyle );
     @objBox.setFillStyle( @color );
-    @drawLine( @x , @y , @objElementFrom.x , @objElementFrom.y );
-    @drawLine( @x , @y , @objElementTo.x , @objElementTo.y );
+#    @drawQuadraticLine( @x , @y , @objElementFrom.x , @objElementFrom.y , @objElementTo.x , @objElementTo.y );
+    @drawQuadraticLine( @objElementFrom.x , @objElementFrom.y , @objElementTo.x , @objElementTo.y , @x , @y );
     @objBox.stroke();
     @objBox.restoreContext();
   
@@ -261,6 +293,7 @@ class CanvasBoxLine extends CanvasBoxConnector
     @refresh()
     @drawLines()
     @drawAnchor()
+    @drawText()
     @createConnectorFrom()
     @createConnectorTo()
 
@@ -268,6 +301,13 @@ class CanvasBoxLine extends CanvasBoxConnector
   drawArrowTo:( intSide )->
 
   drawArrowFrom:( intSide )->
+
+  drawText:()->
+    return null unless @strText?
+
+    @objBox.setFillStyle( "black" );
+    @objBox.setFont( "Arial 40px" );
+    @objBox.fillText( @strText, @x, @y )
 
   findArrow:( objBoxElement , intSide )->
     intDegree = Math.round( 180 + 180 * Math.atan2( objBoxElement.x - @x , objBoxElement.y - @y ) / Math.PI );
@@ -279,10 +319,18 @@ class CanvasBoxLine extends CanvasBoxConnector
 
   isInside:( mouseX , mouseY )->
     @refresh();
-    if  ( ( mouseX >= @x0 ) && ( mouseX <= @x1 ) && ( mouseY >= @y0 ) && ( mouseY <= @y1 ) )
+    if (  ( mouseX >= @x0 ) and 
+          ( mouseX <= @x1 ) and 
+          ( mouseY >= @y0 ) and
+          ( mouseY <= @y1 ) )
       return true;
-    else
-      return false;
+    
+    dblMouseDistance = @getMouseDistance()
+
+    if( dblMouseDistance < @hoverDistance )
+      return true
+
+    return false;
 
   drawMouseOver:( event )->
     if( !@defaultSide )
@@ -307,3 +355,38 @@ class CanvasBoxLine extends CanvasBoxConnector
     
   onDraw:()->
     @draw();
+
+  getForce:( objElement )->
+    if ! @objBehavior?
+      return null
+
+    return @objBehavior.getForce( objElement )
+    if( objElement.isConnector )
+      return null
+
+    if( @objElementFrom != objElement && 
+        @objElementTo != objElement )
+      return @objBehavior.getForce( objElement )
+
+    dblDistanceX = @x - objElement.x
+    dblDistanceY =  @y - objElement.y
+    dblDistanceX2 = dblDistanceX * dblDistanceX
+    dblDistanceY2 = dblDistanceY * dblDistanceY
+    dblDistance = Math.round( 100 * Math.sqrt( dblDistanceX2 + dblDistanceY2 ) ) / 100
+
+    # console.log( dblDistance )
+
+    intConnectorPush = 10
+    intMinForce = 0
+
+    intConnectorForce = Math.round( 100 * dblDistance / intConnectorPush ) / 100
+    if intConnectorForce > intMinForce
+      intDx = Math.round( 100 * intConnectorForce * Math.round( 100 * dblDistanceX / dblDistance ) ) / 100
+      intDy = Math.round( 100 * intConnectorForce * Math.round( 100 * dblDistanceY / dblDistance ) ) / 100 
+      @strText = intDx + " " + intDy
+      arrVector = Array()
+      arrVector["dx"] = intDx
+      arrVector["dy"] = intDy
+      return arrVector
+
+    return null

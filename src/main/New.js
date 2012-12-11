@@ -61,10 +61,11 @@ New.prototype.loadClass = function(strClass) {
     }
     console.log("loading... " + strClass);
     if (php.file_exists(New.prototype.arrMap[strClass] + ".js")) {
-      console.log(New.prototype.arrMap[strClass] + ".js");
+      console.log("load " + New.prototype.arrMap[strClass] + ".js");
       php.require_once(New.prototype.arrMap[strClass] + ".js");
     } else {
       strContent = php.file_get_contents(New.prototype.arrMap[strClass] + ".coffee");
+      console.log("run " + strClass + ".coffee");
       CoffeeScript.run(strContent);
     }
     New.prototype.arrClasses.push(strClass);
