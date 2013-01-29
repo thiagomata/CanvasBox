@@ -1,5 +1,8 @@
 In this project we try to make the use of the javascript canvas more easy, simple and fast.
 
+Take a look:
+http://thiagomata.github.com/CanvasBox/
+
 This project was born into the codetodiagram project, which needs a better Web GUI. 
 But, as this javascript project grow up, we decided to make this javascript library a project itself.
 
