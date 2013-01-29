@@ -9,7 +9,7 @@ But, as this javascript project grow up, we decided to make this javascript libr
 There is not a lot documentation yet, but we are working on it.
 
 Take a look in the code and into the examples into http://www.replicantowl.com/canvasbox/CanvasBox/src/ 
-and thiagomata.github.com/CanvasBox/ and you will see how this project it is very easy to understand 
+and http://thiagomata.github.com/CanvasBox/ and you will see how this project it is very easy to understand 
 and very cool to use it.
 
 I hope you like it.
