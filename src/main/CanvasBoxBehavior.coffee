@@ -39,8 +39,8 @@ class CanvasBoxBehavior
 
     onDrag:( event )->
         this.dragdrop = true;
-        this.objBoxElement.x = this.objBoxElement.objBox.mouseX + this.objBoxElement.relativeMousex;
-        this.objBoxElement.y = this.objBoxElement.objBox.mouseY + this.objBoxElement.relativeMousey;
+        this.objBoxElement.x = this.objBoxElement.objBox.mouseX;
+        this.objBoxElement.y = this.objBoxElement.objBox.mouseY;
         if( this.objBoxElement.drawDrag )
             this.objBoxElement.drawDrag();
         return false;
@@ -58,12 +58,4 @@ class CanvasBoxBehavior
         return objVector;
 
     move:()->
-        @objBoxElement.refresh()
         return true;
-        
-    changeBehavior:( strNewBehavior )->
-        console.log( strNewBehavior )
-        objNewBehavior = New[ strNewBehavior ]( this.objBoxElement );
-        objNewBehavior.objBoxElement = this.objBoxElement;
-        this.objBoxElement.objBehavior = objNewBehavior;
-        return objNewBehavior;

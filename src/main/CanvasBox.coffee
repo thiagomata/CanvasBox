@@ -807,24 +807,17 @@ class CanvasBox
     # @param boolean booCallOnDelete
     ###
     deleteElement:( objElement , booCallOnDelete = true )->
-        #console.log( "change")
         @change()
 
         if( booCallOnDelete )
-            #console.log( "on delete")
             objElement.onDelete();
 
-        #console.log( "get element id")
         intId = @arrElements.indexOf( objElement );
-
         if( intId != -1 )
-            #console.log( "splice")
             @arrElements.splice( intId  , 1 );
         if ( @arrElements.length > 0 )
-            #console.log( "change element selected")
-            @objElementClicked = null
+            @objElementClicked = @arrElements[ 0 ];
         else
-            #console.log( "change element selected to null")
             @objElementClicked = null;
     
     onMouseOver:( event )->
@@ -841,34 +834,15 @@ class CanvasBox
 
     moveTo:( intX , intY )->
         @getContext().moveTo( 
-            Math.round( intX * @dblZoom ) + 0.5 ,
-            Math.round( intY * @dblZoom ) + 0.5
+            Math.round( intX * @dblZoom ),
+            Math.round( intY * @dblZoom )
         );
 
     lineTo:( intX , intY )->
         @getContext().lineTo(
-            Math.round( intX * @dblZoom ) + 0.5 ,
-            Math.round( intY * @dblZoom ) + 0.5
+            Math.round( intX * @dblZoom ),
+            Math.round( intY * @dblZoom )
         );
-
-    quadraticCurveTo:( intCurveX , intCurveY, intX , intY )->
-        @getContext().quadraticCurveTo(
-            Math.round( intCurveX * @dblZoom ),
-            Math.round( intCurveY * @dblZoom ),
-            Math.round( intX * @dblZoom ) + 0.5 ,
-            Math.round( intY * @dblZoom ) + 0.5
-        );
-
-    bezierCurveTo:( intCurveX , intCurveY, intX , intY )->
-        
-        @getContext().bezierCurveTo(
-          Math.round( intCurveX * @dblZoom ), 
-          Math.round( intCurveY * @dblZoom ), 
-          Math.round( intCurveX * @dblZoom ), 
-          Math.round( intCurveY * @dblZoom ) , 
-          Math.round( intX  * @dblZoom ), 
-          Math.round( intY * @dblZoom )
-        )
 
     arc:( intX , intY, dblRadius , dblStartAngle , dblEndAngle, booClockwise)->
         @getContext().arc(

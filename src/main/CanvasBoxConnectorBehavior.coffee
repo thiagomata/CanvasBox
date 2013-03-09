@@ -63,44 +63,5 @@ class CanvasBoxConnectorBehavior
             this.objBoxElement.x = ( this.objBoxElement.objElementFrom.x + this.intXDistance );
             this.objBoxElement.y = ( this.objBoxElement.objElementFrom.y + this.intYDistance );
 
-    getForceOld:( objElement )->
-        
-        return []
-        intToClose = 100
-
-        arrVector = Array()
-        arrVector["dx"] = 0
-        arrVector["dy"] = 0
-
-        dblDiffX = objElement.x - @x
-        dblDiffY = objElement.y - @y
-        dblDiffX2 = dblDiffX * dblDiffX
-        dblDiffY2 = dblDiffY * dblDiffY
-        dblDiff = Math.sqrt( dblDiffX + dblDiffY )
-
-        if( dblDiff > intToClose )
-            return arrVector
-
-        arrVector["dx"] = 0 if isNaN arrVector["dx"]
-        arrVector["dy"] = 0 if isNaN arrVector["dx"]
-
-        arrVector["dx"] = Math.abs( intToClose / 1.4142 - dblDiffX )
-        arrVector["dy"] = Math.abs( intToClose / 1.4142 - dblDiffY )
-
-        arrVector["dx"] *= -1 if dblDiffX < 0
-        arrVector["dy"] *= -1 if dblDiffY < 0
-
-        return arrVector;
-        
-    changeBehavior:( strNewBehavior )->
-        objNewBehavior = New[ strNewBehavior ]( this.objBoxElement );
-        objNewBehavior.dx = this.dx;
-        objNewBehavior.dy = this.dy;
-        objNewBehavior.intXDistance = this.intXDistance;
-        objNewBehavior.intYDistance = this.intYDistance;
-        objNewBehavior.objBox = this.objBox;
-        this.objBoxElement.objBehavior = objNewBehavior;
-        return objNewBehavior;        
-
     getForce:( objElement )->
-        return null
+        return null;
