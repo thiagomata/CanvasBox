@@ -332,13 +332,15 @@ class CanvasBoxElement
     # @return CanvasBoxConnector[]
     ##
     getConnectors:->
+        console.log( "get connectors" );
         arrConnection = [];
         for objElement in @objBox.arrElements
             if      php.is_object( objElement ) and
-                    (   objElement.objElementFrom.getId() == this.getId() or 
-                        objElement.objElementTo.getId() == this.getId() )
+                    (   objElement.objElementFrom == this or 
+                        objElement.objElementTo == this ) and
+                    objElement != this
                 arrConnection.push( objElement );
-        alert( "element has #{arrConnection.length} connections" );
+        console.log( "element has #{arrConnection.length} connections" );
         return arrConnection;
 
     ###
@@ -348,6 +350,7 @@ class CanvasBoxElement
     # @return CanvasBoxElement me
     ###    
     onDelete:( event )->
+        console.log( "into on delete" );
         for objElement in @getConnectors()
             objElement.deleteCascade();
         return this;

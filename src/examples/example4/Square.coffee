@@ -176,15 +176,15 @@ class Square extends CanvasBoxElement
     ##
     # Returns if the Mouse is Over the Element
     #
-    # @param mouseX integer horizontal position of cursor pointer
-    # @param mouseY integer vertical position of the cursor pointer
+    # @param outX
+    # @param outY
     # @return boolean
     ## 
-    isInsideElement:( mouseX , mouseY )->
-        return  ( mouseX >= ( this.x - @side / 2 ) ) &&
-                ( mouseX <= ( this.x + @side / 2 ) ) &&
-                ( mouseY >= ( this.y - @side / 2 ) ) &&
-                ( mouseY <= ( this.y + @side / 2 ) );
+    isInsideElement:( outX , outY )->
+        return  ( Math.round( outX ) >= Math.round( this.x - @side / 2 ) ) &&
+                ( Math.round( outX ) <= Math.round( this.x + @side / 2 ) ) &&
+                ( Math.round( outY ) >= Math.round( this.y - @side / 2 ) ) &&
+                ( Math.round( outY ) <= Math.round( this.y + @side / 2 ) );
 
     inCollision:()->
         for objElement in @objBox.arrElements
@@ -193,7 +193,11 @@ class Square extends CanvasBoxElement
                         objElement.isInsideElement( this.x - @side / 2 , this.y - @side / 2 ) ||
                         objElement.isInsideElement( this.x + @side / 2 , this.y - @side / 2 ) ||
                         objElement.isInsideElement( this.x - @side / 2 , this.y + @side / 2 ) ||
-                        objElement.isInsideElement( this.x + @side / 2 , this.y + @side / 2 ) 
+                        objElement.isInsideElement( this.x + @side / 2 , this.y + @side / 2 ) ||
+                        objElement.isInsideElement( this.x - @side / 2 , this.y ) ||
+                        objElement.isInsideElement( this.x + @side / 2 , this.y ) ||
+                        objElement.isInsideElement( this.x , this.y + @side / 2 ) ||
+                        objElement.isInsideElement( this.x , this.y - @side / 2 ) 
                   )
                       return true;
         return false;

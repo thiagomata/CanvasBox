@@ -355,38 +355,3 @@ class CanvasBoxLine extends CanvasBoxConnector
     
   onDraw:()->
     @draw();
-
-  getForce:( objElement )->
-    if ! @objBehavior?
-      return null
-
-    return @objBehavior.getForce( objElement )
-    if( objElement.isConnector )
-      return null
-
-    if( @objElementFrom != objElement && 
-        @objElementTo != objElement )
-      return @objBehavior.getForce( objElement )
-
-    dblDistanceX = @x - objElement.x
-    dblDistanceY =  @y - objElement.y
-    dblDistanceX2 = dblDistanceX * dblDistanceX
-    dblDistanceY2 = dblDistanceY * dblDistanceY
-    dblDistance = Math.round( 100 * Math.sqrt( dblDistanceX2 + dblDistanceY2 ) ) / 100
-
-    # console.log( dblDistance )
-
-    intConnectorPush = 10
-    intMinForce = 0
-
-    intConnectorForce = Math.round( 100 * dblDistance / intConnectorPush ) / 100
-    if intConnectorForce > intMinForce
-      intDx = Math.round( 100 * intConnectorForce * Math.round( 100 * dblDistanceX / dblDistance ) ) / 100
-      intDy = Math.round( 100 * intConnectorForce * Math.round( 100 * dblDistanceY / dblDistance ) ) / 100 
-      @strText = intDx + " " + intDy
-      arrVector = Array()
-      arrVector["dx"] = intDx
-      arrVector["dy"] = intDy
-      return arrVector
-
-    return null

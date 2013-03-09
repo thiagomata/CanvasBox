@@ -354,6 +354,7 @@ class CanvasBoxConnector
     # Event on Delete Element
     ###    
     onDelete:->
+        console.log( "connector on delete" );
         if( this.objElementFrom.isConnector )
             this.objElementFrom.objElementTo = this.objElementTo;
         if( this.objElementTo.isConnector )
@@ -371,6 +372,7 @@ class CanvasBoxConnector
     # Recursive Delete into the Element To Direction
     ###
     deleteCascadeTo:->
+        console.log( "delete cascade" );
         if( is_object( this.objElementTo ) && this.objElementTo.isConnector )
             if( this.objElementTo.getId() != -1 )
                 this.objElementTo.deleteCascadeTo();

@@ -19,7 +19,7 @@ class Bubble extends CanvasBoxElement
     ##
     # Size of each side of square
     ##
-    side: 20
+    side: 1
     
     ##
     # Regular Square Color
@@ -27,11 +27,15 @@ class Bubble extends CanvasBoxElement
     colorRegular: "rgba(250,250,250,0.60)"
 
     ##
-    ##
     # Current Color
     ##
-    color: null
+    color: "rgba(250,250,250,0.60)"
     
+    ##
+    # Color Over
+    ##
+    colorOver: "orange"
+
     ##
     # Square Border Color
     ##
@@ -40,7 +44,7 @@ class Bubble extends CanvasBoxElement
     ##
     # Square Border Color
     ##
-    borderColor: null
+    borderColor: "rgb(100,100,100)"
 
     ##
     # Square Border Color
@@ -62,6 +66,11 @@ class Bubble extends CanvasBoxElement
     ##
     objCollision: null
     
+    ###
+    # Is Mouse Over Flag
+    ###
+    isOver: false
+
     init:->
         super();
         @color = @colorRegular
@@ -94,14 +103,17 @@ class Bubble extends CanvasBoxElement
     onMouseOver:( event )->
         @borderColor = @borderColorOver;
         @color = @colorOver;
-        return super( event );
+        @isOver = true;
+        return false;
 
     ##
     # Mouse out event
     ##
     onMouseOut:( event )->
         @borderColor = @borderColorRegular;
-        return super( event );
+        @color = @colorRegular;
+        @isOver = false;
+        return false;
 
     ##
     # On drag event
@@ -109,8 +121,8 @@ class Bubble extends CanvasBoxElement
     # return boolean
     ##
     onDrag:( event )->
-        @color = @colorDrag
-        return super( event );
+        @onMouseOver( event );
+        return false
 
     ##
     # On drop event
@@ -118,14 +130,23 @@ class Bubble extends CanvasBoxElement
     # return boolean
     ##
     onDrop:( event )->
-        @color = @colorRegular;
-        return super( event );
+        @onMouseOut( event );
+        return false
+
+    ##
+    # On click event
+    # @param event
+    # return boolean
+    ##
+    onClick:( event )->
+        @killMe()
+        return false
 
     ##
     # On Timer Event
     ##
     onTimer:(event)->
-        if( @borderColor == @borderColorOver )
+        if( @isOver )
             return false 
         @y-=2;
         @side++;
@@ -163,7 +184,7 @@ class Bubble extends CanvasBoxElement
 
     inCollision:()->
         for objElement in @objBox.arrElements
-            if( objElement.getId() != this.getId() )
+            if( objElement? and objElement != this )
                 dblDiffX = ( objElement.x - this.x );
                 dblDiffY = ( objElement.y - this.y );
                 dblSumSide = objElement.side + this.side;

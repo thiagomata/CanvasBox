@@ -87,7 +87,9 @@ class CanvasBoxMagneticBehavior extends CanvasBoxBehavior
 
   repelsElements:(arrVectors)->
     for objElement in @objBoxElement.objBox.arrElements when objElement isnt @objBoxElement
-      objVector = objElement.getForce(@objBoxElement)
+      objVector = @getElementForce(objElement, @objBoxElement)
+      arrVectors.push objVector  if objVector?
+      objVector = @getConnectorForce(objElement, @objBoxElement)
       arrVectors.push objVector  if objVector?
     arrVectors
 
@@ -189,63 +191,104 @@ class CanvasBoxMagneticBehavior extends CanvasBoxBehavior
     @objBoxElement.dx = dx
     @objBoxElement.dy = dy
 
-  getForce:(objElement)->
-    
+
+  getConnectorForce:( objElementFrom , objElementTo )->
+
+    if !objElementFrom.isConnector and objElementTo.isConnector
+      arrVector = @getConnectorForce( objElementTo , objElementFrom )
+      if arrVector?
+        arrVector[ "dx" ] *= -1
+        arrVector[ "dy" ] *= -1
+      return arrVector
+
+    if !objElementFrom.isConnector
+      return null
+
+    if( objElementFrom.objElementFrom != objElementTo && 
+        objElementFrom.objElementTo != objElementTo )
+      return null
+
+    dblDistanceX = objElementFrom.x - objElementTo.x
+    dblDistanceY =  objElementFrom.y - objElementTo.y
+    dblDistanceX2 = dblDistanceX * dblDistanceX
+    dblDistanceY2 = dblDistanceY * dblDistanceY
+    dblDistance = Math.round( 100 * Math.sqrt( dblDistanceX2 + dblDistanceY2 ) ) / 100
+
+    intConnectorPush = 100
+    intPushFactor = 2
+    intMinForce = 0
+
+    intConnectorForce = Math.round( 100 * dblDistance / intConnectorPush ) / 100
+    intConnectorForce = Math.round( 100 * Math.pow( intConnectorForce , intPushFactor ) ) / 100
+
+    if intConnectorForce > intMinForce
+      intDx = Math.round( 100 * intConnectorForce * Math.round( 100 * dblDistanceX / dblDistance ) ) / 100
+      intDy = Math.round( 100 * intConnectorForce * Math.round( 100 * dblDistanceY / dblDistance ) ) / 100 
+      
+      arrVector = Array()
+      arrVector["dx"] = intDx
+      arrVector["dy"] = intDy
+      return arrVector
+
+    return null
+
+  getElementForce:(objElementFrom, objElementTo)->
+
     objVector = Array()
     objVector["dx"] = 0
     objVector["dy"] = 0
     
     booCollision = false
     
-    intDirectionX = (if (objElement.x < @objBoxElement.x) then -1 else 1)
-    intDirectionY = (if (objElement.y < @objBoxElement.y) then -1 else 1)
+    intDirectionX = (if (objElementTo.x < objElementFrom.x) then -1 else 1)
+    intDirectionY = (if (objElementTo.y < objElementFrom.y) then -1 else 1)
     
-    intDifX = objElement.x - @objBoxElement.x
-    intDifY = objElement.y - @objBoxElement.y
+    intDifX = objElementTo.x - objElementFrom.x
+    intDifY = objElementTo.y - objElementFrom.y
     
     dblDist = Math.sqrt((intDifX * intDifX) + (intDifY * intDifY))
     
     if dblDist > 1
-      dblForceX = @objBoxElement.objBox.width / (dblDist)
-      dblForceY = @objBoxElement.objBox.height / (dblDist)
+      dblForceX = objElementFrom.objBox.width / (dblDist)
+      dblForceY = objElementFrom.objBox.height / (dblDist)
     else
       dblForceX = 0
       dblForceY = 0
     
     if !booCollision and 
-        (objElement.x1)     and (objElement.x0)     and (objElement.y1)     and (objElement.y0) and 
-        (@objBoxElement.x1) and (@objBoxElement.x0) and (@objBoxElement.y1) and (@objBoxElement.y0) and 
-        (objElement.x0 >= @objBoxElement.x0) and (objElement.x0 <= @objBoxElement.x1) and 
-        (objElement.y0 >= @objBoxElement.y0) and (objElement.y0 <= @objBoxElement.y1)
-      objVector["dx"] -= @intRepelling + Math.round((@objBoxElement.x1 - objElement.x0) * @dblCollisionForce)
-      objVector["dy"] -= @intRepelling + Math.round((@objBoxElement.y1 - objElement.y0) * @dblCollisionForce)
+        (objElementTo.x1)     and (objElementTo.x0)     and (objElementTo.y1)     and (objElementTo.y0) and 
+        (@objBoxElement.x1) and (objElementFrom.x0) and (objElementFrom.y1) and (objElementFrom.y0) and 
+        (objElementTo.x0 >= objElementFrom.x0) and (objElementTo.x0 <= objElementFrom.x1) and 
+        (objElementTo.y0 >= objElementFrom.y0) and (objElementTo.y0 <= objElementFrom.y1)
+      objVector["dx"] -= @intRepelling + Math.round((objElementFrom.x1 - objElementTo.x0) * @dblCollisionForce)
+      objVector["dy"] -= @intRepelling + Math.round((objElementFrom.y1 - objElementTo.y0) * @dblCollisionForce)
       booCollision = true
     
     if !booCollision and 
-        (objElement.x1)     and (objElement.x0)     and (objElement.y1)     and (objElement.y0) and 
-        (@objBoxElement.x1) and (@objBoxElement.x0) and (@objBoxElement.y1) and (@objBoxElement.y0) and 
-        (objElement.x0 <= @objBoxElement.x1) and (objElement.x0 >= @objBoxElement.x0) and 
-        (objElement.y1 <= @objBoxElement.y1) and (objElement.y1 >= @objBoxElement.y0)
-      objVector["dx"] -= @intRepelling + Math.round((@objBoxElement.x1 - objElement.x0) * @dblCollisionForce)
-      objVector["dy"] += @intRepelling + Math.round((objElement.y1 - @objBoxElement.y0) * @dblCollisionForce)
+        (objElementTo.x1)     and (objElementTo.x0)     and (objElementTo.y1)     and (objElementTo.y0) and 
+        (objElementFrom.x1) and (objElementFrom.x0) and (objElementFrom.y1) and (objElementFrom.y0) and 
+        (objElementTo.x0 <= objElementFrom.x1) and (objElementTo.x0 >= objElementFrom.x0) and 
+        (objElementTo.y1 <= objElementFrom.y1) and (objElementTo.y1 >= objElementFrom.y0)
+      objVector["dx"] -= @intRepelling + Math.round((objElementFrom.x1 - objElementTo.x0) * @dblCollisionForce)
+      objVector["dy"] += @intRepelling + Math.round((objElementTo.y1 - objElementFrom.y0) * @dblCollisionForce)
       booCollision = true
     
     if !booCollision and 
-        (objElement.x1)     and (objElement.x0)     and (objElement.y1)     and (objElement.y0) and 
-        (@objBoxElement.x1) and (@objBoxElement.x0) and (@objBoxElement.y1) and (@objBoxElement.y0) and 
-        (objElement.x1 <= @objBoxElement.x1) and (objElement.x1 >= @objBoxElement.x0) and 
-        (objElement.y0 <= @objBoxElement.y1) and (objElement.y0 >= @objBoxElement.y0)
-      objVector["dx"] += @intRepelling + Math.round((objElement.x1 - @objBoxElement.x0) * @dblCollisionForce)
-      objVector["dy"] -= @intRepelling + Math.round((@objBoxElement.y0 - objElement.y0) * @dblCollisionForce)
+        (objElementTo.x1)     and (objElementTo.x0)     and (objElementTo.y1)     and (objElementTo.y0) and 
+        (objElementFrom.x1) and (objElementFrom.x0) and (objElementFrom.y1) and (objElementFrom.y0) and 
+        (objElementTo.x1 <= objElementFrom.x1) and (objElementTo.x1 >= objElementFrom.x0) and 
+        (objElementTo.y0 <= objElementFrom.y1) and (objElementTo.y0 >= objElementFrom.y0)
+      objVector["dx"] += @intRepelling + Math.round((objElementTo.x1 - objElementFrom.x0) * @dblCollisionForce)
+      objVector["dy"] -= @intRepelling + Math.round((objElementFrom.y0 - objElementTo.y0) * @dblCollisionForce)
       booCollision = true
     
     if !booCollision and 
-        (objElement.x1)     and (objElement.x0)     and (objElement.y1)     and (objElement.y0) and 
-        (@objBoxElement.x1) and (@objBoxElement.x0) and (@objBoxElement.y1) and (@objBoxElement.y0) and 
-        (objElement.x1 >= @objBoxElement.x1) and (objElement.x1 <= @objBoxElement.x0) and 
-        (objElement.y1 >= @objBoxElement.y0) and (objElement.y1 <= @objBoxElement.y1)
-      objVector["dx"] += @intRepelling + Math.round((objElement.x1 - @objBoxElement.x0) * @dblCollisionForce)
-      objVector["dy"] += @intRepelling + Math.round((objElement.y1 - @objBoxElement.y0) * @dblCollisionForce)
+        (objElementTo.x1)     and (objElementTo.x0)     and (objElementTo.y1)     and (objElementTo.y0) and 
+        (objElementFrom.x1) and (objElementFrom.x0) and (objElementFrom.y1) and (objElementFrom.y0) and 
+        (objElementTo.x1 >= objElementFrom.x1) and (objElementTo.x1 <= objElementFrom.x0) and 
+        (objElementTo.y1 >= objElementFrom.y0) and (objElementTo.y1 <= objElementFrom.y1)
+      objVector["dx"] += @intRepelling + Math.round((objElementTo.x1 - objElementFrom.x0) * @dblCollisionForce)
+      objVector["dy"] += @intRepelling + Math.round((objElementTo.y1 - objElementFrom.y0) * @dblCollisionForce)
       booCollision = true
     
     objVector["dx"] += @intMagnetism * intDirectionX * dblForceX

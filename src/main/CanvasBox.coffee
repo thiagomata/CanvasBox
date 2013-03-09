@@ -268,6 +268,17 @@ class CanvasBox
         return this;
 
     ###
+    # Change the background color
+    #
+    # @param strNewBackgroundColor string 
+    # @return CanvasBox
+    ###
+    setBackgroundColor:(strNewBackgroundColor)->
+        @backgroundColor = strNewBackgroundColor;
+        @objCanvasHtml.style.backgroundColor = @backgroundColor;
+        return this
+
+    ###
     # Initialize the Canvas Box
     #
     # - Validate the canvas html element
@@ -293,35 +304,71 @@ class CanvasBox
 
         strWidth = "#{@defaultWidth}px";
         @objCanvasHtml.setAttribute( "width" ,  strWidth );
-        @objCanvasHtml.style.width = strWidth;
+        #@objCanvasHtml.style.width = strWidth;
+        #@objCanvasHtml.width = strWidth;
 
         strHeight = "#{@defaultHeight}px";
         @objCanvasHtml.setAttribute( "height" , strHeight );
-        @objCanvasHtml.style.height = strHeight;
+        #@objCanvasHtml.style.height = strHeight;
+        #@objCanvasHtml.height = strHeight;
 
         @objCanvasHtml.setAttribute( "contentEditable" , "true");
         @objCanvasHtml.contentEditable = true;
 
-        @objCanvasHtml.style.backgroundColor = @backgroundColor;
+        @objCanvasHtml.addEventListener(
+            'mousemove', 
+            (event) =>
+                @onMouseMove( event );
+        )
+        
+        @objCanvasHtml.addEventListener(
+            'click' , 
+            (event) =>
+                @onClick( event );
+        )
 
-        @objCanvasHtml.onmousemove = (event) => 
-            @onMouseMove( event );
-        @objCanvasHtml.onclick = (event) =>    
-            @onClick( event );
-        @objCanvasHtml.ondblclick = (event) =>    
-            @onDblClick( event );
-        @objCanvasHtml.onmouseup = (event) =>    
-            @onMouseUp( event );
-        @objCanvasHtml.onmousedown = (event) =>    
-            @onMouseDown( event );
-        @objCanvasHtml.oncontextmenu = (event) =>
-            @onContextMenu( event );
-        @objCanvasHtml.onKeyUp = (event) =>    
-            @onKeyup( event );
-        @objCanvasHtml.onMouseOut = (event) =>    
-            @onMouseOut( event );
-        @objCanvasHtml.onMouseOver = (event) =>    
-            @onMouseOver( event );
+        @objCanvasHtml.addEventListener( 
+            'dblclick' , 
+            (event) =>
+                @onDblClick( event );
+        )
+
+        @objCanvasHtml.addEventListener( 
+            'mouseup' , 
+            (event) =>
+                @onMouseUp( event );
+        )
+
+        @objCanvasHtml.addEventListener(
+            'mousedown',
+            (event) =>
+                @onMouseDown( event );
+        )
+
+        @objCanvasHtml.addEventListener(
+            'contextmenu',
+            (event) =>
+                @onContextMenu( event );
+        )
+
+        @objCanvasHtml.addEventListener( 
+            'keyup',
+            (event) =>
+                @onKeyUp( event );
+        )
+
+        @objCanvasHtml.addEventListener(
+            'mouseout',
+            (event) =>
+                @onMouseOut( event );
+        )
+
+        @objCanvasHtml.addEventListener(
+            'mouseover',
+            (event) =>
+                @onMouseOver( event );
+        )
+
         @defineMenu();
         @play();
 
@@ -336,6 +383,7 @@ class CanvasBox
         objButton = New.CanvasBoxSaveButton( this );
         @addButton( objButton );        
         ###
+        
         return this;
 
     ###
@@ -546,16 +594,18 @@ class CanvasBox
         # If the element over has changed 
         # ( null versus object ) or ( object.id != object.id )
         ##
-        if(   ( if @objElementOver == null then 0 else @objElementOver.getId() ) !=
-              ( if  objElementOver == null then 0 else  objElementOver.getId() )  )
-            
+        # if(   ( if @objElementOver == null then 0 else @objElementOver.getId() ) !=
+        #       ( if  objElementOver == null then 0 else  objElementOver.getId() )  )
+        ##
+        if(   @objElementOver != objElementOver )
+
             @change()
             
             if( @objElementOver != null )
                 @objElementOver.onMouseOut( event );
                 
             if(  objElementOver != null )
-                @onMouseOver( event );
+                @booMouseOver = true
                 objElementOver.onMouseOver( event );
                 
         if( objElementOver != null )
@@ -711,7 +761,8 @@ class CanvasBox
     ###
     onKeyUp:( event )->
         @change()
-        #console.log( ":D" );
+        console.log( ":D" );
+        console.log( event.keyCode );
         switch event.keyCode
             
             when 46 then ( # delete
@@ -756,17 +807,24 @@ class CanvasBox
     # @param boolean booCallOnDelete
     ###
     deleteElement:( objElement , booCallOnDelete = true )->
+        #console.log( "change")
         @change()
 
         if( booCallOnDelete )
+            #console.log( "on delete")
             objElement.onDelete();
 
+        #console.log( "get element id")
         intId = @arrElements.indexOf( objElement );
+
         if( intId != -1 )
+            #console.log( "splice")
             @arrElements.splice( intId  , 1 );
         if ( @arrElements.length > 0 )
-            @objElementClicked = @arrElements[ 0 ];
+            #console.log( "change element selected")
+            @objElementClicked = null
         else
+            #console.log( "change element selected to null")
             @objElementClicked = null;
     
     onMouseOver:( event )->
@@ -783,22 +841,22 @@ class CanvasBox
 
     moveTo:( intX , intY )->
         @getContext().moveTo( 
-            Math.round( intX * @dblZoom ),
-            Math.round( intY * @dblZoom )
+            Math.round( intX * @dblZoom ) + 0.5 ,
+            Math.round( intY * @dblZoom ) + 0.5
         );
 
     lineTo:( intX , intY )->
         @getContext().lineTo(
-            Math.round( intX * @dblZoom ),
-            Math.round( intY * @dblZoom )
+            Math.round( intX * @dblZoom ) + 0.5 ,
+            Math.round( intY * @dblZoom ) + 0.5
         );
 
     quadraticCurveTo:( intCurveX , intCurveY, intX , intY )->
         @getContext().quadraticCurveTo(
             Math.round( intCurveX * @dblZoom ),
             Math.round( intCurveY * @dblZoom ),
-            Math.round( intX * @dblZoom ),
-            Math.round( intY * @dblZoom )
+            Math.round( intX * @dblZoom ) + 0.5 ,
+            Math.round( intY * @dblZoom ) + 0.5
         );
 
     bezierCurveTo:( intCurveX , intCurveY, intX , intY )->
@@ -878,8 +936,8 @@ class CanvasBox
           #console.log( "stroke Text = " + strText + " x =  " + intPosX + " y = " + intPosY );
           @getContext().strokeText(
               strText ,
-              Math.round( intPosX * @dblZoom ),
-              Math.round( intPosY * @dblZoom )
+              ( intPosX * @dblZoom ) ,
+              ( intPosY * @dblZoom ) 
           );
         catch objError
           throw new CanvasBoxException( "Error on set Stroke Text" );
@@ -889,8 +947,8 @@ class CanvasBox
           #console.log( "fill text " + strText + " x =  " + intPosX + " y = " + intPosY );
           @getContext().fillText(
               strText ,
-              Math.round( intPosX * @dblZoom ),
-              Math.round( intPosY * @dblZoom )
+              Math.round( intPosX * @dblZoom ) + 0.5,
+              Math.round( intPosY * @dblZoom ) + 0.5
           );
         catch objError
           throw new CanvasBoxException( "Error on fill Text" );
@@ -899,10 +957,10 @@ class CanvasBox
         try
           #console.log( "stroke rect width = " + intwidth + " height = " + intHeight + " x =  " + intPosX + " y = " + intPosY );
           @getContext().strokeRect(
-              Math.round( intX        * @dblZoom ),
-              Math.round( intY        * @dblZoom ),
-              Math.round( intWidth    * @dblZoom ),
-              Math.round( intHeight  * @dblZoom )
+              Math.round( intX        * @dblZoom ) + 0.5,
+              Math.round( intY        * @dblZoom ) + 0.5,
+              Math.round( intWidth    * @dblZoom ) + 0.5,
+              Math.round( intHeight   * @dblZoom ) + 0.5
           );
         catch objError
           throw new CanvasBoxException( "Error on stroke Rect" );
@@ -911,10 +969,10 @@ class CanvasBox
         try
           #console.log( "fill rect width = " + intwidth + " height = " + intHeight + " x =  " + intPosX + " y = " + intPosY );
           @getContext().fillRect(
-              Math.round( intX        * @dblZoom ),
-              Math.round( intY        * @dblZoom ),
-              Math.round( intWidth    * @dblZoom ),
-              Math.round( intHeight  * @dblZoom )
+              Math.round( intX        * @dblZoom ) + 0.5,
+              Math.round( intY        * @dblZoom ) + 0.5,
+              Math.round( intWidth    * @dblZoom ) + 0.5,
+              Math.round( intHeight   * @dblZoom ) + 0.5
           );
         catch objError
           throw new CanvasBoxException( "Error on fill Rect" );
@@ -969,7 +1027,7 @@ class CanvasBox
     translate:( dblDegree , intDistance )->
         try
           @getContext().translate(
-              Math.round( dblDegree    * @dblZoom ),
+              Math.round( dblDegree   * @dblZoom ),
               Math.round( intDistance * @dblZoom )
           );
         catch objError
@@ -977,8 +1035,8 @@ class CanvasBox
 
     drawLine:( intXfrom , intYfrom , intXto , intYto )->
         try
-          @getContext().moveTo( intXfrom , intYfrom )
-          @getContext().lineTo( intXto   , intYto )
+          @getContext().moveTo( intXfrom + 0.5 , intYfrom + 0.5 )
+          @getContext().lineTo( intXto   + 0.5 , intYto + 0.5 )
         catch objError
           objCanvasError = new CanvasBoxException( "Error on drawLine" );
           objCanvasError.setParentError( objError )
@@ -987,8 +1045,8 @@ class CanvasBox
     drawQuadraticLine:( intXfrom , intYfrom , intXto , intYto , intXCurve , intYCurve )->
 
         try
-          @getContext().moveTo( intXfrom , intYfrom )
-          @getContext().quadraticCurveTo( intXCurve, intYCurve, intXto   , intYto )
+          @getContext().moveTo( intXfrom + 0.5, intYfrom + 0.5 )
+          @getContext().quadraticCurveTo( intXCurve, intYCurve, intXto + 0.5  , intYto + 0.5)
         catch objError
           objCanvasError = new CanvasBoxException( "Error on quadraticCurveTo" );
           objCanvasError.setParentError( objError )
@@ -997,8 +1055,8 @@ class CanvasBox
     drawBezierLine:( intXfrom , intYfrom , intXto , intYto , intXCurve , intYCurve )->
 
         try
-          @getContext().moveTo( intXfrom , intYfrom )
-          @bezierCurveTo( intXCurve, intYCurve, intXto   , intYto )
+          @getContext().moveTo( intXfrom + 0.5, intYfrom + 0.5 )
+          @bezierCurveTo( intXCurve, intYCurve, intXto + 0.5, intYto + 0.5)
         catch objError
           objCanvasError = new CanvasBoxException( "Error on drawBezierLine" );
           objCanvasError.setParentError( objError )

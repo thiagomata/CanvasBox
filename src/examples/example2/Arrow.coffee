@@ -5,7 +5,7 @@
 ##
 Load.CanvasBoxPolygon();
 class Arrow extends CanvasBoxPolygon
-
+    
     ##
     # X position
     ##
@@ -15,11 +15,6 @@ class Arrow extends CanvasBoxPolygon
     # Y position
     ##
     y: 0
-
-    ##
-    # Relative Distance Between X position of cursor
-    ##
-    relativeMousey: 0
 
     ##
     # Debug mode
@@ -77,7 +72,7 @@ class Arrow extends CanvasBoxPolygon
     strClassName: "Square"
 
     ##
-    #   Rotate the element 45⁰
+    #   Rotate the element 45â°
     ##
     dblRotate: 0
 
@@ -87,7 +82,7 @@ class Arrow extends CanvasBoxPolygon
         super();
         @color = @colorRegular
         @borderColor = @borderColorRegular
-        @createPolygon();
+        @createPolygon()
 
     createPolygon:->
         @arrPoints = new Array();
@@ -170,9 +165,8 @@ class Arrow extends CanvasBoxPolygon
     # On Timer Event
     ##
     onTimer:->
-        @dblRotate += @dblRotateSpeed;
-        @dblRotate %= ( 2 * Math.PI );
-        @objBox.change();
-        @objBox.onMouseMove();
-        return super( event );
-
+        @dblRotate += @dblRotateSpeed
+        @dblRotate %= ( 2 * Math.PI )
+        @objBox.change()
+        @objBox.onMouseMove()
+        return super( event )

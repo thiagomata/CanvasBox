@@ -32,14 +32,13 @@ A simple example of canvas box with a square
                     /* 
                      * add the square in the load map 
                      */
-                    New.prototype.addMap( "Square", "Square.coffee" );
+                    New.prototype.addMap( "Square", "Square" );
                     
                     /*
                      * create the canvas box 
                      */
-                    var objBox = New.CanvasBox();
+                    var objBox = New.CanvasBox( "myCanvas" );
                     objBox.backgroundColor = "white";
-                    objBox.initialize( "myCanvas" );
                     
                     /* 
                      * create the square element
