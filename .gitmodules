@@ -1,0 +1,3 @@
+[submodule "src/externals/sql.js"]
+	path = src/externals/sql.js
+	url = git://github.com/kripken/sql.js.git

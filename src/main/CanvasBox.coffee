@@ -761,8 +761,6 @@ class CanvasBox
     ###
     onKeyUp:( event )->
         @change()
-        console.log( ":D" );
-        console.log( event.keyCode );
         switch event.keyCode
             
             when 46 then ( # delete
@@ -807,17 +805,24 @@ class CanvasBox
     # @param boolean booCallOnDelete
     ###
     deleteElement:( objElement , booCallOnDelete = true )->
+        #console.log( "change")
         @change()
 
         if( booCallOnDelete )
+            #console.log( "on delete")
             objElement.onDelete();
 
+        #console.log( "get element id")
         intId = @arrElements.indexOf( objElement );
+
         if( intId != -1 )
+            #console.log( "splice")
             @arrElements.splice( intId  , 1 );
         if ( @arrElements.length > 0 )
-            @objElementClicked = @arrElements[ 0 ];
+            #console.log( "change element selected")
+            @objElementClicked = null
         else
+            #console.log( "change element selected to null")
             @objElementClicked = null;
     
     onMouseOver:( event )->
@@ -834,15 +839,34 @@ class CanvasBox
 
     moveTo:( intX , intY )->
         @getContext().moveTo( 
-            Math.round( intX * @dblZoom ),
-            Math.round( intY * @dblZoom )
+            Math.round( intX * @dblZoom ) + 0.5 ,
+            Math.round( intY * @dblZoom ) + 0.5
         );
 
     lineTo:( intX , intY )->
         @getContext().lineTo(
-            Math.round( intX * @dblZoom ),
-            Math.round( intY * @dblZoom )
+            Math.round( intX * @dblZoom ) + 0.5 ,
+            Math.round( intY * @dblZoom ) + 0.5
         );
+
+    quadraticCurveTo:( intCurveX , intCurveY, intX , intY )->
+        @getContext().quadraticCurveTo(
+            Math.round( intCurveX * @dblZoom ),
+            Math.round( intCurveY * @dblZoom ),
+            Math.round( intX * @dblZoom ) + 0.5 ,
+            Math.round( intY * @dblZoom ) + 0.5
+        );
+
+    bezierCurveTo:( intCurveX , intCurveY, intX , intY )->
+        
+        @getContext().bezierCurveTo(
+          Math.round( intCurveX * @dblZoom ), 
+          Math.round( intCurveY * @dblZoom ), 
+          Math.round( intCurveX * @dblZoom ), 
+          Math.round( intCurveY * @dblZoom ) , 
+          Math.round( intX  * @dblZoom ), 
+          Math.round( intY * @dblZoom )
+        )
 
     arc:( intX , intY, dblRadius , dblStartAngle , dblEndAngle, booClockwise)->
         @getContext().arc(
@@ -875,8 +899,8 @@ class CanvasBox
 
     setFillStyle:( strFillStyle )->
         try
-          if not strFillStyle?
-            objError = throw new CanvasBoxException( "Fill Style not defined" )
+          if( not strFillStyle? )
+              objError = throw new CanvasBoxException( "Fill Style not defined");
           @getContext().fillStyle = strFillStyle;
         catch objError
           throw new CanvasBoxException( "Error on set Fill Style [#{strFillStyle}]" );
@@ -886,7 +910,6 @@ class CanvasBox
         try
           if( not strStrokeStyle? )
               objError = new CanvasBoxException( "Stroke Style not defined");
-              console.log( objError );
               throw objError
           @getContext().strokeStyle = ( strStrokeStyle );
         catch objError
@@ -894,7 +917,6 @@ class CanvasBox
 
     setLineWidth:( dblLineWidth )->
         try
-          #console.log( "set line width = " + dblLineWidth );
           @getContext().lineWidth = ( dblLineWidth * @dblZoom );
         catch objError
           throw new CanvasBoxException( "Error on set Line Width [#{dblLineWidth}]" );
@@ -910,8 +932,8 @@ class CanvasBox
           #console.log( "stroke Text = " + strText + " x =  " + intPosX + " y = " + intPosY );
           @getContext().strokeText(
               strText ,
-              ( intPosX * @dblZoom ) ,
-              ( intPosY * @dblZoom ) 
+              Math.round( intPosX * @dblZoom ),
+              Math.round( intPosY * @dblZoom )
           );
         catch objError
           throw new CanvasBoxException( "Error on set Stroke Text" );
@@ -993,7 +1015,6 @@ class CanvasBox
               strNewSizeNumber = dblSizeNumber + strSizeType;
               arrFontData[ key ] = strNewSizeNumber;
           strFontDescription = php.implode( " " , arrFontData );
-          #console.log( "set Font After " + strFontDescription );
           @getContext().font = strFontDescription;
         catch objError
           throw new CanvasBoxException( "Error on set Font #{strFontDescription}" );
@@ -1001,8 +1022,7 @@ class CanvasBox
     translate:( dblDegree , intDistance )->
         try
           @getContext().translate(
-              Math.round( dblDegree   * @dblZoom ),
-              Math.round( intDistance * @dblZoom )
+              Math.round( dblDegree   * @dblZoom )
           );
         catch objError
           throw new CanvasBoxException( "Error on translate" );
@@ -1035,7 +1055,6 @@ class CanvasBox
           objCanvasError = new CanvasBoxException( "Error on drawBezierLine" );
           objCanvasError.setParentError( objError )
           throw objCanvasError
-
 
     rotate:( dblDegree )->
         try

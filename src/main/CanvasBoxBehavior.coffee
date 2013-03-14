@@ -56,6 +56,12 @@ class CanvasBoxBehavior
     getForce:( objElement )->
         objVector = Array();
         return objVector;
-
+    
     move:()->
         return true;
+
+    changeBehavior:( strNewBehavior )->
+        objNewBehavior = New[ strNewBehavior ]( this.objBoxElement );
+        objNewBehavior.objBoxElement = this.objBoxElement;
+        objNewBehavior.dx = this.dx;
+        objNewBehavior.dy = this.dy;

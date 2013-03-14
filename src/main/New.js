@@ -45,9 +45,12 @@ New.prototype.arrMap = {
   CanvasBoxState: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxState",
   CanvasBoxStateDiagram: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateDiagram",
   CanvasBoxStateLink: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateLink",
+  CanvasBoxStateRender: "" + window.MAIN_PATH + "../diagram/stateMachine/CanvasBoxStateRender",
   CanvasBoxConnectorBehavior: "" + window.MAIN_PATH + "CanvasBoxConnectorBehavior",
   CanvasBoxGravityBehavior: "" + window.MAIN_PATH + "CanvasBoxGravityBehavior",
-  CanvasBoxMagneticBehavior: "" + window.MAIN_PATH + "CanvasBoxMagneticBehavior"
+  CanvasBoxMagneticBehavior: "" + window.MAIN_PATH + "CanvasBoxMagneticBehavior",
+  CanvasBoxRender: "" + window.MAIN_PATH + "CanvasBoxRender"
+
 };
 
 New.prototype.arrClasses = Array();
@@ -55,7 +58,9 @@ New.prototype.arrClasses = Array();
 New.prototype.loadClass = function(strClass) {
   var strContent;
   try {
-    if (php.in_array(strClass, New.prototype.arrClasses)) return false;
+    if (php.in_array(strClass, New.prototype.arrClasses)) {
+      return false;
+    }
     if (!(New.prototype.arrMap[strClass] != null)) {
       throw new CanvasBoxException("Unabled to map the class " + strClass);
     }
@@ -87,8 +92,12 @@ New.prototype.construct = function(klass, args) {
 };
 
 New.prototype.addMap = function(strClass, link) {
-  if (link == null) link = null;
-  if (link != null) New.prototype.arrMap[strClass] = link;
+  if (link == null) {
+    link = null;
+  }
+  if (link != null) {
+    New.prototype.arrMap[strClass] = link;
+  }
   New[strClass] = new Function("return New.prototype.Instance({ name: '" + strClass + "', data: arguments });");
   return Load[strClass] = new Function("return Load.prototype.Instance({ name: '" + strClass + "', data: arguments });");
 };

@@ -340,7 +340,7 @@ class CanvasBoxElement
                         objElement.objElementTo == this ) and
                     objElement != this
                 arrConnection.push( objElement );
-        console.log( "element has #{arrConnection.length} connections" );
+        #console.log( "element has #{arrConnection.length} connections" );
         return arrConnection;
 
     ###
@@ -350,7 +350,7 @@ class CanvasBoxElement
     # @return CanvasBoxElement me
     ###    
     onDelete:( event )->
-        console.log( "into on delete" );
+        #console.log( "into on delete" );
         for objElement in @getConnectors()
             objElement.deleteCascade();
         return this;

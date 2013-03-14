@@ -85,7 +85,7 @@ class CanvasBoxLine extends CanvasBoxConnector
   ###
   # Line Width
   ###
-  width: 1
+  width: 3
 
   ###
   # Class Name

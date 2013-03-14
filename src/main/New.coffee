@@ -35,12 +35,14 @@ New::arrMap =
  CanvasBoxSaveButton:    "#{window.MAIN_PATH}button/CanvasBoxSaveButton" 
  CanvasBoxZoomInButton:  "#{window.MAIN_PATH}button/CanvasBoxZoomIntButton" 
  CanvasBoxZoomOutButton: "#{window.MAIN_PATH}button/CanvasBoxZoomOutButton" 
- CanvasBoxState:         "#{window.MAIN_PATH}../diagram/stateMachine/CanvasBoxState"
- CanvasBoxStateDiagram:  "#{window.MAIN_PATH}../diagram/stateMachine/CanvasBoxStateDiagram"
- CanvasBoxStateLink:     "#{window.MAIN_PATH}../diagram/stateMachine/CanvasBoxStateLink"
  CanvasBoxConnectorBehavior: "#{window.MAIN_PATH}CanvasBoxConnectorBehavior"
  CanvasBoxGravityBehavior:   "#{window.MAIN_PATH}CanvasBoxGravityBehavior" 
  CanvasBoxMagneticBehavior:  "#{window.MAIN_PATH}CanvasBoxMagneticBehavior" 
+ CanvasBoxRender:            "#{window.MAIN_PATH}CanvasBoxRender" 
+ CanvasBoxState:             "#{window.MAIN_PATH}../diagram/stateMachine/CanvasBoxState"
+ CanvasBoxStateDiagram:      "#{window.MAIN_PATH}../diagram/stateMachine/CanvasBoxStateDiagram"
+ CanvasBoxStateLink:         "#{window.MAIN_PATH}../diagram/stateMachine/CanvasBoxStateLink"
+ CanvasBoxStateRender:       "#{window.MAIN_PATH}../diagram/stateMachine/CanvasBoxStateRender"
  
 New::arrClasses = Array();
 

@@ -26,6 +26,6 @@ class CanvasBoxStateLink extends CanvasBoxLine
     # Sequence Diagram Arrow to
     ##
     drawArrowTo:( intSide )->
-        @objContext.moveTo(-10, 15);
-        @objContext.lineTo(0, 0);
-        @objContext.lineTo(10, 15);
+        @objBox.moveTo(-10, 15);
+        @objBox.lineTo(0, 0);
+        @objBox.lineTo(10, 15);
