@@ -106,7 +106,6 @@ class CanvasBoxPolygon extends CanvasBoxElement
     draw:->
         if( @arrPoints.length < 2 )
             return super();
-
         @changeContext();
         @objBox.setFillStyle( @color );
         @objBox.setStrokeStyle( @borderColor );

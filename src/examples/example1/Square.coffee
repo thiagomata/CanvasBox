@@ -44,7 +44,7 @@ class Square extends CanvasBoxElement
     ##
     # Square Border Color
     ##
-    borderColorOver: "rgb( 250 , 250, 250 )"
+    borderColorOver: "rgb( 0 , 0, 0 )"
 
     ##
     # Square Border Width
@@ -77,21 +77,23 @@ class Square extends CanvasBoxElement
     ###
     draw:->
         @refresh();
+        @changeContext();
         @objBox.setFillStyle( @color );
         @objBox.fillRect( 
-            Math.round( this.x - ( this.side / 2 ) ) , 
-            Math.round( this.y - ( this.side / 2 ) ),
+            Math.round( -( this.side ) / 2 ) , 
+            Math.round( -( this.side ) / 2 ),
             Math.round( this.side ) , 
             Math.round( this.side ) );
         @objBox.setStrokeStyle( @borderColor );
         @objBox.lineWidth = "#{@borderWidth}px";
         @objBox.strokeRect( 
-            Math.round( this.x - ( this.side / 2 ) ) , 
-            Math.round( this.y - ( this.side / 2 ) ),
+            Math.round( -( this.side ) / 2 ) , 
+            Math.round( -( this.side ) / 2 ),
             Math.round( this.side ) , 
             Math.round( this.side ) );
         @objBox.setStrokeStyle( "black" ); 
-        @objBox.strokeText( "Drag and Drop",@x - 30,@y);
+        @objBox.strokeText( "Drag and Drop", -( @side / 2 ) + 20, 0  );
+        @restoreContext();
         return this;    
 
     ##

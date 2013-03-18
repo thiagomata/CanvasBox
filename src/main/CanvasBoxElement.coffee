@@ -189,6 +189,7 @@ class CanvasBoxElement
     ##
     restoreContext:->
         @objBox.restoreContext();
+        @objBox.translate( 0 , 0 );
         return this;
 
     ###

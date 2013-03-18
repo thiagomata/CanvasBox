@@ -839,8 +839,8 @@ class CanvasBox
 
     moveTo:( intX , intY )->
         @getContext().moveTo( 
-            Math.round( intX * @dblZoom ) + 0.5 ,
-            Math.round( intY * @dblZoom ) + 0.5
+            Math.round( intX * @dblZoom ),
+            Math.round( intY * @dblZoom )
         );
 
     lineTo:( intX , intY )->
@@ -1019,11 +1019,12 @@ class CanvasBox
         catch objError
           throw new CanvasBoxException( "Error on set Font #{strFontDescription}" );
 
-    translate:( dblDegree , intDistance )->
+    translate:( intX , intY )->
         try
-          @getContext().translate(
-              Math.round( dblDegree   * @dblZoom )
-          );
+            @getContext().translate(
+                intX, 
+                intY
+            );
         catch objError
           throw new CanvasBoxException( "Error on translate" );
 
