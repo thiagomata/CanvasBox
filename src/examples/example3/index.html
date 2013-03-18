@@ -1,15 +1,27 @@
 <html>
 <!--
-A simple example of canvas box with a square
+Colision and keyboard commands example
 -->
     <head>
-        <title>A simple example of canvas box with a square</title>
-        <script src="../../coffee/jquery-1.4.2.js"></script> 
-        <script src="../../coffee/coffee-script.js"></script> 
-        <script src="../../php/php.basic.js"></script> 
-        <script src="../../php/php.caller.js"></script> 
-        <script src="../../main/Browser.js"></script> 
-        <script src="../../main/New.js"></script> 
+        <title>Collision of objects with keyboard commands</title>
+        <script 
+            type="text/javascript" 
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+        ></script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/coffeescript/extras/coffee-script.js"
+        ></script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/php/php.basic.js">
+        </script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/php/php.caller.js"
+        ></script> 
+        <script type="text/javascript" src="../../main/Browser.js"></script> 
+        <script type="text/javascript" src="../../main/New.js"></script> 
     </head>
     <body>
         <div>
@@ -41,13 +53,13 @@ A simple example of canvas box with a square
                         var objBubble = New.Bubble();
                         objBubble.x = this.mouseX;
                         objBubble.y = this.mouseY;
-                        this.addElement( objBubble );                       
+                        this.addElement( objBubble );
                         return CanvasBox.prototype.onBoxClick.bind( this )( event );
                     };
                     
                     window.loopTimer = function loopTimer()
                     {
-                        if( objBox.arrElements.length > 15 )
+                        if( objBox.arrElements.length > 10 )
                         {
                             return false;
                         }
@@ -56,7 +68,7 @@ A simple example of canvas box with a square
                             var objBubble = New.Bubble();
                             objBubble.x = Math.floor( Math.random() * objBox.width );
                             objBubble.y = objBox.height - Math.floor( Math.random() * objBox.height / 8 );
-                            objBox.addElement( objBubble );                     
+                            objBox.addElement( objBubble );
                         }
                     }
                     
@@ -65,7 +77,7 @@ A simple example of canvas box with a square
                      */
                     objBox.play();
                     
-                    setInterval( 'window.loopTimer()' , 100 );
+                    setInterval( 'window.loopTimer()' , 50 );
                 })                    
                 </script>
             </p>

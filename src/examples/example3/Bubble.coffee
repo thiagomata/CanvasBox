@@ -20,7 +20,7 @@ class Bubble extends CanvasBoxElement
     # Size of each side of square
     ##
     side: 1
-    
+
     ##
     # Regular Square Color
     ##
@@ -30,7 +30,7 @@ class Bubble extends CanvasBoxElement
     # Current Color
     ##
     color: "rgba(250,250,250,0.60)"
-    
+
     ##
     # Color Over
     ##
@@ -55,7 +55,7 @@ class Bubble extends CanvasBoxElement
     # Square Border Width
     ##
     borderWidth: 2
-        
+
     ##
     # Class Name
     ##
@@ -65,7 +65,7 @@ class Bubble extends CanvasBoxElement
     # Object Collision
     ##
     objCollision: null
-    
+
     ###
     # Is Mouse Over Flag
     ###
@@ -86,7 +86,7 @@ class Bubble extends CanvasBoxElement
         @objBox.fill();
         @objBox.stroke();
         @objBox.closePath();
-        
+
     ##
     # Serialize the important data of this element
     ##
@@ -166,16 +166,13 @@ class Bubble extends CanvasBoxElement
             return false;
         return super( event );
 
-    isInsideElement:( mouseX , mouseY )->
-       return false;
-       
     ##
     # Returns if the Mouse is Over the Element
     #
     # @param mouseX integer horizontal position of cursor pointer
     # @param mouseY integer vertical position of the cursor pointer
     # @return boolean
-    ## 
+    ##
     isInsideElement:( mouseX , mouseY )->
         return  ( mouseX >= ( this.x - @side / 2 ) ) &&
                 ( mouseX <= ( this.x + @side / 2 ) ) &&
@@ -188,13 +185,12 @@ class Bubble extends CanvasBoxElement
                 dblDiffX = ( objElement.x - this.x );
                 dblDiffY = ( objElement.y - this.y );
                 dblSumSide = objElement.side + this.side;
-                dblSquaredX = dblDiffX * dblDiffX;  
-                dblSquaredY = dblDiffY * dblDiffY;  
+                dblSquaredX = dblDiffX * dblDiffX;
+                dblSquaredY = dblDiffY * dblDiffY;
                 dblDistance = Math.sqrt( dblSquaredX + dblSquaredY );
-                if( 
+                if(
                     dblDistance <= dblSumSide
                   )
                       @objCollision = objElement;
                       return true;
         return false;
-       

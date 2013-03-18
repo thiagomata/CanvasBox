@@ -4,18 +4,24 @@ A simple example of canvas box with a square
 -->
     <head>
         <title>Example 1 - A simple example of events into canvas box with a square</title>
-        <script>
-            /* 
-             * show how to go from here to the main folder
-             */
-            window.MAIN_PATH = "../../main/";
-        </script>
-        <script src="../../coffee/jquery-1.4.2.js"></script> 
-        <script src="../../coffee/coffee-script.js"></script> 
-        <script src="../../php/php.basic.js"></script> 
-        <script src="../../php/php.caller.js"></script> 
-        <script src="../../main/Browser.js"></script> 
-        <script src="../../main/New.js"></script> 
+        <script 
+            type="text/javascript" 
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+        ></script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/coffeescript/extras/coffee-script.js"
+        ></script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/php/php.basic.js">
+        </script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/php/php.caller.js"
+        ></script> 
+        <script type="text/javascript" src="../../main/Browser.js"></script> 
+        <script type="text/javascript" src="../../main/New.js"></script> 
     </head>
     <body>
         <div>
@@ -29,42 +35,42 @@ A simple example of canvas box with a square
             <p>
                 <canvas id="myCanvas"></canvas>
                 <script>
-                    /* 
-                     * add the square in the load map 
+                    /*
+                     * add the square in the load map
                      */
                     New.prototype.addMap( "Square", "Square" );
                     
                     /*
-                     * create the canvas box 
+                     * create the canvas box
                      */
                     var objBox = New.CanvasBox( "myCanvas" );
                     objBox.backgroundColor = "white";
                     
-                    /* 
+                    /*
                      * create the square element
                      */
                     var objSquare = New.Square();
                     objSquare.x = objBox.width / 2;
                     objSquare.y = objBox.height / 2;
                     
-                    /* 
+                    /*
                      * add the square into the box
                      */
                     objBox.addElement( objSquare );
                     
-                    /* 
+                    /*
                      * create the square element
                      */
                     var objSquare = New.Square();
                     objSquare.x = objBox.width - objSquare.side;
                     objSquare.y = objBox.height - objSquare.side;
                     
-                    /* 
+                    /*
                      * add the square into the box
                      */
                     objBox.addElement( objSquare );
                     
-                    /* 
+                    /*
                      * play the box
                      */
                     objBox.play();

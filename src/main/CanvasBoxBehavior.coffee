@@ -39,8 +39,8 @@ class CanvasBoxBehavior
 
     onDrag:( event )->
         this.dragdrop = true;
-        this.objBoxElement.x = this.objBoxElement.objBox.mouseX;
-        this.objBoxElement.y = this.objBoxElement.objBox.mouseY;
+        this.objBoxElement.x = this.objBoxElement.objBox.mouseX + this.objBoxElement.relativeMousex;
+        this.objBoxElement.y = this.objBoxElement.objBox.mouseY + this.objBoxElement.relativeMousey;
         if( this.objBoxElement.drawDrag )
             this.objBoxElement.drawDrag();
         return false;
