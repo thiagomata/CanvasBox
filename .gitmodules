@@ -1,3 +1,9 @@
 [submodule "src/externals/sql.js"]
 	path = src/externals/sql.js
 	url = git://github.com/kripken/sql.js.git
+[submodule "src/externals/jquery"]
+	path = src/externals/jquery
+	url = git://github.com/jquery/jquery.git
+[submodule "src/externals/coffeescript"]
+	path = src/externals/coffeescript
+	url = git://github.com/jashkenas/coffee-script.git
