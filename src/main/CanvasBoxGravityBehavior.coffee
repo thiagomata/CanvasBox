@@ -118,7 +118,6 @@ class CanvasBoxGravityBehavior extends CanvasBoxBehavior
   # Check if there is no element touching this by bottom
   ##
   isLastOne:(objActualElement)->
-    console.log( "is last one? " );
     arrElements = @objBoxElement.objBox.arrElements
     intQtdElements = arrElements.length
     

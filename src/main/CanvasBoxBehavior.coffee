@@ -65,3 +65,5 @@ class CanvasBoxBehavior
         objNewBehavior.objBoxElement = this.objBoxElement;
         objNewBehavior.dx = this.dx;
         objNewBehavior.dy = this.dy;
+        this.objBoxElement.objBehavior = objNewBehavior
+        return objNewBehavior;

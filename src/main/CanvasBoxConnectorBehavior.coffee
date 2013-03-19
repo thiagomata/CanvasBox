@@ -1,4 +1,5 @@
-class CanvasBoxConnectorBehavior
+Load.CanvasBoxBehavior();
+class CanvasBoxConnectorBehavior extends CanvasBoxBehavior
     objBox: null
 
     objBoxElement: null
