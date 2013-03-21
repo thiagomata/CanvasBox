@@ -80,6 +80,12 @@ New::addMap = ( strClass , link = null )->
     New[strClass] = new Function ( "return New.prototype.Instance({ name: '#{strClass}', data: arguments });" )
     Load[strClass] = new Function ( "return Load.prototype.Instance({ name: '#{strClass}', data: arguments });" )
 
+New::importMap = ( strPathJsonFile )->
+    strJson = php.file_get_contents( strPathJsonFile );
+    objJson = JSON.parse( strJson );
+    for strClass, strLink of objJson
+        New::addMap( strClass, strLink )
+
 New::start=->         
     for element , path of New::arrMap
         New::addMap(element)

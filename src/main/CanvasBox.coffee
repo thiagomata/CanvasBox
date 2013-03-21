@@ -384,7 +384,17 @@ class CanvasBox
         @addButton( objButton );        
         ###
         
+        @init();
+
         return this;
+
+    ###
+    # The extended version of the constructor without the need of parent method call.
+    #
+    # in the parent, do nothing
+    ###
+    init:()->
+        # do nothing
 
     ###
     # Add a CanvasBoxElement intot he CanvasBox
