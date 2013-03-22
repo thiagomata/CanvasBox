@@ -4,7 +4,7 @@
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 ##
 Load.CanvasBoxElement();
-class Square extends CanvasBoxElement
+class CollisionSquare extends CanvasBoxElement
 
     ##
     # Size of each side of square

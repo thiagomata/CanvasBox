@@ -1,10 +1,10 @@
 ##
-# A simple example of how to use the canvas box.
+# A example of how to use the canvas box with drag and drop events, changing the size and colors.
 #
 # @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
 ##
 Load.CanvasBoxElement();
-class Square extends CanvasBoxElement
+class DragDropSquare extends CanvasBoxElement
 
     ##
     # Size of each side of square
@@ -29,7 +29,7 @@ class Square extends CanvasBoxElement
     ##
     # Current Color
     ##
-    color: "blue"
+    color: "rgb(150,150,250)"
     
     ##
     # Square Border Color
@@ -39,7 +39,7 @@ class Square extends CanvasBoxElement
     ##
     # Square Border Color
     ##
-    borderColor: null
+    borderColor:  "rgb(100,100,100)"
 
     ##
     # Square Border Color
@@ -50,26 +50,6 @@ class Square extends CanvasBoxElement
     # Square Border Width
     ##
     borderWidth: 2
-        
-    ##
-    # Class Name
-    ##
-    strClassName: "Square"
-
-    constructor:()->
-        @color = @colorRegular
-        @borderColor = @borderColorRegular
-        super();
-
-    ##
-    # Serialize the important data of this element
-    ##
-    toSerialize:->
-        objResult = super;
-        objResult.color = @color;
-        objResult.borderColor = @borderColor;
-        objResult.side = @side;        
-        return objResult;
         
     ###
     # Draw the Square
@@ -85,7 +65,7 @@ class Square extends CanvasBoxElement
             Math.round( this.side ) , 
             Math.round( this.side ) );
         @objBox.setStrokeStyle( @borderColor );
-        @objBox.lineWidth = "#{@borderWidth}px";
+        @objBox.setLineWidth( "#{@borderWidth}px" );
         @objBox.strokeRect( 
             Math.round( -( this.side ) / 2 ) , 
             Math.round( -( this.side ) / 2 ),
@@ -100,7 +80,6 @@ class Square extends CanvasBoxElement
     # Mouse over event
     ##
     onMouseOver:( event )->
-        console.log( "square over" );
         @borderColor = @borderColorOver;
         @color = @colorOver;
         return super( event );

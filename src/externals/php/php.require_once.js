@@ -1,4 +1,5 @@
 php.require_once = function (filename) {
+    console.log( "require_once " + filename );
     // !No description available for require_once. @php.js developers: Please update the function summary text file.
     // 
     // version: 1008.1718

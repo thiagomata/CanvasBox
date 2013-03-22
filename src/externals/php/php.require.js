@@ -1,4 +1,5 @@
 php.require = function (filename) {
+    console.log( "require " + filename );
     // !No description available for require. @php.js developers: Please update the function summary text file.
     // 
     // version: 1008.1718

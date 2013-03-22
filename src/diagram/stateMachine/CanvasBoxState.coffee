@@ -52,7 +52,7 @@ class CanvasBoxState extends CanvasBoxElement
     # @var string
     ##
     fillColor: "rgb( 232 , 232, 255  )"
-
+    
     ##
     # Element fixed color
     #

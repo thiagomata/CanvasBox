@@ -50,33 +50,7 @@ A simple example of canvas box with a square
                 <br/>
                 <canvas id="myCanvas"></canvas>
                 <script>
-                    /* 
-                     * add the square in the load map 
-                     */
-                    New.prototype.addMap( "Square", "Square" );
                     
-                    /*
-                     * create the canvas box 
-                     */
-                    var objBox = New.CanvasBox( "myCanvas" );
-                    objBox.backgroundColor = "white";
-                    
-                    /* 
-                     * create the square element
-                     */
-                    var objSquare = New.Square();
-                    objSquare.x = objBox.width / 2;
-                    objSquare.y = objBox.height / 2;
-                    
-                    /* 
-                     * add the square into the box
-                     */
-                    objBox.addElement( objSquare );
-                    
-                    /* 
-                     * play the box
-                     */
-                    objBox.play();
                 </script>
             </p>
         </div>
