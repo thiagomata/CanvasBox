@@ -188,6 +188,12 @@ class CanvasBox
     ###
     objMenuSelected: null
 
+    intTimeoutTimer: null
+
+    intTimeoutDraw: null
+
+    intTimeoutFPS: null
+
     ###
     # Get the client width fixing browsers missing standarts
     # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
@@ -290,6 +296,8 @@ class CanvasBox
     # @return CanvasBox
     ###
     constructor: ( idCanvasHtmlElement , intWidth = 400 , intHeight = 400)->
+        console.log( "canvasbox constructor #{idCanvasHtmlElement}" )
+        
         @defaultWidth = intWidth;
         @defaultHeight = intHeight;
         @width = @defaultWidth / @dblZoom;
@@ -383,7 +391,6 @@ class CanvasBox
         objButton = New.CanvasBoxSaveButton( this );
         @addButton( objButton );        
         ###
-        
         @init();
 
         return this;
@@ -499,15 +506,18 @@ class CanvasBox
         if( @booActive )
             return;
         @booActive = true;
-        setTimeout( this.onTimer.bind( this ) , @intIntervalTimer );
-        setTimeout( this.onDraw.bind( this ) , @intIntervalDraw );
-        setTimeout( this.onCountFps.bind( this ) , 1000 );
+        @intTimeoutTimer = setTimeout( this.onTimer.bind( this ) , @intIntervalTimer );
+        @intTimeoutDraw = setTimeout( this.onDraw.bind( this ) , @intIntervalDraw );
+        @intTimeoutFPS = setTimeout( this.onCountFps.bind( this ) , 1000 );
 
     ###
     # Stop the auto refresh timer
     ###
     stop:->
         @booActive = false;
+        window.clearTimeout( @intTimeoutTimer );
+        window.clearTimeout( @intTimeoutDraw );
+        window.clearTimeout( @intTimeoutFPS );
 
     ###
     # Refresh the Canvas Box
@@ -520,13 +530,13 @@ class CanvasBox
         if( @booActive == false )
             return false;
         if( @intCounterStandyBy < 10 )
-            setTimeout( 
+            @intTimeoutTimer = setTimeout( 
                 this.onTimer.bind(this) , 
                 @intIntervalTimer 
             );
         else
             if( @booMouseOver )
-                setTimeout( 
+                @intTimeoutTimer =  setTimeout( 
                     this.onTimer.bind( this ) , 
                     @intIntervalTimer * 2 
                 );
@@ -550,7 +560,7 @@ class CanvasBox
         if( ! @booCountFps )
             return false;
         document.title = "FPS: " + @intLastFps;
-        setTimeout( 
+        @intTimeoutFPS = setTimeout( 
             this.onCountFps.bind(this) , 
             1000 
         );
@@ -565,10 +575,12 @@ class CanvasBox
     onDraw:->
         if( @booActive == false )
             return false;
-        setTimeout( 
+
+        @intTimeoutDraw = setTimeout( 
             this.onDraw.bind(this) , 
             @intIntervalDraw 
         );
+
         if( ! @booOnDraw )
             @draw();
             @intFps++;
@@ -581,8 +593,6 @@ class CanvasBox
     ###
     refreshMousePosition:( event = null )->    
         if( event? )
-            # @mouseX = ( event.clientX - @x + CanvasBox::scrollLeft() ) / @dblZoom;
-            # @mouseY = ( event.clientY - @y + CanvasBox::scrollTop()  ) / @dblZoom;
             @mouseX = ( event.clientX - @x + CanvasBox::scrollLeft() ) / @dblZoom;
             @mouseY = ( event.clientY - @y + CanvasBox::scrollTop()  ) / @dblZoom;
 
@@ -642,7 +652,6 @@ class CanvasBox
     # @param Event event
     ###
     onMouseUp:( event )->
-        #console.log( "canvas box mouse up" );
         @booMouseOver = true;
 
         if( @objElementSelected? )
@@ -669,7 +678,6 @@ class CanvasBox
     # @param Event event
     ###
     onClick:( event )->
-        #console.log( "canvas box on click" );
         @booMouseOver = true;
         @change()
         if( @booShowMenu )
@@ -815,24 +823,20 @@ class CanvasBox
     # @param boolean booCallOnDelete
     ###
     deleteElement:( objElement , booCallOnDelete = true )->
-        #console.log( "change")
         @change()
 
         if( booCallOnDelete )
-            #console.log( "on delete")
             objElement.onDelete();
 
-        #console.log( "get element id")
         intId = @arrElements.indexOf( objElement );
 
+        console.log(" index of intId " );
+        
         if( intId != -1 )
-            #console.log( "splice")
             @arrElements.splice( intId  , 1 );
         if ( @arrElements.length > 0 )
-            #console.log( "change element selected")
             @objElementClicked = null
         else
-            #console.log( "change element selected to null")
             @objElementClicked = null;
     
     onMouseOver:( event )->
@@ -939,7 +943,6 @@ class CanvasBox
 
     strokeText:( strText , intPosX , intPosY )->
         try
-          #console.log( "stroke Text = " + strText + " x =  " + intPosX + " y = " + intPosY );
           @getContext().strokeText(
               strText ,
               Math.round( intPosX * @dblZoom ),
@@ -950,7 +953,6 @@ class CanvasBox
 
     fillText:( strText , intPosX , intPosY )->
         try
-          #console.log( "fill text " + strText + " x =  " + intPosX + " y = " + intPosY );
           @getContext().fillText(
               strText ,
               Math.round( intPosX * @dblZoom ) + 0.5,
@@ -961,7 +963,6 @@ class CanvasBox
 
     strokeRect:( intX, intY, intWidth, intHeight )->
         try
-          #console.log( "stroke rect width = " + intwidth + " height = " + intHeight + " x =  " + intPosX + " y = " + intPosY );
           @getContext().strokeRect(
               Math.round( intX        * @dblZoom ) + 0.5,
               Math.round( intY        * @dblZoom ) + 0.5,
@@ -973,7 +974,6 @@ class CanvasBox
 
     fillRect:( intX, intY, intWidth, intHeight )->
         try
-          #console.log( "fill rect width = " + intwidth + " height = " + intHeight + " x =  " + intPosX + " y = " + intPosY );
           @getContext().fillRect(
               Math.round( intX        * @dblZoom ) + 0.5,
               Math.round( intY        * @dblZoom ) + 0.5,
@@ -985,21 +985,18 @@ class CanvasBox
 
     setShadowOffsetX:( intX )->
         try
-          #console.log( "set shadown offset X = " + intX );
           @getContext().shadowOffsetX = Math.round( intX * @dblZoom );
         catch objError
           throw new CanvasBoxException( "Error on set Shadow Offset X" );
 
     setShadowOffsetY:( intY )->
         try
-          #console.log( "set shadown offset Y = " + intY );
           @getContext().shadowOffsetY = Math.round( intY * @dblZoom );
         catch objError
           throw new CanvasBoxException( "Error on set Shadow Offset Y" );
 
     setShadowBlur:( intBlur )->
         try
-          #console.log( "set shadown blur = " + intBlur );
           @getContext().shadowBlur = intBlur;
         catch objError
           throw new CanvasBoxException( "Error on set Shadow Blur" );
@@ -1148,7 +1145,7 @@ class CanvasBox
         @objCanvasHtml.setAttribute( "width" ,  ( @defaultWidth )  + "px" );
         @objCanvasHtml.setAttribute( "height" , ( @defaultHeight ) + "px" );
 
-    saveAsXml:->
+    saveAsXml:()->
         alert( "Feature in development. Try it tomorrow!");
 
 ###

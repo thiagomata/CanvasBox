@@ -256,6 +256,12 @@ CanvasBox = (function() {
 
   CanvasBox.prototype.objMenuSelected = null;
 
+  CanvasBox.prototype.intTimeoutTimer = null;
+
+  CanvasBox.prototype.intTimeoutDraw = null;
+
+  CanvasBox.prototype.intTimeoutFPS = null;
+
   /*
       # Get the client width fixing browsers missing standarts
       # @link http:#www.softcomplex.com/docs/get_window_size_and_scrollbar_position.html
@@ -387,6 +393,7 @@ CanvasBox = (function() {
     if (intHeight == null) {
       intHeight = 400;
     }
+    console.log("canvasbox constructor " + idCanvasHtmlElement);
     this.defaultWidth = intWidth;
     this.defaultHeight = intHeight;
     this.width = this.defaultWidth / this.dblZoom;
@@ -588,9 +595,9 @@ CanvasBox = (function() {
       return;
     }
     this.booActive = true;
-    setTimeout(this.onTimer.bind(this), this.intIntervalTimer);
-    setTimeout(this.onDraw.bind(this), this.intIntervalDraw);
-    return setTimeout(this.onCountFps.bind(this), 1000);
+    this.intTimeoutTimer = setTimeout(this.onTimer.bind(this), this.intIntervalTimer);
+    this.intTimeoutDraw = setTimeout(this.onDraw.bind(this), this.intIntervalDraw);
+    return this.intTimeoutFPS = setTimeout(this.onCountFps.bind(this), 1000);
   };
 
   /*
@@ -599,7 +606,10 @@ CanvasBox = (function() {
 
 
   CanvasBox.prototype.stop = function() {
-    return this.booActive = false;
+    this.booActive = false;
+    window.clearTimeout(this.intTimeoutTimer);
+    window.clearTimeout(this.intTimeoutDraw);
+    return window.clearTimeout(this.intTimeoutFPS);
   };
 
   /*
@@ -616,10 +626,10 @@ CanvasBox = (function() {
       return false;
     }
     if (this.intCounterStandyBy < 10) {
-      setTimeout(this.onTimer.bind(this), this.intIntervalTimer);
+      this.intTimeoutTimer = setTimeout(this.onTimer.bind(this), this.intIntervalTimer);
     } else {
       if (this.booMouseOver) {
-        setTimeout(this.onTimer.bind(this), this.intIntervalTimer * 2);
+        this.intTimeoutTimer = setTimeout(this.onTimer.bind(this), this.intIntervalTimer * 2);
       } else {
         this.intCounterStandyBy = 0;
         this.stop();
@@ -646,7 +656,7 @@ CanvasBox = (function() {
       return false;
     }
     document.title = "FPS: " + this.intLastFps;
-    setTimeout(this.onCountFps.bind(this), 1000);
+    this.intTimeoutFPS = setTimeout(this.onCountFps.bind(this), 1000);
     return true;
   };
 
@@ -662,7 +672,7 @@ CanvasBox = (function() {
     if (this.booActive === false) {
       return false;
     }
-    setTimeout(this.onDraw.bind(this), this.intIntervalDraw);
+    this.intTimeoutDraw = setTimeout(this.onDraw.bind(this), this.intIntervalDraw);
     if (!this.booOnDraw) {
       this.draw();
       this.intFps++;

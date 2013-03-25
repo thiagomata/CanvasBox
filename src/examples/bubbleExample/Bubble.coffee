@@ -148,8 +148,9 @@ class Bubble extends CanvasBoxElement
     onTimer:(event)->
         if( @isOver )
             return false 
-        @y-=2;
-        @side++;
+        @y -=2;
+        @side += 0.5;
+
         @objBox.change();
         if( @x < ( -1 * @side ) )
             @killMe();
@@ -158,12 +159,12 @@ class Bubble extends CanvasBoxElement
             @killMe();
             return false;
         if( @inCollision() )
-            if( @y >= @objCollision.y )
-                @side--;
-                @y+=2;
+            if( @y <= @objCollision.y )
+                @y -= 2;
+                return false;
             else
-                @side--;
-            return false;
+                @y += 2;
+                @side -= 0.5;
         return super( event );
 
     ##
@@ -181,16 +182,14 @@ class Bubble extends CanvasBoxElement
 
     inCollision:()->
         for objElement in @objBox.arrElements
-            if( objElement? and objElement != this )
-                dblDiffX = ( objElement.x - this.x );
-                dblDiffY = ( objElement.y - this.y );
-                dblSumSide = objElement.side + this.side;
+            if( objElement? and objElement != this and objElement.constructor.name == this.constructor.name )
+                dblDiffX = Math.round( objElement.x - this.x );
+                dblDiffY = Math.round( objElement.y - this.y );
+                dblSumSide = Math.round( objElement.side + this.side );
                 dblSquaredX = dblDiffX * dblDiffX;
                 dblSquaredY = dblDiffY * dblDiffY;
-                dblDistance = Math.sqrt( dblSquaredX + dblSquaredY );
-                if(
-                    dblDistance <= dblSumSide
-                  )
-                      @objCollision = objElement;
-                      return true;
+                dblDistance = Math.round( Math.sqrt( dblSquaredX + dblSquaredY ) );
+                if dblDistance <= dblSumSide
+                    @objCollision = objElement;
+                    return true;
         return false;

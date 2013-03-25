@@ -57,12 +57,17 @@ New.prototype.arrClasses = Array();
 
 New.prototype.loadClass = function(strClass) {
   var strContent;
+  Load[strClass] = function() {
+    return false;
+  };
+  New[strClass] = new Function("return New.prototype.Ready({ name: '" + strClass + "', data: arguments });");
+  console.log("Load Class " + strClass);
   try {
     if (php.in_array(strClass, New.prototype.arrClasses)) {
       return false;
     }
     if (!(New.prototype.arrMap[strClass] != null)) {
-      throw new CanvasBoxException("Unabled to map the class " + strClass);
+      throw new Error("Unabled to map the class " + strClass);
     }
     console.log("loading... " + strClass);
     if (php.file_exists(New.prototype.arrMap[strClass] + ".js")) {
@@ -71,7 +76,13 @@ New.prototype.loadClass = function(strClass) {
     } else {
       strContent = php.file_get_contents(New.prototype.arrMap[strClass] + ".coffee");
       console.log("run " + strClass + ".coffee");
-      CoffeeScript.run(strContent);
+      try {
+        CoffeeScript.run(strContent);
+      } catch (objError) {
+        console.log("unable to run " + strClass);
+        console.log(objError.message);
+        throw objError;
+      }
     }
     New.prototype.arrClasses.push(strClass);
     return true;
@@ -91,6 +102,20 @@ New.prototype.construct = function(klass, args) {
   return new ObjectPointer(args);
 };
 
+/*
+New::construct=(klass,args)->
+	try
+		ObjectPointer = ->
+			klass.apply(this, arguments[0]);
+		ObjectPointer.prototype = klass.prototype; 
+		return new ObjectPointer(args);
+	catch objError
+		objException = new Error( "Unable to load the class #{klass}." )
+		objException.parentError = objError
+		throw objException
+*/
+
+
 New.prototype.addMap = function(strClass, link) {
   if (link == null) {
     link = null;
@@ -103,9 +128,18 @@ New.prototype.addMap = function(strClass, link) {
 };
 
 New.prototype.importMap = function(strPathJsonFile) {
-  var objJson, strClass, strJson, strLink, _results;
+  var objException, objJson, strClass, strJson, strLink, _results;
+  if (!php.file_exists(strPathJsonFile)) {
+    throw new Error("Unable to find the file " + strPathJsonFile + ".");
+  }
   strJson = php.file_get_contents(strPathJsonFile);
-  objJson = JSON.parse(strJson);
+  try {
+    objJson = JSON.parse(strJson);
+  } catch (objError) {
+    objException = new Error("Invalid Json receveid in file " + strPathJsonFile);
+    objException.parentError = objError;
+    throw objException;
+  }
   _results = [];
   for (strClass in objJson) {
     strLink = objJson[strClass];
@@ -130,9 +164,12 @@ New.prototype.Instance = function(arrDataLoad) {
   return New.prototype.construct(window[arrDataLoad.name], arrDataLoad.data);
 };
 
+New.prototype.Ready = function(arrDataLoad) {
+  return New.prototype.construct(window[arrDataLoad.name], arrDataLoad.data);
+};
+
 Load.prototype.Instance = function(arrDataLoad) {
   New.prototype.loadClass(arrDataLoad.name);
-  Load[arrDataLoad.name] = window[arrDataLoad.name];
   return window[arrDataLoad.name];
 };
 
