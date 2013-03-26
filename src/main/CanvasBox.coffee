@@ -1,3 +1,11 @@
+###
+# Controls the events into the canvas object emulating some 
+# event-based interactions with the virtual canvas box elements
+#
+# @author Thiago Henrique Ramos da Mata <thiago.henrique.mata@gmail.com>
+# @see CanvasBoxElement
+# @see CanvasBoxButton
+###
 Load.CanvasBoxException();
 class CanvasBox
 
@@ -678,6 +686,8 @@ class CanvasBox
     # @param Event event
     ###
     onClick:( event )->
+        @objCanvasHtml.focus();
+
         @booMouseOver = true;
         @change()
         if( @booShowMenu )
@@ -696,7 +706,6 @@ class CanvasBox
             if( objButton.booMouseOver )
                 objButton.onClick();
                 
-        @objCanvasHtml.focus();
         return false;
 
     ###
