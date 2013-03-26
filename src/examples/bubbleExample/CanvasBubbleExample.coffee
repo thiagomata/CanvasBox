@@ -9,6 +9,7 @@
 Load.CanvasBox()
 class CanvasBubbleExample extends CanvasBox
 
+<<<<<<< HEAD
 	###
 	# On Canvas Box Click, Create a new bubble
 	#
@@ -16,17 +17,23 @@ class CanvasBubbleExample extends CanvasBox
 	# @see Bubble
 	###
 	onBoxClick:( event )->
+=======
+	onClick:( event )->
+>>>>>>> ac601dc14763866f230dbfdab27eaba84adfb69e
 		objBubble = New.Bubble()
 		objBubble.x = @mouseX
 		objBubble.y = @mouseY
 		@addElement( objBubble );
 		return super
 
+<<<<<<< HEAD
 	###
 	# Prepare the timer of random bubble creation
 	# @see CanvasBubbleExample::loopTimer()
 	# @see Bubble
 	###
+=======
+>>>>>>> ac601dc14763866f230dbfdab27eaba84adfb69e
 	init:()->
 
 		console.log( "canvas box bubble example" );
@@ -40,10 +47,13 @@ class CanvasBubbleExample extends CanvasBox
 		@play();
 
 	
+<<<<<<< HEAD
 	###
 	# On timer, create some random bubbles
 	# @see Bubble
 	###
+=======
+>>>>>>> ac601dc14763866f230dbfdab27eaba84adfb69e
 	loopTimer:()->
 		console.log( "loop timer " , @arrElements.length );
 		return false if( @arrElements.length > 10 )
