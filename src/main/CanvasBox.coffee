@@ -686,11 +686,7 @@ class CanvasBox
     # @param Event event
     ###
     onClick:( event )->
-<<<<<<< HEAD
         @objCanvasHtml.focus();
-
-=======
->>>>>>> ac601dc14763866f230dbfdab27eaba84adfb69e
         @booMouseOver = true;
         @change()
         if( @booShowMenu )
