@@ -25,7 +25,6 @@
     "async": "^0.8.0",
     "glob": "^3.2.9",
     "gulp-autoprefixer": "0.0.6",
-    "gulp-coffee": "^2.0.1",
     "gulp-concat": "^2.2.0",
     "gulp-jade": "^0.6.1",
     "gulp-jsmin": "^0.1.4",

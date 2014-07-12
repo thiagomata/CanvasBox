@@ -1,7 +1,7 @@
 var gulp        = require('gulp');
 var $plugin     = require('gulp-load-plugins')({ camelize: true});
 var gutil       = require('gutil');
-var glob        = require('glob');
+var global        = {};//require('global');
 var path        = require('path');
 var StreamQueue = require('streamqueue');
 var fs          = require('fs');
@@ -11,7 +11,7 @@ var scripts     = require('./src/node/scripts.js');
 /**
  * Project Paths
  */
-glob.paths = {
+global.paths = {
   publicPath:      './public/',
   publicScript:    './public/scripts/',
   publicTemplate:  './public/templates',
@@ -24,9 +24,9 @@ glob.paths = {
  * Create the javascript files from the coffeescripts
  */
 gulp.task('coffee', function() {
-  gulp.src(glob.paths.srcCoffee + '**/*.coffee')
+  gulp.src(global.paths.srcCoffee + '**/*.coffee')
     .pipe($plugin.coffee({bare: true}).on('error', gutil.log))
-    .pipe(gulp.dest(glob.paths.publicScript));
+    .pipe(gulp.dest(global.paths.publicScript));
 });
 
 /**
@@ -35,11 +35,11 @@ gulp.task('coffee', function() {
 gulp.task('coffee-map', function() {
 
   // // this what we want to do, but doesn't work as excepted //
-  // gulp.src(glob.paths.srcCoffee + '**/*.coffee')
+  // gulp.src(global.paths.srcCoffee + '**/*.coffee')
   //   .pipe($plugin.sourcemaps.init())
   //   .pipe($plugin.coffee({bare: true}).on('error', gutil.log))
   //   .pipe($plugin.sourcemaps.write( './maps/'))
-  //   .pipe(gulp.dest(glob.paths.publicScript));
+  //   .pipe(gulp.dest(global.paths.publicScript));
 
   /**
    * @workaround This is a not so easy or fast way to compile the coffee
@@ -47,12 +47,12 @@ gulp.task('coffee-map', function() {
    * @todo use the tradicional way when fixed
    * @link https://github.com/gulpjs/gulp/issues/356
    */
-  var coffeeFiles = glob.sync( glob.paths.srcCoffee + '**/*.coffee');
+  var coffeeFiles = global.sync( global.paths.srcCoffee + '**/*.coffee');
   coffeeFiles.forEach(function(fullPathFileName){
     
     var srcDir = path.dirname(fullPathFileName);
-    var srcRelativeDir = srcDir.substr(glob.paths.srcCoffee.length);
-    var destDir = glob.paths.publicScript + srcRelativeDir + "/";
+    var srcRelativeDir = srcDir.substr(global.paths.srcCoffee.length);
+    var destDir = global.paths.publicScript + srcRelativeDir + "/";
 
     gulp.src(fullPathFileName)
       .pipe($plugin.sourcemaps.init())
@@ -66,11 +66,11 @@ gulp.task('coffee-map', function() {
  * Create the minify version of the javascript files
  */
 gulp.task('coffee-prod',function() {
-  gulp.src(glob.paths.srcCoffee + '**/*.coffee')
+  gulp.src(global.paths.srcCoffee + '**/*.coffee')
     .pipe($plugin.coffee({bare: true}).on('error', gutil.log))
     .pipe($plugin.ngmin())
     .pipe($plugin.jsmin())
-    .pipe(gulp.dest(glob.paths.publicScript));
+    .pipe(gulp.dest(global.paths.publicScript));
 });
 
 /**
@@ -78,19 +78,19 @@ gulp.task('coffee-prod',function() {
  */
 gulp.task('js-folder',function() {
 
-  var componentsFolders = glob.sync( glob.paths.publicScript + '**/');
+  var componentsFolders = global.sync( global.paths.publicScript + '**/');
   componentsFolders.forEach(function(folder){
     var $string = require('string');
     var componentName = folder.match(/.+\/(.+)\/$/)[1];
     var packageFileName = componentName.toLowerCase() + ".package.min.js";
     var packageName = $string(
       folder.substr(
-        glob.paths.publicPath.length,
-        folder.length - 1 - glob.paths.publicPath.length
+        global.paths.publicPath.length,
+        folder.length - 1 - global.paths.publicPath.length
       )
     ).replaceAll( "/" , "." ) + ".*";
 
-    scripts.addScript( packageName, folder.substr( glob.paths.publicPath.length ) + packageFileName );
+    scripts.addScript( packageName, folder.substr( global.paths.publicPath.length ) + packageFileName );
 
     gulp.src([folder + '*.js', '!' + folder + '*.package.min.js'])
       .pipe($plugin.ngmin())
@@ -107,23 +107,23 @@ gulp.task('js-folder',function() {
  */
 gulp.task('js-files',function() {
 
-  var scriptFiles = glob.sync( glob.paths.publicScript + '**/*.js');
+  var scriptFiles = global.sync( global.paths.publicScript + '**/*.js');
   scriptFiles.forEach(function(fullPathFileName){
     var $string = require('string');
     var packageName = $string(
       fullPathFileName.substr(
-        glob.paths.publicPath.length
+        global.paths.publicPath.length
       ).split( "." )[0]
     ).replaceAll( "/" , "." );
 
-    scripts.addScript( packageName, fullPathFileName.substr( glob.paths.publicPath.length ) );
+    scripts.addScript( packageName, fullPathFileName.substr( global.paths.publicPath.length ) );
 
   });
 
   /**
    * Create or Update the Tree with the javascript path
    */
-  fs.writeFile( glob.paths.publicScript + 'tree.json', JSON.stringify( scripts.getTree() ) );
+  fs.writeFile( global.paths.publicScript + 'tree.json', JSON.stringify( scripts.getTree() ) );
 
 });
 
@@ -131,15 +131,15 @@ gulp.task('js-files',function() {
  * Create the html files from the jade scripts
  */
 gulp.task('jade',['js-files'], function() {
-  gulp.src(glob.paths.srcTemplate + '*.jade', '!' + glob.paths.srcTemplate + 'index.jade')
+  gulp.src(global.paths.srcTemplate + '*.jade', '!' + global.paths.srcTemplate + 'index.jade')
     .pipe($plugin.jade())
     .pipe($plugin.template({},{ 'imports': { 'scripts': scripts } }))
-    .pipe(gulp.dest(glob.paths.publicTemplate));
+    .pipe(gulp.dest(global.paths.publicTemplate));
 
-  gulp.src(glob.paths.srcTemplate + 'index.jade')
+  gulp.src(global.paths.srcTemplate + 'index.jade')
     .pipe($plugin.jade())
     .pipe($plugin.template({},{ 'imports': { 'scripts': scripts } }))
-    .pipe(gulp.dest(glob.paths.publicPath));
+    .pipe(gulp.dest(global.paths.publicPath));
 });
 
 gulp.task('run', ['coffee-map','jade'], function(){
