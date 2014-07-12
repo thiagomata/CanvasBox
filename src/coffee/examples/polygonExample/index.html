@@ -1,0 +1,81 @@
+<html>
+<!--
+A simple example of canvas box with a square
+-->
+    <head>
+        <title>A simple example of canvas box with a square</title>
+        <script>
+            /* 
+             * show how to go from here to the main folder
+             */
+            window.MAIN_PATH = "../../main/";
+        </script>
+        <script 
+            type="text/javascript" 
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+        ></script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/coffeescript/extras/coffee-script.js"
+        ></script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/php/php.basic.js">
+        </script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/php/php.caller.js"
+        ></script> 
+        <script type="text/javascript" src="../../main/Browser.js"></script> 
+        <script type="text/javascript" src="../../main/New.js"></script> 
+    </head>
+    <body>
+        <div>
+            <h1> This is a simple demo of how to use canvas box </h1>
+            <p>
+                  Into this demo we will extends the canvas box polygon element creating
+                  this arrow element. This element changes colors, border 
+                  with some classic events, like mouseover, onclick,
+                  drag and drop, etc.
+            </p>
+            <p>
+                  You may note also some cool polygon features as rotate polygon,
+                  mouse over polygon, smooth polygon ( you can this last one. clicking on it ).
+                  Just double click the element to restore it.
+            </p>
+            <p>
+                <canvas id="myCanvas"></canvas>
+                <script>
+                    /* 
+                     * add the square in the load map 
+                     */
+                    New.prototype.addMap( "Arrow", "Arrow" );
+                    
+                    /*
+                     * create the canvas box 
+                     */
+                    var objBox = New.CanvasBox( "myCanvas" );
+                    objBox.backgroundColor = "#EEEEFF";
+                    
+                    /* 
+                     * create the square element
+                     */
+                    var objArrow = New.Arrow();
+                    objArrow.x = 100;//objBox.width / 2;
+                    objArrow.y = 100;//objBox.height / 2;
+                    
+                    /* 
+                     * add the square into the box
+                     */
+                    objBox.addElement( objArrow );
+                    
+                    /* 
+                     * play the box
+                     */
+                    objBox.play();
+                </script>
+            </p>
+        </div>
+        <div id="log"></div>
+    </body>
+</html>

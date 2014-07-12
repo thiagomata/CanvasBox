@@ -1,0 +1,81 @@
+<html>
+<!--
+A simple example of canvas box with a square
+-->
+    <head>
+        <title>Example 1 - A simple example of events into canvas box with a square</title>
+        <script 
+            type="text/javascript" 
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+        ></script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/coffeescript/extras/coffee-script.js"
+        ></script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/php/php.basic.js">
+        </script> 
+        <script 
+            type="text/javascript" 
+            src="../../externals/php/php.caller.js"
+        ></script> 
+        <script type="text/javascript" src="../../main/Browser.js"></script> 
+        <script type="text/javascript" src="../../main/New.js"></script> 
+    </head>
+    <body>
+        <div>
+            <h1> This is a simple demo of how to use canvas box </h1>
+            <p>
+                  Into this demo we will extends the canvas box element creating
+                  the square element. This element should draw a square what change
+                  border and colors into some classic events, like mouseover, onclick,
+                  drag and drop, etc.
+            </p>
+            <p>
+                <canvas id="myCanvas"></canvas>
+                <script>
+                    /*
+                     * add the square in the load map
+                     */
+                    New.prototype.addMap( "Square", "Square" );
+                    
+                    /*
+                     * create the canvas box
+                     */
+                    var objBox = New.CanvasBox( "myCanvas" );
+                    objBox.backgroundColor = "white";
+                    
+                    /*
+                     * create the square element
+                     */
+                    var objSquare = New.Square();
+                    objSquare.x = objBox.width / 2;
+                    objSquare.y = objBox.height / 2;
+                    
+                    /*
+                     * add the square into the box
+                     */
+                    objBox.addElement( objSquare );
+                    
+                    /*
+                     * create the square element
+                     */
+                    var objSquare = New.Square();
+                    objSquare.x = objBox.width - objSquare.side;
+                    objSquare.y = objBox.height - objSquare.side;
+                    
+                    /*
+                     * add the square into the box
+                     */
+                    objBox.addElement( objSquare );
+                    
+                    /*
+                     * play the box
+                     */
+                    objBox.play();
+                </script>
+            </p>
+        </div>
+    </body>
+</html>

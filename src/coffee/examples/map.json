@@ -1,0 +1,10 @@
+{
+	"Bubble": "./src/examples/bubbleExample/Bubble",
+	"CanvasBubbleExample": "./src/examples/bubbleExample/CanvasBubbleExample",
+	"CanvasCollisionExample": "./src/examples/collisionExample/CanvasCollisionExample",
+	"CollisionSquare": "./src/examples/collisionExample/CollisionSquare",
+	"CanvasDragDropExample": "./src/examples/dragDropExample/CanvasDragDropExample",
+	"DragDropSquare": "./src/examples/dragDropExample/DragDropSquare",
+	"Arrow": "./src/examples/polygonExample/Arrow",
+	"CanvasArrowExample": "./src/examples/polygonExample/CanvasArrowExample"
+}
