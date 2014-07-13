@@ -1,4 +1,8 @@
 #!/bin/sh
+echo "###########################"
+echo "Installing Apache2"
+echo "###########################"
+
 #sed -i "/<Directory .>/,+5d" /etc/apache2/apache2.conf
 echo 'ServerName 127.0.0.1' >> /etc/apache2/apache2.conf
 

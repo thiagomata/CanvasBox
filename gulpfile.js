@@ -1,6 +1,7 @@
 var gulp        = require('gulp');
 var $plugin     = require('gulp-load-plugins')({ camelize: true});
 var gutil       = require('gutil');
+var glob        = require('glob');
 var global        = {};//require('global');
 var path        = require('path');
 var StreamQueue = require('streamqueue');
@@ -47,7 +48,7 @@ gulp.task('coffee-map', function() {
    * @todo use the tradicional way when fixed
    * @link https://github.com/gulpjs/gulp/issues/356
    */
-  var coffeeFiles = global.sync( global.paths.srcCoffee + '**/*.coffee');
+  var coffeeFiles = glob.sync( global.paths.srcCoffee + '**/*.coffee');
   coffeeFiles.forEach(function(fullPathFileName){
     
     var srcDir = path.dirname(fullPathFileName);
@@ -78,7 +79,7 @@ gulp.task('coffee-prod',function() {
  */
 gulp.task('js-folder',function() {
 
-  var componentsFolders = global.sync( global.paths.publicScript + '**/');
+  var componentsFolders = glob.sync( global.paths.publicScript + '**/');
   componentsFolders.forEach(function(folder){
     var $string = require('string');
     var componentName = folder.match(/.+\/(.+)\/$/)[1];
@@ -107,7 +108,7 @@ gulp.task('js-folder',function() {
  */
 gulp.task('js-files',function() {
 
-  var scriptFiles = global.sync( global.paths.publicScript + '**/*.js');
+  var scriptFiles = glob.sync( global.paths.publicScript + '**/*.js');
   scriptFiles.forEach(function(fullPathFileName){
     var $string = require('string');
     var packageName = $string(

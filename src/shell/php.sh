@@ -1,4 +1,8 @@
 #!/bin/sh
+echo "###########################"
+echo "Installing PHP, Modules and PHPUnit"
+echo "###########################"
+
 sudo add-apt-repository -y ppa:ondrej/php5
 sudo apt-get -y update
 

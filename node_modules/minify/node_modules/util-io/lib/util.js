@@ -142,6 +142,24 @@
                     error   = new Error(msg);
                     throw(error);
                 }
+            
+            return this;
+        };
+        
+        /**
+         * Check is type of arg with name is equal to type
+         * 
+         * @param name
+         * @param arg
+         * @param type
+         */
+        this.checkType          = function(name, arg, type) {
+            var is = Util.getType(arg) === type;
+            
+            if (!is)
+                throw(Error(name + ' should be ' + type));
+            
+            return this;
         };
         
         /**
@@ -823,36 +841,64 @@
             };
             
             exec.parallel   = function(funcs, callback) {
-                var errorWas,
+                var keys        = [],
+                    callbackWas = false,
+                    arr         = [],
+                    obj         = {},
                     count       = 0,
-                    allData     = [null],
-                    func        = exec.ret(callback),
-                    funcsCount  = funcs.length;
-                    
-                funcs.forEach(function(func, num) {
-                   exec(func, function() {
-                        checkFunc(num + 1, arguments);
-                    });
-                });
+                    countFuncs  = 0,
+                    type        = Util.getType(funcs);
                 
-                function checkFunc(num, data) {
+                Util.checkArgs(arguments, ['funcs', 'callback']);
+                
+                switch(type) {
+                case 'array':
+                    countFuncs  = funcs.length;
+                    
+                    funcs.forEach(function(func, num) {
+                        exec(func, function() {
+                            checkFunc(num, arguments, arr);
+                        });
+                    });
+                    break;
+                
+                case 'object':
+                    keys        = Object.keys(funcs);
+                    countFuncs  = keys.length;
+                    
+                    keys.forEach(function(name) {
+                        var func    = funcs[name];
+                        
+                        exec(func, function() {
+                            checkFunc(name, arguments, obj);
+                        });
+                    });
+                    break;
+                }
+                
+                function checkFunc(num, data, all) {
                     var args    = Util.slice(data, 1),
+                        isLast  = false,
                         error   = data[0],
                         length  = args.length;
                     
-                    if (error) {
-                        errorWas = true;
-                        func(error);
-                    } else if (!errorWas) {
-                        ++count;
-                        
+                    ++count;
+                    
+                    isLast = count === countFuncs;
+                    
+                    if (!error)
                         if (length >= 2)
-                            allData[num] = args;
+                            all[num] = args;
                         else
-                            allData[num] = args[0];
+                            all[num] = args[0];
+                    
+                    if (!callbackWas && error || isLast) {
+                        callbackWas = true;
                         
-                        if (count === funcsCount)
-                            func.apply(null, allData);
+                        if (type === 'array')
+                            callback.apply(null, [error].concat(all));
+                        else
+                            callback(error, all);
                     }
                 }
             };
