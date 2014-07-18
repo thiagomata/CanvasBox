@@ -6,7 +6,7 @@
 # @see CanvasBoxElement
 # @see CanvasBoxButton
 ###
-Load.CanvasBoxException();
+Load.canvas.CanvasBoxException();
 class CanvasBox
 
     ###
@@ -235,27 +235,7 @@ class CanvasBox
     # @return CanvasBox
     ###
     defineMenu: ->
-        @objMenu = New.CanvasBoxMenu();
-        @objMenu.objParent = this;
-        @objMenu.objBox = this;
-        @objMenu.arrMenuItens =
-            0:
-                name: "create class",
-                event: ( objParent )->
-                    objClass = New.CanvasBoxClass();
-                    objClass.objBehavior = New.CanvasBoxMagneticBehavior( objClass );
-                    objClass.x = objParent.mouseX;
-                    objClass.y = objParent.mouseY;
-                    objParent.addElement( objClass );
-            1:
-                name: "create square",
-                event:( objParent )->
-                    objSquare = New.CanvasBoxSquare();
-                    objSquare.objBehavior = New.CanvasBoxMagneticBehavior( objSquare );
-                    objSquare.x = objParent.mouseX;
-                    objSquare.y = objParent.mouseY;
-                    objParent.addElement( objSquare );
-                    
+        @objMenu = null
         @objMenuSelected = null;
         return this;
 
@@ -315,7 +295,7 @@ class CanvasBox
 
         @objCanvasHtml = document.getElementById( idCanvasHtmlElement );
         if( @objCanvasHtml == null )
-            throw New.CanvasBoxException( "Invalid canvas html element id [" + idCanvasHtmlElement + "]" );
+            throw New.canvas.CanvasBoxException( "Invalid canvas html element id [" + idCanvasHtmlElement + "]" );
         @getPosition();
 
         strWidth = "#{@defaultWidth}px";
@@ -482,7 +462,7 @@ class CanvasBox
 
         objElement = null;
 
-        if( @booShowMenu )
+        if( @booShowMenu and @objMenuSelected )
             @objMenuSelected.mouseX = @mouseX;
             @objMenuSelected.mouseY = @mouseY;
             @objMenuSelected.onDraw();
@@ -689,7 +669,7 @@ class CanvasBox
         @objCanvasHtml.focus();
         @booMouseOver = true;
         @change()
-        if( @booShowMenu )
+        if( @booShowMenu and @objMenuSelected )
             @booShowMenu = @objMenuSelected.onClick( event );
             return false;
 
@@ -753,7 +733,7 @@ class CanvasBox
         @change()
 
         @booShowMenu = !@booShowMenu;
-        if( @booShowMenu )
+        if( @booShowMenu and @objMenu )
             @objMenu.objBox = this;
             @objMenuSelected = @objMenu;
             @objMenuSelected.intMenuX = @mouseX;
@@ -768,7 +748,7 @@ class CanvasBox
     onBoxClick:( event )->
         @booMouseOver = true;
         @change()
-        if( @booShowMenu )
+        if( @booShowMenu and @objMenuSelected )
             @booShowMenu = @objMenuSelected.onClick( event );
 
     ###
@@ -838,8 +818,6 @@ class CanvasBox
 
         intId = @arrElements.indexOf( objElement );
 
-        console.log(" index of intId " );
-        
         if( intId != -1 )
             @arrElements.splice( intId  , 1 );
         if ( @arrElements.length > 0 )

@@ -171,7 +171,7 @@ CanvasBoxElement = (function() {
    */
 
   CanvasBoxElement.prototype.init = function() {
-    return this.objBehavior = New.CanvasBoxBehavior(this);
+    return this.objBehavior = New.canvas.CanvasBoxBehavior(this);
   };
 
 
@@ -230,7 +230,7 @@ CanvasBoxElement = (function() {
    */
 
   CanvasBoxElement.prototype.draw = function() {
-    throw New.CanvasBoxException("Draw Method was not properly defined in the " + strClassName);
+    throw New.canvas.CanvasBoxException("Draw Method was not properly defined in the " + strClassName);
     return this;
   };
 

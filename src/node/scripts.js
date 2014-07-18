@@ -1,5 +1,5 @@
 var scripts = {};
-var global  = {};
+// var global  = {};
 scripts.addScript = function( packageName, fileName ) {
   
   if( !global.scripts ) {

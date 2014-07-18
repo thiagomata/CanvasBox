@@ -9,7 +9,7 @@
  */
 var CanvasBox;
 
-Load.CanvasBoxException();
+Load.canvas.CanvasBoxException();
 
 CanvasBox = (function() {
 
@@ -306,33 +306,7 @@ CanvasBox = (function() {
    */
 
   CanvasBox.prototype.defineMenu = function() {
-    this.objMenu = New.CanvasBoxMenu();
-    this.objMenu.objParent = this;
-    this.objMenu.objBox = this;
-    this.objMenu.arrMenuItens = {
-      0: {
-        name: "create class",
-        event: function(objParent) {
-          var objClass;
-          objClass = New.CanvasBoxClass();
-          objClass.objBehavior = New.CanvasBoxMagneticBehavior(objClass);
-          objClass.x = objParent.mouseX;
-          objClass.y = objParent.mouseY;
-          return objParent.addElement(objClass);
-        }
-      },
-      1: {
-        name: "create square",
-        event: function(objParent) {
-          var objSquare;
-          objSquare = New.CanvasBoxSquare();
-          objSquare.objBehavior = New.CanvasBoxMagneticBehavior(objSquare);
-          objSquare.x = objParent.mouseX;
-          objSquare.y = objParent.mouseY;
-          return objParent.addElement(objSquare);
-        }
-      }
-    };
+    this.objMenu = null;
     this.objMenuSelected = null;
     return this;
   };
@@ -408,7 +382,7 @@ CanvasBox = (function() {
     CanvasBox.prototype.arrInstances[this.id] = this;
     this.objCanvasHtml = document.getElementById(idCanvasHtmlElement);
     if (this.objCanvasHtml === null) {
-      throw New.CanvasBoxException("Invalid canvas html element id [" + idCanvasHtmlElement + "]");
+      throw New.canvas.CanvasBoxException("Invalid canvas html element id [" + idCanvasHtmlElement + "]");
     }
     this.getPosition();
     strWidth = "" + this.defaultWidth + "px";
@@ -573,7 +547,7 @@ CanvasBox = (function() {
       }
     }
     objElement = null;
-    if (this.booShowMenu) {
+    if (this.booShowMenu && this.objMenuSelected) {
       this.objMenuSelected.mouseX = this.mouseX;
       this.objMenuSelected.mouseY = this.mouseY;
       this.objMenuSelected.onDraw();
@@ -825,7 +799,7 @@ CanvasBox = (function() {
     this.objCanvasHtml.focus();
     this.booMouseOver = true;
     this.change();
-    if (this.booShowMenu) {
+    if (this.booShowMenu && this.objMenuSelected) {
       this.booShowMenu = this.objMenuSelected.onClick(event);
       return false;
     }
@@ -905,7 +879,7 @@ CanvasBox = (function() {
     this.booMouseOver = true;
     this.change();
     this.booShowMenu = !this.booShowMenu;
-    if (this.booShowMenu) {
+    if (this.booShowMenu && this.objMenu) {
       this.objMenu.objBox = this;
       this.objMenuSelected = this.objMenu;
       this.objMenuSelected.intMenuX = this.mouseX;
@@ -924,7 +898,7 @@ CanvasBox = (function() {
   CanvasBox.prototype.onBoxClick = function(event) {
     this.booMouseOver = true;
     this.change();
-    if (this.booShowMenu) {
+    if (this.booShowMenu && this.objMenuSelected) {
       return this.booShowMenu = this.objMenuSelected.onClick(event);
     }
   };
@@ -1013,7 +987,6 @@ CanvasBox = (function() {
       objElement.onDelete();
     }
     intId = this.arrElements.indexOf(objElement);
-    console.log(" index of intId ");
     if (intId !== -1) {
       this.arrElements.splice(intId, 1);
     }

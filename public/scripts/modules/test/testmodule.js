@@ -1,0 +1,3 @@
+function testmodule() {
+    'hello world';
+}

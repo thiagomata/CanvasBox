@@ -1,45 +1,62 @@
-var Instance, Load, instaceObject;
+
+/*
+ * Create an instance of the object passing the argument
+ */
+var Instance, instaceObject;
 
 instaceObject = (function() {
-  var F;
-  F = function(args) {
-    F.prototype = window[args["0"]].prototype;
+  var ClassElement;
+  ClassElement = function(args) {
     return window[args["0"]].apply(this, args["1"]);
   };
   return function() {
-    return new F(arguments);
+    var objElement;
+    ClassElement.prototype = window[arguments["0"]].prototype;
+    objElement = new ClassElement(arguments);
+    return objElement;
   };
 })();
 
-Load = (function() {
-  function Load() {}
-
-  return Load;
-
-})();
-
 Instance = (function() {
-  function Instance(objTree, packageName) {
+  Instance.loaded = false;
+
+  function Instance(objTree, creator, packageName) {
+    var objChild;
     this.objTree = objTree;
+    this.creator = creator != null ? creator : false;
     this.packageName = packageName != null ? packageName : null;
-    if ((this.objTree.src != null)) {
-      this.run = function() {
-        console.log("loading " + objTree.src);
-        php.require_once(objTree.src);
-        return instaceObject(this.packageName, arguments);
-      };
-      this[this.packageName] = function() {
-        php.require_once(objTree.src);
-        return this[this.packageName] = function() {
-          return false;
-        };
-      };
-    } else {
-      for (packageName in objTree) {
-        this[packageName] = new Instance(objTree[packageName], packageName);
+    if (this.objTree.src == null) {
+      for (packageName in this.objTree) {
+        objChild = new Instance(this.objTree[packageName], this.creator, packageName);
+        this[packageName] = objChild.node();
       }
     }
   }
+
+  Instance.prototype.node = function() {
+    if ((this.objTree.src != null)) {
+      if (this.creator) {
+        return this.create.bind(this);
+      } else {
+        return this.load.bind(this);
+      }
+    } else {
+      return this;
+    }
+  };
+
+  Instance.prototype.load = function() {
+    if (this.loaded) {
+      return;
+    }
+    php.require_once(this.objTree.src);
+    return this.loaded = true;
+  };
+
+  Instance.prototype.create = function() {
+    this.load();
+    return instaceObject(this.packageName, arguments);
+  };
 
   return Instance;
 
@@ -56,6 +73,8 @@ Instance.prototype.construct = function(klass, args) {
   return new ObjectPointer(args);
 };
 
-window.New = new Instance(JSON.parse(Instance.PATH_TREE));
+window.Load = new Instance(JSON.parse(php.file_get_contents(Instance.PATH_TREE)), false);
+
+window.New = new Instance(JSON.parse(php.file_get_contents(Instance.PATH_TREE)), true);
 
 //# sourceMappingURL=maps/Instance.js.map

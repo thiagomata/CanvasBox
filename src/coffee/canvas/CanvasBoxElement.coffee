@@ -145,7 +145,7 @@ class CanvasBoxElement
     # Apply the default objects and values
     ###
     init:->
-        @objBehavior = New.CanvasBoxBehavior( this );
+        @objBehavior = New.canvas.CanvasBoxBehavior( this );
     
     ###
     # Initialize the Canvas Box Element
@@ -197,7 +197,7 @@ class CanvasBoxElement
     # @return CanvasBoxElement me
     ###
     draw:->
-        throw New.CanvasBoxException( "Draw Method was not properly defined in the #{strClassName}" );
+        throw New.canvas.CanvasBoxException( "Draw Method was not properly defined in the #{strClassName}" );
         # to be overhide #
         return this;
 
