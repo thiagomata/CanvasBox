@@ -1,0 +1,13 @@
+{
+	"dest":{
+	  "path":      	"./public/",
+	  "scripts":   	"./public/scripts/",
+	  "template":  	"./public/template/",
+	  "keep":      	"./public/"
+	},
+	"src": {
+		"coffee":    "./src/coffee/",
+  		"keep":      "./src/keep/",
+ 		"template":  "./src/templates/"
+ 	}
+}

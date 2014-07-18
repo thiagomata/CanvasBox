@@ -1,13 +1,12 @@
-var glob        = require('glob');
-
 var scripts = {};
+var global  = {};
 scripts.addScript = function( packageName, fileName ) {
   
-  if( !glob.scripts ) {
-    glob.scripts = {};
+  if( !global.scripts ) {
+    global.scripts = {};
   }
 
-  var objTreeNode = glob.scripts;
+  var objTreeNode = global.scripts;
   packageName.split(".").forEach(function(step){
     if( step == "scripts" ) {
       return;
@@ -25,14 +24,23 @@ scripts.addScript = function( packageName, fileName ) {
 };
 
 scripts.imports = function( packageName ) {
-  if( !glob.scripts ) {
-    glob.scripts = {};
+  var paths = scripts.src( packageName );
+  var tags = '';
+  paths.forEach(function(path) {
+    tags += '<script type="text/javascript" src="' + path + '"></script>' + "\n";
+  });
+  return tags;
+};
+
+scripts.src = function( packageName ) {
+  if( !global.scripts ) {
+    global.scripts = {};
   }
 
   if( !packageName ) {
     throw new Error( "Trying to import inexistent package.");
   }
-  var objTreeNode = glob.scripts;
+  var objTreeNode = global.scripts;
 
   var arrFound = [];
   var strError = '';
@@ -63,7 +71,7 @@ scripts.imports = function( packageName ) {
   }
 
   if( !objTreeNode ) {
-    console.log( glob.scripts );
+    console.log( global.scripts );
     throw new Error( "Unable to find the package " + packageName + " error into step " + strError + " into " + arrFound.join(".") );
   }
   var paths;
@@ -80,15 +88,11 @@ scripts.imports = function( packageName ) {
       }
     }
   }
-  var tags = '';
-  paths.forEach(function(path) {
-    tags += '<script type="text/javascript" src="' + path + '"></script>' + "\n";
-  });
-  return tags;
+  return paths;
 };
 
 scripts.getTree = function () {
-  return glob.scripts;
-}
+  return global.scripts;
+};
 
 module.exports = scripts;
